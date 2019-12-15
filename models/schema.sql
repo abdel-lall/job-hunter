@@ -1,0 +1,4 @@
+DROP DATABASE IF EXISTS job_hunter;
+CREATE DATABASE job_hunter;
+
+

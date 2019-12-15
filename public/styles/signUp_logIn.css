@@ -1,0 +1,108 @@
+#bodyJ{
+    background-image: url(/images/interview.jpg);
+    height: 100vh;
+    background-size: cover;
+}
+
+#containerJ,#containerS{
+    background-color: rgba(0, 0, 0, 0.7);
+    
+   height: 600px;
+    padding-top: 100px;
+    position: relative;
+    top: 100px;
+}
+#containerJSign{
+    background-color: rgba(0, 0, 0, 0.7);
+    height: 600px;
+     padding-top: 20px;
+     position: relative;
+     top: 80px;
+}
+
+.social-media-iconsJ{
+    color: white;
+   font-size: 30px;
+}
+#btnsectionJ{
+    width: 50%;
+    font-size: 30px;
+}
+#errmsg{
+    width: 50%;
+    margin: 0 auto;
+}
+#emailJ,#passwordJ,#labelW,#pswW,#unameJ,#email,#name,#password,#password2,#uname,#emailS,#passwordS,#password2S{
+    font-size: 20px;
+    font-weight: 200;
+    color: white;
+}
+#titleJ{
+    color: white;
+    font-weight: 200;
+
+}
+#listJ,#registerRedJ,#welcomeRedS{
+    color: blue;
+
+}
+#register{
+    margin-right: 10px;
+}
+#jobS{
+    color: white;
+    font-weight: bold;
+}
+#listW{
+    font-weight: bold;
+}
+.inputinfoW{
+    color: white;
+}
+.inputinfoW:active{
+    border-color: blue;
+}
+.inputinfoW:focus-within{
+    border-color: blue;
+}
+.inputinfoW:focus{
+    border-color: blue;
+}
+#login:active{
+    background-color: blue;
+}
+#login:visited{
+    background-color: blue;
+}
+#singuprow{
+    width: 80%;
+    margin: 0 auto;
+}
+#containerS{
+    height: 650px;
+}
+.errmsgsignup{
+    width: 80%;
+    margin: 0 auto;
+}
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly]) {
+    border-bottom: 1px solid blue;
+    -webkit-box-shadow: 0 1px 0 0 blue;
+    box-shadow: 0 1px 0 0 blue;
+}
+.alert.alert-warning.alert-dismissible{
+    border-color: blue;
+    background-color: transparent;
+    color: blue;
+    font-size: 15px;
+}
+.alert.alert-success{
+    border-color: blue;
+    background-color: transparent;
+    color: blue;
+    font-size: 15px;
+}
+#login:focus {     
+    background-color: blue;    
+    color: white;
+}
