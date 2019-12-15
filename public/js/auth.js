@@ -92,10 +92,7 @@ $("#login").on("click", function (e) {
     }
 })
 
-$("#logout").on("click", function (e) {
-    e.preventDefault();
-    location.href = "/logout"
-})
+
 
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

@@ -1,7 +1,9 @@
 var db = require("../models");
+var axios = require("axios")
 var bcrypt = require("bcrypt");
 var passport = require("passport");
 var  checkAuth  = require("../config/auth-check")
+var authKey = 'zJU4/Q0nSq4Wpdq4BApgoifaEYS17qC0YUpdHjjzvXA=';    
 
 
 module.exports = function (app) {
@@ -59,7 +61,21 @@ module.exports = function (app) {
     req.logout();
     res.redirect('/');
   });
-
+  app.post("/dashboard/search", function(req, res, next) {
+    axios({
+      method: 'get',
+      url: `https://data.usajobs.gov/api/search?Keyword=${req.body.keyword}&LocationName=${req.body.location}`, 
+      headers: {         
+          "Authorization-Key": authKey   
+      }
+      }).then(function(response) { 
+        var resault = {
+          data:response.data,
+          location: req.body.location}
+      res.send(resault)
+    });
+  });
+  
   // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {
     res.render('not_found');
