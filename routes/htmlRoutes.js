@@ -57,6 +57,9 @@ module.exports = function (app) {
   app.get("/dashboard", checkAuth , function (req, res) {
     res.render("dashboard", { name: req.user.name });
   });
+  app.get("/saved", checkAuth , function (req, res) {
+    res.render("saved", { name: req.user.name });
+  });
   app.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');

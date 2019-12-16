@@ -30,7 +30,7 @@ $("#search").on("click",function(e){
                             <p class="card-text employer">${e.MatchedObjectDescriptor.OrganizationName}</p>
                                 <p class="card-text location">${location}</p>
                                 <p class="card-text">Description : ${e.MatchedObjectDescriptor.UserArea.Details.JobSummary}</p>
-                            <a href="#" class="btn btn-outline-primary">Save</a>
+                            <a href="#" class="btn btn-outline-primary save" data-id=${e.MatchedObjectId} >Save</a>
                             <a href="${e.MatchedObjectDescriptor.ApplyURI[0]}" class="btn btn-outline-primary" target="_blank">Apply</a>
                         </div>
                     </div>
@@ -38,7 +38,29 @@ $("#search").on("click",function(e){
             </div>`;
             $("#resSection").append(section)
               });
-            console.log(res.SearchResult.SearchResultItems);
+            $(".save").on("click",function(){
+               var id = $(this).data('id');
+               for(i=0;i<resault.length;i++){
+                   if(resault[i].MatchedObjectId == id){
+                       var saveJob = {
+                           id: id,
+                           title: resault[i].MatchedObjectDescriptor.PositionTitle,
+                           employer: resault[i].MatchedObjectDescriptor.OrganizationName,
+                           location: location,
+                           description : resault[i].MatchedObjectDescriptor.ApplyURI[0]
+
+                       }
+                       $.ajax({
+                        type: "POST",
+                        url: '/dashboard/search/'+id, 
+                        data: saveJob,
+                    }).then(function(res) { 
+                        
+                    })
+
+                   }
+               }
+            })
         });
     }
    
