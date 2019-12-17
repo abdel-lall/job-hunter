@@ -1,4 +1,5 @@
 $("#jobSearch").addClass("selected")
+$("#jobSearchM").addClass("selectedM")
 $("#logout").on("click", function (e) {
     e.preventDefault();
     location.href = "/logout"

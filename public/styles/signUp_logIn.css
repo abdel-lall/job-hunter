@@ -106,3 +106,33 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
     background-color: blue;    
     color: white;
 }
+@media only screen and (max-width: 960px) {
+    #bodyJ{
+        background-image: url(/images/background-mobile.jfif);
+        height: 100vh;
+        background-size: cover;
+    }
+    #containerJ,#containerS{
+        background-color: rgba(4, 30, 59, 0.7);
+        
+       height: 500px;
+        padding-top: 50px;
+        position: relative;
+        top: 50px;
+    }
+    #btnsectionJ{
+        width: 90%;
+        font-size: 30px;
+    }
+    #titleJ{
+   font-size: 20px;
+
+}
+#containerJSign{
+    background-color: rgba(4, 30, 59, 0.7);
+    height: 580px;
+     padding-top: 20px;
+     position: relative;
+     top: 30px;
+}
+}

@@ -108,3 +108,59 @@
 .nameUser{
     text-transform: capitalize;
 }
+
+#jobSearchM{
+    display: none;
+}
+#jobListM{
+    display: none;
+}
+#menuMobile,#menuMobileSaved{
+    display: none;
+}
+@media only screen and (max-width: 960px) {
+    #menuMobile{
+        display: inline-block;
+    }
+  
+    #jobSearchM{
+        display: inline-block;
+        font-size: 15px;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin: 0px;
+    }
+    #jobListM{
+        display: inline-block;
+        font-size: 15px;
+        padding-left: 0px;
+        padding-right: 0px;
+        margin: 0px;
+        margin-left: 10px;
+    }
+    #jobListM:hover,#jobSearchM:hover{
+        color: blue;
+    }
+    .selectedM{
+        color: blue;
+        background-color: transparent;
+    }
+    #keyword,#location{
+        border-radius: 5px;
+        margin-bottom: 3px;
+       
+    }
+    #location{
+        margin-bottom: 5px;
+    }
+    #search{
+        border-radius: 5px;
+    }
+    
+    #divLogout{
+        padding-right: 0px;
+    }
+    #menuMobileSaved{
+        display: inline-block;
+    }
+}
