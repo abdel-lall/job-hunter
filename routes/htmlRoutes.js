@@ -3,7 +3,7 @@ var axios = require("axios")
 var bcrypt = require("bcrypt");
 var passport = require("passport");
 var  checkAuth  = require("../config/auth-check")
-var authKey = 'zJU4/Q0nSq4Wpdq4BApgoifaEYS17qC0YUpdHjjzvXA=';    
+var authKey = 'xUj0Dx32tjRWjF3lLyPlf1UaXHmV7XRNoj9lpzEKmX4=';    
 
 
 module.exports = function (app) {
@@ -58,7 +58,15 @@ module.exports = function (app) {
     res.render("dashboard", { name: req.user.name });
   });
   app.get("/saved", checkAuth , function (req, res) {
-    res.render("saved", { name: req.user.name });
+    var id = req.user.id;
+
+    db.savedjob.findAll({
+      where: { userId: id },
+  }).then(function (data) {
+    data.name = req.user.name;
+    console.log(data)
+      res.render("saved",{data})
+   })
   });
   app.get('/logout', function (req, res) {
     req.logout();
@@ -67,18 +75,51 @@ module.exports = function (app) {
   app.post("/dashboard/search", function(req, res, next) {
     axios({
       method: 'get',
-      url: `https://data.usajobs.gov/api/search?Keyword=${req.body.keyword}&LocationName=${req.body.location}`, 
-      headers: {         
+      url: `https://data.usajobs.gov/api/search?Keyword=${req.body.keyword}&LocationName=${req.body.location},`, 
+      headers: {   
+          "host" : 'data.usajobs.gov'   ,
+          "User-Agent": "portfolio.alproductions@gmail.com",   
           "Authorization-Key": authKey   
       }
       }).then(function(response) { 
         var resault = {
-          data:response.data,
+          data: response.data,
           location: req.body.location}
       res.send(resault)
     });
   });
-  
+  app.post("/dashboard/save/:id", function(req, res, next) {
+   
+    db.savedjob.count({ where: { id: req.body.id } })
+        .then(count => {
+          if (count != 0) {
+            res.send("this Job was already saved")
+          }else{
+            db.savedjob.create({
+              id: req.body.id,
+              title: req.body.title ,
+              employer: req.body.employer,
+              location: req.body.location,
+              description: req.body.description ,
+              url: req.body.url,
+              userId : req.user.id,
+            }).then(function (jobs) {
+              res.send("Job saved")
+            }) 
+          }
+         
+      });
+   
+  })
+  app.delete("/saved/delete/:id", function(req, res, next) {
+    db.savedjob.destroy({
+      where: {
+        id : req.params.id
+      }
+  }).then(function(data){
+    res.send("Job deleted")
+  })
+  })
   // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {
     res.render('not_found');

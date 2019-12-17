@@ -8,8 +8,8 @@ module.exports = function (sequelize, DataTypes) {
       title: DataTypes.STRING ,
       employer: DataTypes.STRING,
       location: DataTypes.STRING,
-      salary: DataTypes.STRING,
-      description: DataTypes.TEXT
+      description: DataTypes.TEXT,
+      url : DataTypes.STRING,
     });
     
       

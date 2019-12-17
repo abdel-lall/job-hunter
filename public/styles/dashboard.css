@@ -13,6 +13,17 @@
     color: white;
     font-weight: bold;
 }
+#jobSModal{
+    color: black;
+    font-weight: bold;
+}
+#listJModal{
+    color: blue;
+    font-weight: 200;
+}
+#msgModal{
+    color: black;
+}
 #navbar{
     background-color: #041e3b;
 }
@@ -49,13 +60,13 @@
 }
 #hello{
     font-size: 30px;
-    font-weight: 500;
-    text-align: center;
+    font-weight: 200;
+    /* text-align: center; */
     margin-bottom: 0px;
     color: white;
 }
 #helloDiv{
-    border-bottom: 2px solid #041e3b;
+    border-bottom: 1px solid #65707c;
 }
 .menuItem:hover{
     color: white;

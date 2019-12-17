@@ -1,11 +1,11 @@
 $("#jobSearch").addClass("selected")
-
 $("#logout").on("click", function (e) {
     e.preventDefault();
     location.href = "/logout"
 })
 $("#search").on("click",function(e){
     e.preventDefault()
+    console.log("search")
     if($("#keyword").val() == "" || $("#location").val() == ""){
         if($("#keyword").val() == ""){
             $("#keyword").addClass('empty')
@@ -18,11 +18,13 @@ $("#search").on("click",function(e){
             keyword: $("#keyword").val(),
             location: $("#location").val()
         }
+        console.log(data)
         $.ajax({
             type: "POST",
             url: '/dashboard/search', 
             data: data
-        }).then(function(res) { 
+        }).then(function(res) {
+            console.log(res) 
             var resault = res.data.SearchResult.SearchResultItems; 
             var location = res.location;
             $.map( resault, function( e ) {
@@ -47,15 +49,23 @@ $("#search").on("click",function(e){
                            title: resault[i].MatchedObjectDescriptor.PositionTitle,
                            employer: resault[i].MatchedObjectDescriptor.OrganizationName,
                            location: location,
-                           description : resault[i].MatchedObjectDescriptor.ApplyURI[0]
+                           url : resault[i].MatchedObjectDescriptor.ApplyURI[0],
+                           description : resault[i].MatchedObjectDescriptor.UserArea.Details.JobSummary
 
                        }
                        $.ajax({
                         type: "POST",
-                        url: '/dashboard/search/'+id, 
+                        url: '/dashboard/save/'+id, 
                         data: saveJob,
-                    }).then(function(res) { 
-                        
+                    }).then(function(res) {
+                       
+                        $('#msgModal').text(res)
+                        $('#modal').modal('show')
+                        setTimeout(() => {
+                            $('#msgModal').empty()
+                            $('#modal').modal('hide')
+                        },3000);
+                        console.log(res)
                     })
 
                    }
