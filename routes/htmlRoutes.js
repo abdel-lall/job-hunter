@@ -32,7 +32,7 @@ module.exports = function (app) {
               email: email,
               password: hashedPass,
             }
-            db.user.create(newUser).then(function (jobHunter) {
+            db.user.create(newUser).then(function (user) {
               res.sendStatus(200);
               console.log("new user added");
             })
@@ -73,9 +73,10 @@ module.exports = function (app) {
     res.redirect('/');
   });
   app.post("/dashboard/search", function(req, res, next) {
+
     axios({
       method: 'get',
-      url: `https://data.usajobs.gov/api/search?Keyword=${req.body.keyword}&LocationName=${req.body.location},`, 
+      url: 'https://data.usajobs.gov/api/search?Keyword='+req.body.keyword+'&LocationName='+req.body.location+',', 
       headers: {   
           "host" : 'data.usajobs.gov'   ,
           "User-Agent": "portfolio.alproductions@gmail.com",   
@@ -86,6 +87,8 @@ module.exports = function (app) {
           data: response.data,
           location: req.body.location}
       res.send(resault)
+    }) .catch(function (error) {
+      res.send(error)
     });
   });
   app.post("/dashboard/save/:id", function(req, res, next) {
