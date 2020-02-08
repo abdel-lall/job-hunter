@@ -5,38 +5,81 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
     integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="/styles/signUp_logIn.css">
+    <link href="https://fonts.googleapis.com/css?family=Great+Vibes&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/login.css">
   <title>Home Page</title>
 </head>
 
 <body>
-<div id="bodyJ">
-<div class="container" id="containerJ">
-    <div class="row" id="firstrowJ">
-        <div class="col text-center" >
-            <h1 id="titleJ">welcome to <span id="jobS">Job</span><span id="listJ">Hunter</span></h1>
+  <div id="bodyJ">
+    <div class="container" id="mainContainer">
+      <div class="row"  id="mobileIntro">
+        <div class="container" id="containerJintroMobile">
+            <div class="row" id="firstrowJ">
+              <div class="col text-center">
+                <h1 id="welcomeJ">Welcome to <span id="jobS">Job</span><span id="hunterJ">Hunter</span></h1>
+                {{!-- <img src="/images/jobhunterlogo1.png" alt="logo" id="logo"> --}}
+              </div>
+
+            </div>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-8 " id="colintro">
+          <div class="container" id="containerJintro">
+            <div class="row" id="firstrowJ">
+              <div class="col text-center">
+                
+                <h1 id="welcomeJ">Welcome to <span id="jobS">Job</span><span id="hunterJ">Hunter</span></h1>
+                {{!-- <img src="/images/jobhunterlogo1.png" alt="logo" id="logo"> --}}
+              </div>
+
+            </div>
+            <div class="row">
+              <div class="col text-center">
+                <h1 id="slog">A tool to track the job of your dreams...</span></h1>
+              </div>
+
+            </div>
+          </div>
         </div>
-    </div>
-     <div class="row" id="errmsg"></div>
-    <div class="row">
-        <div class="container" id="btnsectionJ">
+        <div class="col-lg-4 col-sm-12">
+          <div class="container" id="containerJ">
+            <div class="row" id="firstrowJ">
+              <div class="col text-center">
+                <h1 id="titleJ">Login</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="container" id="btnsectionJ">
+
+                <label for="email"><b id="unameJ">Email</b></label>
+                <input type="text" placeholder="Enter Email" name="email" required class="inputinfo" id="emailJ"
+                  autocomplete="off">
+
+                <label for="psw"><b id="pswW">Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required class="inputinfo" id="passwordJ"
+                  autocomplete="off">
+                <button type="button" class="btn btn-outline-primary" type="submit" id="login">Login</button>
+                <label id="labelW">
+                  No Account? <a href="/signup" id="registerRedJ">Register</a>
+                </label>
+                <label id="passrec">
+                 <a href="/passRec" id="passrecl">Forgot password?</a>
+                </label>
+              </div>
+
+            </div>
             
-            <label for="email"><b id="unameJ">Email</b></label>
-            <input type="text" placeholder="Enter Email" name="email" required class="inputinfo" id="emailJ" autocomplete="off">
-
-            <label for="psw"><b id="pswW">Password</b></label>
-            <input type="password" placeholder="Enter Password" name="psw" required class="inputinfo" id="passwordJ" autocomplete="off">
-            <button type="button" class="btn btn-outline-primary" type="submit" id="login">Login</button>
-            <label id="labelW">
-                No Account? <a href="/signup" id="registerRedJ">Register</a>
-            </label>
+            <div class="row" id="errmsg"></div>
+          </div>
         </div>
+      </div>
+    </div>
 
-    </div>
-    
-    </div>
-    </div>
-<script src="https://code.jquery.com/jquery.js"></script>
+
+  </div>
+  <script src="https://code.jquery.com/jquery.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
     integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
     crossorigin="anonymous"></script>

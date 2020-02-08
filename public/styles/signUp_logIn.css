@@ -7,10 +7,13 @@
 #containerJ,#containerS{
     background-color: rgba(4, 30, 59, 0.7);
     
-   height: 600px;
+   height: 550px;
     padding-top: 100px;
     position: relative;
     top: 100px;
+}
+#containerJ{
+    width: 95%;
 }
 #containerJSign{
     background-color: rgba(4, 30, 59, 0.7);
@@ -25,7 +28,7 @@
    font-size: 30px;
 }
 #btnsectionJ{
-    width: 50%;
+    width: 90%;
     font-size: 30px;
 }
 #errmsg{
@@ -120,6 +123,7 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
         position: relative;
         top: 50px;
     }
+  
     #btnsectionJ{
         width: 90%;
         font-size: 30px;

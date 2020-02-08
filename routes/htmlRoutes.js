@@ -14,8 +14,24 @@ module.exports = function (app) {
   app.get("/signup", function (req, res) {
     res.render("signup")
   });
- 
+  app.get("/dashboard", checkAuth , function (req, res) {
+    res.render("dashboard", { name: req.user.name });
+  });
+  app.get("/saved", checkAuth , function (req, res) {
+    var id = req.user.id;
 
+    db.savedjob.findAll({
+      where: { userId: id },
+  }).then(function (data) {
+    data.name = req.user.name;
+    console.log(data)
+      res.render("saved",{data})
+   })
+  });
+  app.get('/logout', function (req, res) {
+    req.logout();
+    res.redirect('/');
+  });
 
   app.post("/signup", function (req, res) {
     var { name, email, password, password2 } = req.body;
@@ -54,24 +70,6 @@ module.exports = function (app) {
     });
   })(req, res, next);
 });
-  app.get("/dashboard", checkAuth , function (req, res) {
-    res.render("dashboard", { name: req.user.name });
-  });
-  app.get("/saved", checkAuth , function (req, res) {
-    var id = req.user.id;
-
-    db.savedjob.findAll({
-      where: { userId: id },
-  }).then(function (data) {
-    data.name = req.user.name;
-    console.log(data)
-      res.render("saved",{data})
-   })
-  });
-  app.get('/logout', function (req, res) {
-    req.logout();
-    res.redirect('/');
-  });
   app.post("/dashboard/search", function(req, res, next) {
 
     axios({

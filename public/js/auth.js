@@ -9,20 +9,20 @@ $("#register").on("click", function (e) {
 
     if (!form.name || !form.email || !form.password || !form.password2) {
         var errormsg = "please fill in all the fields";
-        var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+        var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
         $("#errmsg").html(err);
     } else {
         if (form.password !== form.password2) {
             var errormsg = "password do not match";
-            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
             $("#errmsg").html(err);
         } else if (form.password.length < 7) {
             var errormsg = "password should be at least 8 caracters";
-            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
             $("#errmsg").html(err);
         } else if (!validateEmail(form.email)) {
             var errormsg = "you need to insert a valid email";
-            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
             $("#errmsg").html(err);
         } else {
             $.ajax({
@@ -57,16 +57,16 @@ $("#login").on("click", function (e) {
     console.log(form)
     if (!form.email || !form.password) {
         var errormsg = "you need to provide an Email and a password";
-        var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+        var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'><p class='errtext'>" + errormsg + "</p><button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true' id='spanClose'>&times;</span></button></div>"
         $("#errmsg").html(err);
     } else {
         if (!validateEmail(form.email)) {
             var errormsg = "you need to insert a valid email";
-            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'><p class='errtext'>" + errormsg + "</p><button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true' id='spanClose'>&times;</span></button></div>"
             $("#errmsg").html(err);
         } else if (form.password.length < 7) {
             var errormsg = "password should be at least 8 caracters";
-            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+            var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'><p class='errtext'>" + errormsg + "</p><button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true' id='spanClose'>&times;</span></button></div>"
             $("#errmsg").html(err);
         } else {
 
@@ -77,13 +77,10 @@ $("#login").on("click", function (e) {
                 crossDomain: true,
                 success(res) {
                     if (res.message == "success") {
-                        var errormsg = "Success";
-                        var err = "<div class='alert alert-success' role='alert'>" + errormsg + "</div>"
-                        $("#errmsg").html(err);
-                        setTimeout(function () { location.href = "/dashboard" }, 1000)
+                        location.href = "/dashboard"
                     } else {
                         var errormsg = res.message;
-                        var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'>" + errormsg + "<button type='button' class='close' data-dismiss='alert' aria-label='Close'><span aria-hidden='true'>&times;</span></button></div>"
+                        var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'><p class='errtext'>" + errormsg + "</p><button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true' id='spanClose'>&times;</span></button></div>"
                         $("#errmsg").html(err);
                     }
                 }
