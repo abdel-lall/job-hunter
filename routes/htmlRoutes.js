@@ -4,10 +4,26 @@ var bcrypt = require("bcrypt");
 var passport = require("passport");
 var  checkAuth  = require("../config/auth-check")
 var authKey = 'xUj0Dx32tjRWjF3lLyPlf1UaXHmV7XRNoj9lpzEKmX4=';    
+var sendEmail = require("../config/sendemail")
 
 
 module.exports = function (app) {
   // Load index page
+  app.get('/password/:id*', function (req, res) {
+    
+    if(req.params[0] !== ''){
+      var pass = req.params.id+req.params[0]
+    }else{
+      var pass = req.params.id
+    }
+    db.user.findOne({ where: { password : pass } }).then(function (userpass) {
+      if (userpass == null) {
+        res.render('not_found')
+      }else{
+        res.render('passwordchange')
+      }
+    });
+  });
   app.get("/", function (req, res) {
     res.render("landingpage")
   });
@@ -32,6 +48,12 @@ module.exports = function (app) {
     req.logout();
     res.redirect('/');
   });
+  app.get('/passwordreset', function (req, res) {
+    res.render('passwordreset')
+  });
+ 
+  
+  
 
   app.post("/signup", function (req, res) {
     var { name, email, password, password2 } = req.body;
@@ -112,6 +134,40 @@ module.exports = function (app) {
       });
    
   })
+  app.post('/passwordreset', function (req, res) {
+    var { email } = req.body;
+
+
+    db.user.findOne({ where: { email: email } }).then(function (userpass) {
+      if (userpass == null) {
+        res.send("This Email is not registered")
+      } else {
+        res.send('success')
+        var pass = userpass.dataValues.password;
+        sendEmail(email,"<div style='text-align: center;'><p style='color: blue;font-size: 15px;margin-bottom: 20px;'>Click on the button below to change your jonHunter password</p><a href='http://localhost:5000/password/"+pass+"' style='border-style: solid;border-width: 1px;border-color: blue;background-color: blue;color: white; font-size: 20px;border-radius: 3px;padding: 4px; text-decoration: none;' >Reset Password</a></div>",function(err,res){
+          console.log(err,res)
+        })
+      }
+    });
+  });
+  app.post('/password/:id', function (req, res) {
+    var newpass = req.body.password
+    bcrypt.genSalt(10, function (err, salt) {
+      bcrypt.hash(newpass, salt, function (err, hash) {
+        if (err) throw err;
+        hashedPass = hash;
+         db.user.update(
+          {password: hashedPass},
+          { where: { password: req.params.id } }
+          ).then(function(update) {
+          res.sendStatus(200)
+       
+        })
+        
+      });
+    })
+    
+  });
   app.delete("/saved/delete/:id", function(req, res, next) {
     db.savedjob.destroy({
       where: {
@@ -124,6 +180,7 @@ module.exports = function (app) {
   // Render 404 page for any unmatched routes
   app.get("*", function (req, res) {
     res.render('not_found');
+    
   });
 
   
