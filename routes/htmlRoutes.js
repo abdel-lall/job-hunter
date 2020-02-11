@@ -9,21 +9,7 @@ var sendEmail = require("../config/sendemail")
 
 module.exports = function (app) {
   // Load index page
-  app.get('/password/:id*', function (req, res) {
-    
-    if(req.params[0] !== ''){
-      var pass = req.params.id+req.params[0]
-    }else{
-      var pass = req.params.id
-    }
-    db.user.findOne({ where: { password : pass } }).then(function (userpass) {
-      if (userpass == null) {
-        res.render('not_found')
-      }else{
-        res.render('passwordchange')
-      }
-    });
-  });
+  
   app.get("/", function (req, res) {
     res.render("landingpage")
   });
@@ -51,8 +37,24 @@ module.exports = function (app) {
   app.get('/passwordreset', function (req, res) {
     res.render('passwordreset')
   });
- 
-  
+  app.get('/password/:id*', function (req, res) {
+    
+    if(req.params[0] !== ''){
+      var pass = req.params.id+req.params[0]
+    }else{
+      var pass = req.params.id
+    }
+    db.user.findOne({ where: { password : pass } }).then(function (userpass) {
+      if (userpass == null) {
+        res.render('not_found')
+      }else{
+        res.render('passwordchange')
+      }
+    });
+  });
+  app.get('/mainpage', function (req, res) {
+    res.render('mainpage')
+  });
   
 
   app.post("/signup", function (req, res) {
