@@ -1,3 +1,4 @@
+@import "//netdna.bootstrapcdn.com/font-awesome/3.0/css/font-awesome.css";
 body{
     background-color: #ebedea;
     height: 100vh;
@@ -8,6 +9,7 @@ body{
     color: white;
     font-weight: bold;
     font-size: 20px;
+    
 }
 #titlehunter{
     color: blue;
@@ -22,6 +24,8 @@ body{
 #navbardropdown{
     color: white;
     background-color: transparent;
+    border: solid 2px white;
+    border-radius: 0px;
 }
 #navbardropdown:focus{
     box-shadow: 0 0 0 1px rgba(255,255,255,.3)
@@ -29,8 +33,14 @@ body{
 #navbardropdown:hover{
     box-shadow: 0 0 0 1px rgba(255,255,255,.6)
 }
+#dropdownmenu{
+    border-radius: 0px;
+}
+#signout{
+    border-top: solid 1px #e5e7e5;
+}
 #maincontainer{
-    margin-top: 80px;
+    margin-top: 50px;
     padding-left: 15px;
     padding-right: 15px;
    
@@ -44,11 +54,14 @@ body{
     padding-left: 10px;
     
 }
+section::after{
+    clear: both;
+}
 .sectioncontainer{
     /* width: 100%; */
     background-color: white;
     padding: 0px;
-    height: 78vh;
+    height: 84vh;
 }
 .sectionnavbar{
     background-color: #041e3b;
@@ -70,25 +83,253 @@ body{
     line-height: 50px;
 
 }
+.sectioncontentrow{
+    box-sizing: border-box;
+    height: calc(100% - 50px);
+    padding: 5px;
+    margin: 0px;
+    overflow-y: scroll;
+    /* background-color: red; */
+}
+.sectioncontentrow::-webkit-scrollbar {
+    width: 5px;
+  }
+   
+.sectioncontentrow::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+   
+.sectioncontentrow::-webkit-scrollbar-thumb {
+    background-color: rgba(4,30,59, 0.5);
+    outline: 1px solid white;
+  }
+.sectioncontentcontainer{
+    box-sizing: border-box;
+    height: 100%;
+    padding: 0px;
+}
+.sectioncontentelement{
+    margin: 0px;
+    padding-bottom: 5px;
+}
+.elements{
+    box-sizing: border-box;
+    height: 200px;
+    width: 100%;
+    background-color: #e5e7e5;
+
+}
+.searchjomb{
+    box-sizing: border-box;
+    height: 110px;
+    width: 100%;
+    background-color: #041e3b;
+}
+#searchcontainer{
+    box-sizing: border-box;
+    height: 100%;
+    padding: 5px;
+}
+#searchinputfirstrow,#searchinputseconderow{
+    box-sizing: border-box;
+    margin: 0px;
+    height: 50%;
+    padding: 5px;
+}
+#search{
+    color: white;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 200;
+    border: solid 2px white;
+    margin-left: 5px;
+    width: calc( 100% - 5px );
+    border-radius: 0px;
+}
+#search:hover{
+        box-shadow: 0 0 0 2px rgba(255,255,255,.6);
+        
+        
+}
+#search:hover .fa-search { 
+    text-shadow: 1px 1px 3px rgba(255,255,255,1);
+}
+#inputGroupSelect01{
+    border-radius: 0px;
+    margin-right: 5px;
+    color: #041e3b;
+    font-weight: 200;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+.inputoption{
+    font-weight: 200;
+}
+.inputcol{
+    height: 40px;
+    padding: 0px;
+    
+}
+#location{
+    color: #041e3b;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 200;
+    margin-left: 5px;
+    padding-left: 5px;
+    width: calc( 100% - 5px );
+    border-radius: 0px;
+    height: 100%;
+}
+#keyword{
+    color: #041e3b;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 200;
+    margin-right: 5px;
+    padding-left: 5px;
+    width: calc( 100% - 5px );
+    border-radius: 0px;
+    height: 100%;
+}
+
+#keyword::-webkit-input-placeholder,#location::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #041e3b;
+    font-family: FontAwesome;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-weight: 200;
+    font-size: 1rem;
+    padding-right: 5px;
+    /* font-style: normal; */
+    /* font-weight: normal; */
+    /* text-decoration: inherit; */
+  }
+  #keyword::-moz-placeholder, #location::-moz-placeholder { /* Firefox 19+ */
+    color: #041e3b;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+  }
+  #keyword:-ms-input-placeholder,#location:-ms-input-placeholder { /* IE 10+ */
+    color: #041e3b;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+  }
+  #keyword:-moz-placeholder,#location:-moz-placeholder { /* Firefox 18- */
+    color: #041e3b;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    text-decoration: inherit;
+  }
+    
+  
 .enlarge,.reduce{
     background-color: transparent;
-    border: none;
+    border: solid 2px white;
+    font-size: 15px;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    margin-top: 10px;
+    margin-bottom: 10x;
     color: white;
 }
+.enlargeicon,.reduceicon{
+    position: relative;
+    top: -12px;
+    /* right: -1px; */
+}
 .enlarge:focus,.reduce:focus{
-    border: none;
-    box-shadow: none;
+    /* border: none; */
+    box-shadow: 0 0 0 2px rgba(255,255,255,.6);
     outline: none;
 }
 .enlarge:hover,.reduce:hover{
-    color: blue;
+    box-shadow: 0 0 0 2px rgba(255,255,255,.6)
 }
-/* #firstsection{
-    width: 60%;
+.verticalsections{
+    height: 33.33% ;
+    box-sizing: border-box;
+    background-color: transparent;
+    padding-right: 0px;
+    padding-left: 0px;
+    padding-bottom: 5px;
 }
-#secondesection{
-    width: 20%;
+.VScontainer{
+    background-color:#ebedea;
+    padding: 0px;
+    height: 100%;
+    padding-bottom: 5px;
 }
-#thirdsection{
-    width: 20%;
+.verticalsectionnavbar{
+    height: 40px;
+    line-height: 40px;
+    color: white;
+    font-weight: 200;
+    background-color: #041e3b;
+    box-sizing: border-box;
+    margin-left: 0px;
+    margin-right: 0px;
+}
+#verticalmainrow{
+    height: calc( 100% - 50px );
+    margin: 0px;
+    padding: 0px;
+}
+#verticalcontainer{
+    box-sizing: border-box;
+    height: 100%;
+    padding: 5px;
+    padding-bottom: 0px;
+}
+#firstVS{
+    height: calc(100% - 90px);
+}
+#secondeVS{
+    height: 45px;
+}
+#thirdVS{
+    height: 45px;
+}
+.grow,.shrink{
+    background-color: transparent;
+    border: solid 2px white;
+    height: 25px;
+    width: 25px;
+    margin-bottom: 7.5px;
+    font-size: 12px;
+    margin-top: 7.5px;
+    border-radius: 50%;
+    color: white;
+}
+.growicon{
+    position: relative;
+    top: -10.5px;
+    right: 0.5px;
+}
+.grow:focus,.shrink:focus{
+    box-shadow: 0 0 0 2px rgba(255,255,255,.6);
+    outline: none;
+}
+.grow:hover,.shrink:hover{
+    box-shadow: 0 0 0 2px rgba(255,255,255,.6);
+
+}
+#sectioncontentrowseconde{
+    display: none;
+    height: calc( 100% - 40px);
+}
+#sectioncontentrowthird{
+    display: none;
+    height: calc( 100% - 40px);
+}
+#sectioncontentrowfirst{
+    height: calc( 100% - 40px);
+}
+/* .ui-draggble-helper{
+    width: 200px;
 } */
+.ui-draggable-dragging{
+    
+    width: 868.8px;
+}

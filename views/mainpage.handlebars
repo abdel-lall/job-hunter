@@ -4,6 +4,7 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/mainpage.css">
     <title>Dashboard</title>
 </head>
@@ -21,56 +22,227 @@
                     aria-haspopup="true" aria-expanded="false" id="navbardropdown">
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="dropdown-menu dropdown-menu-right">
-                    <button class="dropdown-item" type="button">Action</button>
-                    <button class="dropdown-item" type="button">Another action</button>
-                    <button class="dropdown-item" type="button">Something else here</button>
+                <div class="dropdown-menu dropdown-menu-right" id="dropdownmenu">
+                    <button class="dropdown-item" type="button"><i class="fas fa-home"></i> Home</button>
+                    <button class="dropdown-item" type="button"><i class="fas fa-briefcase"></i> Hunting tools</button>
+                    <button class="dropdown-item" type="button"><i class="fas fa-cog"></i> Settings</button>
+                    <button class="dropdown-item" type="button" id="signout"><i class="fas fa-sign-out-alt"></i> Sign
+                        out</button>
                 </div>
             </div>
         </form>
     </nav>
     <div class="conatiner-fluid" id="maincontainer">
-      
-            <div class="sections" id="firstsection">
-                <div class="container sectioncontainer">
-                    <div class="row sectionnavbar">
-                        <div class="col text-left sectiontitle">
-                            Job search
+
+        <div class="sections" id="firstsection">
+            <div class="container sectioncontainer">
+                <div class="row sectionnavbar" id="searchjobsnavbarrow">
+                    <div class="col-9 text-left sectiontitle">
+                        Job search
+                    </div>
+                    <div class="col-3 text-right sectionicon">
+                        <button class="enlarge" data-id="firstsection"><i class="fas fa-expand-alt enlargeicon"></i></button>
+                    </div>
+                </div>
+                <div class="row sectioncontentrow" id="searchcontentrow">
+                    <div class="container-fluid sectioncontentcontainer">
+                        <div class="row sectioncontentelement" id="searchjobcontainer">
+                            <div class="searchjomb">
+                                <div class="container-fluid" id="searchcontainer">
+                                    <div class="row align-items-center" id="searchinputfirstrow">
+                                        <div class="col-6 inputcol">
+                                            <input type="text" class="inputiconplaceholder" id="keyword" placeholder=" Keyword" >
+                                        </div>
+                                        <div class="col-6 inputcol">
+                                            <input type="text" class="inputiconplaceholder" id="location" placeholder=" Location" >
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center" id="searchinputseconderow">
+                                        <div class="col-6 inputcol">
+                                            <div class="input-group mb-3">
+                                                <select class="custom-select" id="inputGroupSelect01">
+                                                    <option class="inputoption" value="Linkedin">Linkedin</option>
+                                                    <option class="inputoption" value="Indeed">Indeed</option>
+                                                    <option  class="inputoption" value="USAJobs">USAJobs</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6 inputcol text-center">
+                                            <button type="button" class="btn" id="search"><i class="fas fa-search"></i> Search</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col text-right sectionicon">
-                            <button class="enlarge" data-id="firstsection"><i class="fas fa-expand-alt " ></i></button>
+                        <div class="row sectioncontentelement searchsectioncontentelement">
+                            <div class="elements searchelements "></div>
+                        </div>
+                        <div class="row sectioncontentelement searchsectioncontentelement">
+                            <div class="elements searchelements"></div>
+                        </div>
+                        <div class="row sectioncontentelement searchsectioncontentelement">
+                            <div class="elements searchelements "></div>
+                        </div>
+                        <div class="row sectioncontentelement searchsectioncontentelement">
+                            <div class="elements searchelements"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sections " id="secondesection">
+            <div class="container sectioncontainer">
+                <div class="row sectionnavbar" id="savedjobsnavbarrow">
+                    <div class="col-9 text-left sectiontitle">
+                        Saved jobs
+                    </div>
+                    <div class="col-3 text-right sectionicon">
+                        <button class="enlarge" data-id="secondesection"><i class="fas fa-expand-alt enlargeicon"></i></button>
+                    </div>
+                </div>
+                <div class="row sectioncontentrow"  id="savedcontentrow">
+                    <div class="container-fluid sectioncontentcontainer" id="savedjobscontainer">
+                        <div class="row sectioncontentelement savedjobssectioncontentelement">
+                            <div class="elements savedjobselements"></div>
+                        </div>
+                        <div class="row sectioncontentelement savedjobssectioncontentelement">
+                            <div class="elements savedjobselements"></div>
+                        </div>
+                        <div class="row sectioncontentelement savedjobssectioncontentelement">
+                            <div class="elements savedjobselements"></div>
+                        </div>
+                        <div class="row sectioncontentelement savedjobssectioncontentelement">
+                            <div class="elements savedjobselements"></div>
+                        </div>
+                        <div class="row sectioncontentelement savedjobssectioncontentelement">
+                            <div class="elements savedjobselements"></div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="sections" id="thirdsection">
+            <div class="container sectioncontainer">
+                <div class="row sectionnavbar" id="applicationprocessnavbarrow">
+                    <div class="col-9 text-left sectiontitle">
+                        Application process
+                    </div>
+                    <div class="col-3 text-right sectionicon">
+                        <button class="enlarge" data-id="thirdsection"><i class="fas fa-expand-alt enlargeicon"></i></button>
+                    </div>
+                </div>
+                <div class="row" id="verticalmainrow">
+                    <div class="container-fluid" id="verticalcontainer">
+                        <div class="verticalsections" id="firstVS">
+                            <div class="container VScontainer">
+                                <div class="row verticalsectionnavbar" id="applicationnavbarrow">
+                                    <div class="col text-left VStitle">
+                                        Application
+                                    </div>
+                                    <div class="col text-right VSicon">
+                                        <button class="grow" data-id="firstVS"><i
+                                                class="fas fa-expand-alt growicon"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row sectioncontentrow" id="sectioncontentrowfirst">
+                                    <div class="container-fluid sectioncontentcontainer" id="applicationsectioncontentcontainer">
+                                        <div class="row sectioncontentelement applicationsectioncontentelement">
+                                            <div class="elements applicationelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement applicationsectioncontentelement">
+                                            <div class="elements applicationelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement applicationsectioncontentelement">
+                                            <div class="elements applicationelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement applicationsectioncontentelement">
+                                            <div class="elements applicationelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement applicationsectioncontentelement">
+                                            <div class="elements applicationelements"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="verticalsections" id="secondeVS">
+                            <div class="container VScontainer">
+                                <div class="row verticalsectionnavbar" id="interviewnavbarrow">
+                                    <div class="col text-left VStitle">
+                                        Interveiw
+                                    </div>
+                                    <div class="col text-right VSicon">
+                                        <button class="grow" data-id="secondeVS"><i
+                                                class="fas fa-expand-alt growicon"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row sectioncontentrow" id="sectioncontentrowseconde">
+                                    <div class="container-fluid sectioncontentcontainer" id="interviewsectioncontentcontainer">
+                                        <div class="row sectioncontentelement enterviewsectioncontentelement">
+                                            <div class="elements interviewelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement enterviewsectioncontentelement">
+                                            <div class="elements interviewelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement enterviewsectioncontentelement">
+                                            <div class="elements interviewelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement enterviewsectioncontentelement">
+                                            <div class="elements interviewelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement">
+                                            <div class="elements interviewelements"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="verticalsections" id="thirdVS">
+                            <div class="container VScontainer" id="thirdVScontainer">
+                                <div class="row verticalsectionnavbar" id="acceptencenavbarrow">
+                                    <div class="col text-left VStitle">
+                                        Acceptence
+                                    </div>
+                                    <div class="col text-right VSicon">
+                                        <button class="grow" data-id="thirdVS"><i
+                                                class="fas fa-expand-alt growicon"></i></button>
+                                    </div>
+                                </div>
+                                <div class="row sectioncontentrow" id="sectioncontentrowthird">
+                                    <div class="container-fluid sectioncontentcontainer" id="acceptensesectioncontentcontainer">
+                                        <div class="row sectioncontentelement acceptencesectioncontentelement">
+                                            <div class="elements acceptenceelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement acceptencesectioncontentelement">
+                                            <div class="elements acceptenceelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement acceptencesectioncontentelement">
+                                            <div class="elements acceptenceelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement acceptencesectioncontentelement">
+                                            <div class="elements acceptenceelements"></div>
+                                        </div>
+                                        <div class="row sectioncontentelement acceptencesectioncontentelement">
+                                            <div class="elements acceptenceelements"></div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="sections " id="secondesection">
-                <div class="container sectioncontainer">
-                    <div class="row sectionnavbar">
-                        <div class="col text-left sectiontitle">
-                            Saved jobs
-                        </div>
-                        <div class="col text-right sectionicon">
-                            <button class="enlarge" data-id="secondesection"><i class="fas fa-expand-alt " ></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="sections" id="thirdsection">
-                <div class="container sectioncontainer">
-                    <div class="row sectionnavbar">
-                        <div class="col text-left sectiontitle">
-                            Application process
-                        </div>
-                        <div class="col text-right sectionicon">
-                            <button class="enlarge" data-id="thirdsection"><i class="fas fa-expand-alt " ></i></button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-       
+        </div>
+
     </div>
 
     <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
         integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
         crossorigin="anonymous"></script>
