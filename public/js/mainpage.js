@@ -1,4 +1,34 @@
 $(document).ready(function(){
+
+
+    // -------------------------description show more ----------------------------------------
+function showmoreinfo(){
+    $('.card').each(function(i, obj) {
+        if($(obj).find(".description").height() > 25){
+            $(obj).find(".description").css("height","25px")
+            $(obj).find(".description").css("overflow","hidden")
+            $(obj).find(".showmoredescriton").show()
+            $(obj).find(".showmoredescriton").on("click",function(){
+                $(obj).find(".showmoredescriton").hide()
+                $(obj).find(".description").css("height","fit-content")
+            })
+        }
+        if($(obj).find(".location").height() > 25){
+            $(obj).find(".location").css("height","25px")
+            $(obj).find(".location").css("overflow","hidden")
+            $(obj).find(".showmorelocation").show()
+            $(obj).find(".showmorelocation").on("click",function(){
+                $(obj).find(".showmorelocation").hide()
+                $(obj).find(".location").css("height","fit-content")
+            })
+        }
+    });
+}  
+
+
+
+//  --------------------------------------------------------------------------------------------------   
+
 $(".enlarge").on("click",function(e){
     e.preventDefault()
     console.log($(this).attr("class"))
@@ -88,20 +118,24 @@ $(".grow").on("click",function(e){
          }, { duration: 980, queue: false });
    
 })
-
+function draganddrop(){
 // ----------------------------search to save ---------------------------------------------------
     $( ".searchsectioncontentelement" ).draggable({
         helper: 'clone',
-        handler : '.searchelements',
+        handler : '.card-body',
+        start: function( event, ui ) {
+            $( ui.helper ).width($( ".searchsectioncontentelement" ).width())
+        },
         drag: function(event, ui){
             $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
         }
       });
       
-      $( ".savedjobssectioncontentelement" ).droppable({
+      $("#savedjobscontainer" ).droppable({
         accept : ".searchsectioncontentelement",
         tolerance: 'pointer',
         over: function( event, ui ) {
+            console.log("init")
             $("#savedjobsnavbarrow").css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
             $("#savedcontentrow").css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')  
         },
@@ -112,16 +146,28 @@ $(".grow").on("click",function(e){
          
         drop: function( event, ui ) {   
           var newele = $($(ui.draggable).clone());
+        //   $('.card-body').addClass("card-body-saved")
           $(newele.children()).removeAttr("style")
             newele.children().removeClass("searchelements")
             newele.children().addClass("savedjobselements")
             newele.removeClass("searchsectioncontentelement")
             newele.addClass("savedjobssectioncontentelement")
+            newele.find('.card-body').addClass("card-body-saved")
           console.log(newele)
           newele.appendTo("#savedjobscontainer")
           $("#savedcontentrow").css('box-shadow', 'none')
           $("#savedjobsnavbarrow").css('box-shadow', 'none')
-
+          $( ".savedjobssectioncontentelement" ).draggable({
+            helper: 'clone',
+            handler : '.card-body-saved',
+            start: function( event, ui ) {
+                $( ui.helper ).width($( ".savedjobssectioncontentelement" ).width())
+            },
+            drag: function(event, ui){
+                console.log($( ".savedjobssectioncontentelement" ).width())
+                $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+            }
+          });
         }
        
       });
@@ -130,9 +176,12 @@ $(".grow").on("click",function(e){
 
 $( ".savedjobssectioncontentelement" ).draggable({
     helper: 'clone',
-    handler : '.savedjobselements',
-    
+    handler : '.card-body-saved',
+    start: function( event, ui ) {
+        $( ui.helper ).width($( ".savedjobssectioncontentelement" ).width())
+    },
     drag: function(event, ui){
+        console.log($( ".savedjobssectioncontentelement" ).width())
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
     }
   });
@@ -171,16 +220,32 @@ $( ".savedjobssectioncontentelement" ).draggable({
      
     drop: function( event, ui ) {   
       var newele = $($(ui.draggable).clone());
+      $(ui.draggable).remove()
       $(newele.children()).removeAttr("style")
         newele.children().removeClass("savedjobselements")
         newele.children().addClass("applicationelements")
         newele.removeClass("savedjobssectioncontentelement")
         newele.addClass("applicationsectioncontentelement")
+        newele.find('.card-body').removeClass("card-body-saved")
+        newele.find('.card-body').addClass("card-body-application")
       console.log(newele)
       newele.appendTo("#applicationsectioncontentcontainer")
       $("#applicationprocessnavbarrow").css('box-shadow', 'none')
       $("#verticalmainrow").css('box-shadow', 'none') 
-
+      $( ".applicationsectioncontentelement" ).draggable({
+        helper: 'clone',
+        handler : '.card-body-application',
+        revert: 'invalid',
+        appendTo: 'body',
+        start: function( event, ui ) {
+            $( ui.helper ).width($( ".applicationsectioncontentelement" ).width())
+        },
+        drag: function(event, ui){
+            $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+        }
+            
+        
+      });
     }
    
   });
@@ -190,9 +255,12 @@ $( ".savedjobssectioncontentelement" ).draggable({
 
 $( ".applicationsectioncontentelement" ).draggable({
     helper: 'clone',
-    handler : '.applicationelements',
+    handler : '.card-body-application',
     revert: 'invalid',
     appendTo: 'body',
+    start: function( event, ui ) {
+        $( ui.helper ).width($( ".applicationsectioncontentelement" ).width())
+    },
     drag: function(event, ui){
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
     }
@@ -204,10 +272,15 @@ $( ".applicationsectioncontentelement" ).draggable({
 
 $( ".enterviewsectioncontentelement" ).draggable({
     helper: 'clone',
-    handler : '.interviewelements',
+    handler : '.card-body-interview',
     revert: 'invalid',
     appendTo: 'body',
+    start: function( event, ui ) {
+        $( ui.helper ).width($( ".enterviewsectioncontentelement" ).width())
+    },
     drag: function(event, ui){
+        console.log($( ".savedjobssectioncontentelement" ).width())
+
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
     }
   });
@@ -266,9 +339,10 @@ $( ".enterviewsectioncontentelement" ).draggable({
     },
      
     drop: function( event, ui ) {   
-        console.log($(ui.draggable).attr("class"))
+        
         var classes = $(ui.draggable).attr("class");
         // enterviewsectioncontentelement
+        
     if (classes.indexOf("enterviewsectioncontentelement") >= 0){
       var newele = $($(ui.draggable).clone());
       $(newele.children()).removeAttr("style")
@@ -276,10 +350,12 @@ $( ".enterviewsectioncontentelement" ).draggable({
         newele.children().addClass("acceptenceelements")
         newele.removeClass("enterviewsectioncontentelement")
         newele.addClass("acceptencesectioncontentelement")
+        
       console.log(newele)
       newele.appendTo("#acceptensesectioncontentcontainer")
       $("#applicationprocessnavbarrow").css('box-shadow', 'none')
-      $("#verticalmainrow").css('box-shadow', 'none') 
+      $("#verticalmainrow").css('box-shadow', 'none')
+      
     }else{
         var newele = $($(ui.draggable).clone());
       $(newele.children()).removeAttr("style")
@@ -287,14 +363,66 @@ $( ".enterviewsectioncontentelement" ).draggable({
         newele.children().addClass("interviewelements")
         newele.removeClass("applicationsectioncontentelement")
         newele.addClass("enterviewsectioncontentelement")
+        newele.find('.card-body').removeClass("card-body-application")
+        newele.find('.card-body').addClass("card-body-interview")
       console.log(newele)
       newele.appendTo("#interviewsectioncontentcontainer")
       $("#applicationprocessnavbarrow").css('box-shadow', 'none')
       $("#verticalmainrow").css('box-shadow', 'none') 
     }
+    $( ".enterviewsectioncontentelement" ).draggable({
+        helper: 'clone',
+        handler : '.card-body-interview',
+        revert: 'invalid',
+        appendTo: 'body',
+        start: function( event, ui ) {
+            $( ui.helper ).width($( ".enterviewsectioncontentelement" ).width())
+        },
+        drag: function(event, ui){
+            console.log($( ".savedjobssectioncontentelement" ).width())
+    
+            $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+        }
+      });
     }
    
   });
+
+
+
+//   ------------------------------------------search-----------------------------------------------------------------
+}
+$("#search").on("click",function(e){
+    e.preventDefault()
+    var data = {
+        keyword : $("#keyword").val(),
+        location: $("#location").val(),
+        source : $("#inputGroupSelect01").val()
+    }
+    if(data.keyword == "" || data.location == ""){
+    if(data.keyword == ""){
+        $("#keyword").attr("placeholder", "add a keyword");
+        $("#keyword").addClass("missing")
+    }
+    if( data.location == ""){
+        
+        
+        $("#location").attr("placeholder", "add a location");
+        $("#location").addClass("missing")
+    }
+    }else{
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/search",
+            data: data
+          }).then(function(res){
+            $('#searchcontentcontainer').find('*').not('#searchjobcontainer,#searchjobcontainer *').remove();
+            $("#searchcontentcontainer").append(res)
+            showmoreinfo()
+            draganddrop()
+          });
+    }
+})
       
 })
 

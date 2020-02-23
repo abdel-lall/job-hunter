@@ -1,0 +1,34 @@
+{{#if resault.data}}
+
+{{#each resault.data}}
+    <div class="row sectioncontentelement searchsectioncontentelement">
+    <div class="elements searchelements ">
+        <div class="card" data-id={{MatchedObjectId}}>
+            <div class="card-body">
+                <h5 class="card-title">{{MatchedObjectDescriptor.PositionTitle}}</h5>
+                <p class="card-text employer">
+                    <i class="far fa-building"></i>
+                    {{MatchedObjectDescriptor.OrganizationName}}</p>
+                <p class="card-text location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    {{#each MatchedObjectDescriptor.PositionLocation}}
+                    "{{LocationName}}",
+                    {{/each}}
+                </p>
+                <p class="card-text showmore"><button class="showmorelocation"><i
+                            class="fas fa-ellipsis-h"></i></button></i></p>
+                <p class="card-text description"><i class="fas fa-tasks"></i> {{MatchedObjectDescriptor.QualificationSummary}}</p>
+                <p class="card-text showmore"><button class="showmoredescriton"><i
+                            class="fas fa-ellipsis-h"></i></button></i></p>
+                <a href="#" class="btn save" data-id={{MatchedObjectId}}>Save</a>
+                <a href={{MatchedObjectDescriptor.ApplyURI.[0]}} class="btn apply" target="_blank">Apply</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+{{/each}}
+
+{{else}}
+        <p class="noresaultfnound">No resaults found</p>
+{{/if}}
