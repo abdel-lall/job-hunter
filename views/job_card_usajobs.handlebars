@@ -3,9 +3,9 @@
 {{#each resault.data}}
     <div class="row sectioncontentelement searchsectioncontentelement">
     <div class="elements searchelements ">
-        <div class="card" data-id={{MatchedObjectId}}>
+        <div class="card" data-id={{MatchedObjectId}} data-url={{MatchedObjectDescriptor.ApplyURI.[0]}}>
             <div class="card-body">
-                <h5 class="card-title">{{MatchedObjectDescriptor.PositionTitle}}</h5>
+                <h5 class="card-title"><a class="cardtitleanchor" href={{MatchedObjectDescriptor.ApplyURI.[0]}} target="_blank">{{MatchedObjectDescriptor.PositionTitle}}</a></h5>
                 <p class="card-text employer">
                     <i class="far fa-building"></i>
                     {{MatchedObjectDescriptor.OrganizationName}}</p>
@@ -21,14 +21,19 @@
                 <p class="card-text showmore"><button class="showmoredescriton"><i
                             class="fas fa-ellipsis-h"></i></button></i></p>
                 <a href="#" class="btn save" data-id={{MatchedObjectId}}>Save</a>
-                <a href={{MatchedObjectDescriptor.ApplyURI.[0]}} class="btn apply" target="_blank">Apply</a>
+                {{!-- <a href={{MatchedObjectDescriptor.ApplyURI.[0]}} class="btn apply" target="_blank">Apply</a> --}}
 
             </div>
         </div>
     </div>
 </div>
 {{/each}}
+<div class="row sectioncontentelement searchsectioncontentelement showmorerow">
+<div class="elements">
 
+    <button class="btn" id="searchshowmore"><i class="fas fa-angle-down"></i></button>
+</div>
+</div>
 {{else}}
         <p class="noresaultfnound">No resaults found</p>
 {{/if}}

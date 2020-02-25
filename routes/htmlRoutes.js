@@ -54,8 +54,24 @@ module.exports = function(app) {
       }
     });
   });
-  app.get("/mainpage", function(req, res) {
-    res.render("mainpage",{});
+  app.get("/mainpage", checkAuth,function(req, res) {
+    var datasaved=[]
+    db.savedjob.findAll({$and: [{status : 'saved'}, { userId : req.user.id}]  }).then(function(response){
+      
+      response.forEach(function(ele,i){
+        var item = {
+          id: ele.id,
+          title: ele.title,
+          organisation : ele.employer,
+          location: ele.location,
+          description: ele.description,
+          url:ele.url
+        }
+        datasaved.push(item)
+      })
+      console.log(datasaved)
+    })
+    res.render("mainpage",{datasaved});
   });
 
   app.post("/signup", function(req, res) {
@@ -185,6 +201,90 @@ module.exports = function(app) {
     }
     }, (error) => console.log(err) );
     }
+  });
+  app.post("/mainpage/search/showmore",function(req,res,next){
+    var { source, location, keyword,page } = req.body;
+    if (source == "USAJobs") {
+      axios({
+        method: "get",
+        url:"https://data.usajobs.gov/api/search?Keyword=" + keyword + "&LocationName=" + location + "&Page=2&ResultsPerPage=10",
+        headers: {
+          host: "data.usajobs.gov",
+          "User-Agent": "portfolio.alproductions@gmail.com",
+          "Authorization-Key": authKey
+        }
+      })
+        .then(function(response) {
+          var resault = {
+            data: response.data.SearchResult.SearchResultItems,
+          };
+          res.render("job_card_usajobs",{layout: false,resault})
+          // res.send(response.data)
+        })
+        .catch(function(error) {
+          res.send(error);
+        });
+    }
+    if(source == "Indeed"){
+      axios({
+        method: "get",
+        url:"https://www.indeed.com/jobs?q="+keyword+"&l="+location+"&start="+page,
+      }).then((response) => {
+        if(response.status === 200) {
+        const html = response.data;
+        const $ = cheerio.load(html);
+        var cardarr =[]
+        
+        $(".jobsearch-SerpJobCard.unifiedRow.row.result").each(function (i, element) {
+          
+          
+          var data ={
+            id : $(element).attr("id"),
+            title :  $(element).find(".jobtitle.turnstileLink").text(),
+            url: `https://www.indeed.com${$(element).find(".jobtitle.turnstileLink").attr("href")}`,
+            organisation : $(element).find(".company").text() ? $(element).find(".company").text(): $(element).find(".company >a").text()  ,
+            location:$(element).find(".location.accessible-contrast-color-location").text(), 
+            description: []
+          }
+         
+          $($(element).find(".summary >ul >li")).each(function (i, element) {
+            var line = $(element).html()
+            data.description.push(line)
+          })
+          cardarr.push(data)
+        })
+
+        res.render("job_card_indeed",{layout: false,cardarr})
+
+        
+        // res.send(cardarr)
+    }
+    }, (error) => console.log(err) );
+    }
+  })
+  app.post("/mainpage/save",function(req,res,next){
+    console.log(req.user.id)
+    var {id,title,organisation,location,description,url} = req.body
+    db.savedjob.count({ where: { id: id } }).then(count => {
+      if (count != 0) {
+        res.send("saved already");
+      } else {
+        db.savedjob
+          .create({
+            id : id.toString() , 
+            title ,  
+            employer: organisation,
+            location,
+            description,
+            url,
+            status: "saved",
+            userId: req.user.id
+          })
+          .then(function(jobs) {
+            res.send("Job saved");
+          });
+      }
+    })
   });
   app.post("/dashboard/save/:id", function(req, res, next) {
     db.savedjob.count({ where: { id: req.body.id } }).then(count => {

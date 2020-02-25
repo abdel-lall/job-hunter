@@ -1,5 +1,5 @@
 $(document).ready(function(){
-
+    showmoreinfo()
 
     // -------------------------description show more ----------------------------------------
 function showmoreinfo(){
@@ -31,13 +31,14 @@ function showmoreinfo(){
 
 $(".enlarge").on("click",function(e){
     e.preventDefault()
-    console.log($(this).attr("class"))
+  
     var id1= $(this).data("id")
     var id2;
     var id3;
     if(id1=="firstsection"){
         id2 = "secondesection"
         id3 = "thirdsection"
+        
     }else if(id1=="secondesection"){
         id2 = "firstsection"
         id3 = "thirdsection"
@@ -45,6 +46,17 @@ $(".enlarge").on("click",function(e){
         id2 = "secondesection"
         id3 = "firstsection"
     } 
+    
+
+    if( $("#"+id1).width() < $("#"+id2).width() || $("#"+id1).width() < $("#"+id3).width()){
+        $(".enlarge").each(function(i, obj) {
+            $(obj).removeClass("reduce")
+            $(obj).empty()
+            $(obj).html("<i class='fas fa-expand-alt enlargeicon' ></i>")   
+        })
+       
+    }
+    
     if($(this).attr("class") == "enlarge reduce"){
         $("#"+id1).animate({
             width: '33.33%'
@@ -135,7 +147,6 @@ function draganddrop(){
         accept : ".searchsectioncontentelement",
         tolerance: 'pointer',
         over: function( event, ui ) {
-            console.log("init")
             $("#savedjobsnavbarrow").css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
             $("#savedcontentrow").css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')  
         },
@@ -153,7 +164,6 @@ function draganddrop(){
             newele.removeClass("searchsectioncontentelement")
             newele.addClass("savedjobssectioncontentelement")
             newele.find('.card-body').addClass("card-body-saved")
-          console.log(newele)
           newele.appendTo("#savedjobscontainer")
           $("#savedcontentrow").css('box-shadow', 'none')
           $("#savedjobsnavbarrow").css('box-shadow', 'none')
@@ -168,6 +178,24 @@ function draganddrop(){
                 $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
             }
           });
+          var data = {
+            id: $(newele).find(".save").attr("data-id"),
+            title : $(newele).find(".cardtitleanchor").text().trim(),
+            organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
+            location : $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
+            description : $(newele).find(".description").not(".fa-tasks").text().trim(),
+            url : $(newele).find(".cardtitleanchor").attr("href"),
+        }
+          console.log(data)
+          $.ajax({
+            type: "POST",
+            url: "/mainpage/save",
+            data: data
+          }).then(function(res){
+            console.log(res)
+            showmoreinfo()
+            draganddrop()
+          })
         }
        
       });
@@ -397,7 +425,8 @@ $("#search").on("click",function(e){
     var data = {
         keyword : $("#keyword").val(),
         location: $("#location").val(),
-        source : $("#inputGroupSelect01").val()
+        source : $("#inputGroupSelect01").val(),
+        page : 0
     }
     if(data.keyword == "" || data.location == ""){
     if(data.keyword == ""){
@@ -420,9 +449,51 @@ $("#search").on("click",function(e){
             $("#searchcontentcontainer").append(res)
             showmoreinfo()
             draganddrop()
+            showmoresearch(data)
+            savesearcheditems()
           });
     }
 })
-      
+function showmoresearch(data){
+    $('#searchshowmore').on("click",function(){
+        data.page = data.page + 10
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/search/showmore",
+            data: data
+          }).then(function(res){
+            $(".showmorerow").remove()
+            $("#searchcontentcontainer").append(res)
+            showmoreinfo()
+            draganddrop()
+            showmoresearch(data)
+            savesearcheditems()
+          })
+    })
+}    
+function savesearcheditems(){
+    $(".save").on("click",function(e){
+        e.preventDefault()
+        var card = $(this).parent().offsetParent()
+        var data = {
+            id: $(card).find(".save").attr("data-id"),
+            title : $(card).find(".cardtitleanchor").text().trim(),
+            organisation: $(card).find(".employer").not(".fa-building").text().trim(),
+            location : $(card).find(".location").not(".fa-map-marker-alt").text().trim(),
+            description : $(card).find(".description").not(".fa-tasks").text().trim(),
+            url : $(card).find(".cardtitleanchor").attr("href"),
+        }
+
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/save",
+            data: data
+          }).then(function(res){
+            console.log(res)
+            showmoreinfo()
+            draganddrop()
+          })
+    })
+}
 })
 

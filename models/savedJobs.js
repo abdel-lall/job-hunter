@@ -1,7 +1,7 @@
 module.exports = function (sequelize, DataTypes) {
     var savedjob = sequelize.define("savedjob", {
       id: {
-        type: DataTypes.INTEGER,
+        type: DataTypes.STRING,
         primaryKey: true,
         allowNull: false
      }, 
@@ -9,7 +9,8 @@ module.exports = function (sequelize, DataTypes) {
       employer: DataTypes.STRING,
       location: DataTypes.STRING,
       description: DataTypes.TEXT,
-      url : DataTypes.STRING,
+      url : DataTypes.TEXT,
+      status : DataTypes.STRING,
     });
     
       

@@ -108,7 +108,42 @@
                 </div>
                 <div class="row sectioncontentrow" id="savedcontentrow">
                     <div class="container-fluid sectioncontentcontainer" id="savedjobscontainer">
-                        
+                        {{#if datasaved}}
+
+                        {{#each datasaved}}
+                        <div class="row sectioncontentelement searchsectioncontentelement">
+                            <div class="elements searchelements ">
+                                <div class="card" data-id={{id}} data-url={{url}}>
+                                    <div class="card-body">
+                                        <h5 class="card-title"><a class="cardtitleanchor" href={{url}}
+                                                target="_blank">{{title}}</a></h5>
+                                        <p class="card-text employer">
+                                            <i class="far fa-building"></i>
+                                            {{organisation}}</p>
+                                        <p class="card-text location">
+                                            <i class="fas fa-map-marker-alt"></i>
+
+                                            {{location}},
+
+                                        </p>
+                                        <p class="card-text showmore"><button class="showmorelocation"><i
+                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                        <p class="card-text description"><i class="fas fa-tasks"></i> {{description}}
+                                        </p>
+                                        <p class="card-text showmore"><button class="showmoredescriton"><i
+                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                        <a href="#" class="btn save" data-id={{id}}>Save</a>
+                                        {{!-- <a href={{url}} class="btn apply" target="_blank">Apply</a> --}}
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{/each}}
+                        {{else}}
+                        <p class="noresaultfnound">No saved jobs</p>
+                        {{/if}}
 
                     </div>
                 </div>
@@ -141,7 +176,7 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowfirst">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="applicationsectioncontentcontainer">
-                                        
+
                                     </div>
                                 </div>
                             </div>
@@ -160,7 +195,7 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowseconde">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="interviewsectioncontentcontainer">
-                                        
+
 
                                     </div>
                                 </div>
@@ -180,7 +215,7 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowthird">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="acceptensesectioncontentcontainer">
-                                      
+
 
                                     </div>
                                 </div>
