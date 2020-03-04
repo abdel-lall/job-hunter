@@ -56,22 +56,29 @@ module.exports = function(app) {
   });
   app.get("/mainpage", checkAuth,function(req, res) {
     var datasaved=[]
-    db.savedjob.findAll({$and: [{status : 'saved'}, { userId : req.user.id}]  }).then(function(response){
-      
+    var datainterview=[]
+    var dataapplication=[]
+    var dataacceptence=[]
+    db.savedjob.findAll( {where : { userId : req.user.id} }).then(function(response){
       response.forEach(function(ele,i){
-        var item = {
-          id: ele.id,
-          title: ele.title,
-          organisation : ele.employer,
-          location: ele.location,
-          description: ele.description,
-          url:ele.url
+        if(ele.status == "saved"){
+          datasaved.push(ele)
         }
-        datasaved.push(item)
+        if(ele.status == "application"){
+          dataapplication.push(ele)
+        }
+        if(ele.status == "interview"){
+          datainterview.push(ele)
+        }
+        if(ele.status == "acceptence"){
+          dataacceptence.push(ele)
+        }
+        
       })
-      console.log(datasaved)
+
+      res.render("mainpage",{datasaved,datainterview,dataacceptence,dataapplication});
     })
-    res.render("mainpage",{datasaved});
+    
   });
 
   app.post("/signup", function(req, res) {
@@ -263,9 +270,52 @@ module.exports = function(app) {
     }
   })
   app.post("/mainpage/save",function(req,res,next){
-    console.log(req.user.id)
-    var {id,title,organisation,location,description,url} = req.body
-    db.savedjob.count({ where: { id: id } }).then(count => {
+    var {id,title,organisation,location,description,url,status} = req.body
+   
+    if(status == "application"){
+
+      db.savedjob.count({where : {title: title, userId : req.user.id, status: ["application","interview" ,"acceptence"]}}).then(count => {
+        console.log(count)
+        if (count != 0) {
+          res.send("saved already");
+        } else {
+          db.savedjob
+            .create({
+              id : id.toString() , 
+              title ,  
+              employer: organisation,
+              location,
+              description,
+              url,
+              status: status,
+              userId: req.user.id
+            })
+            .then(function(jobs) {
+              var data={
+                id,
+                title,
+                organisation,
+                location,
+                description,
+                url,
+                status,
+              }
+              if(status == "saved"){
+                res.render("savejob",{data});
+              }else if(status == "application"){
+                res.render("applicationjob",{data});
+              }else if(status == "interview"){
+                res.render("interviewjob",{data});
+            }else if(status == "acceptence"){
+              res.render("acceptencejob",{data});
+            }
+            });
+        }
+      })
+    }
+    else{
+    db.savedjob.count({where : {id: id, userId : req.user.id,status: status}}).then(count => {
+      console.log(count)
       if (count != 0) {
         res.send("saved already");
       } else {
@@ -277,14 +327,44 @@ module.exports = function(app) {
             location,
             description,
             url,
-            status: "saved",
+            status: status,
             userId: req.user.id
           })
           .then(function(jobs) {
-            res.send("Job saved");
+            var data={
+              id,
+              title,
+              organisation,
+              location,
+              description,
+              url,
+              status,
+            }
+            if(status == "saved"){
+              res.render("savejob",{data});
+            }else if(status == "application"){
+              res.render("applicationjob",{data});
+            }else if(status == "interview"){
+              res.render("interviewjob",{data});
+          }else if(status == "acceptence"){
+            res.render("acceptencejob",{data});
+          }
           });
       }
-    })
+    })}
+  });
+  app.delete("/mainpage/delete/:id", function(req, res, next) {
+   
+    db.savedjob
+      .destroy({
+        where: {
+          id: req.params.id,
+          userId: req.user.id
+        }
+      })
+      .then(function(data) {
+        res.send("Job deleted");
+      });
   });
   app.post("/dashboard/save/:id", function(req, res, next) {
     db.savedjob.count({ where: { id: req.body.id } }).then(count => {

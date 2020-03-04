@@ -12,7 +12,7 @@
 <body>
     <nav class="navbar " id="navbar">
         <a class="navbar-brand" href="#">
-            <img src="/images/jobhunterlogo1.png" width="30" height="30" class="d-inline-block align-top" alt="">
+            <img src="/images/jobhunter2.png" width="30" height="30" class="d-inline-block align-top" alt="">
             <span id="titlejob">Job</span><span id="titlehunter">Hunter</span></a>
         </a>
 
@@ -111,8 +111,9 @@
                         {{#if datasaved}}
 
                         {{#each datasaved}}
-                        <div class="row sectioncontentelement searchsectioncontentelement">
-                            <div class="elements searchelements ">
+                        {{!-- {{#if (status == "saved")}} --}}
+                        <div class="row sectioncontentelement savedjobssectioncontentelement" data-id={{id}}>
+                            <div class="elements savedelements ">
                                 <div class="card" data-id={{id}} data-url={{url}}>
                                     <div class="card-body">
                                         <h5 class="card-title"><a class="cardtitleanchor" href={{url}}
@@ -132,17 +133,17 @@
                                         </p>
                                         <p class="card-text showmore"><button class="showmoredescriton"><i
                                                     class="fas fa-ellipsis-h"></i></button></i></p>
-                                        <a href="#" class="btn save" data-id={{id}}>Save</a>
-                                        {{!-- <a href={{url}} class="btn apply" target="_blank">Apply</a> --}}
+                                        <a href={{url}} class="btn apply" target="_blank">Apply</a>
+                                        <a href="#" class="btn delete" data-id={{id}}>Delete</a>
 
                                     </div>
                                 </div>
                             </div>
                         </div>
-
+                        {{!-- {{/if}} --}}
                         {{/each}}
                         {{else}}
-                        <p class="noresaultfnound">No saved jobs</p>
+                        <p class="noresaultfnound" id="nosavedjobsmsg">No saved jobs</p>
                         {{/if}}
 
                     </div>
@@ -153,7 +154,7 @@
             <div class="container sectioncontainer">
                 <div class="row sectionnavbar" id="applicationprocessnavbarrow">
                     <div class="col-9 text-left sectiontitle">
-                        Application process
+                        Application progress
                     </div>
                     <div class="col-3 text-right sectionicon">
                         <button class="enlarge" data-id="thirdsection"><i
@@ -166,7 +167,7 @@
                             <div class="container VScontainer">
                                 <div class="row verticalsectionnavbar" id="applicationnavbarrow">
                                     <div class="col text-left VStitle">
-                                        Application
+                                        Applied for
                                     </div>
                                     <div class="col text-right VSicon">
                                         <button class="grow" data-id="firstVS"><i
@@ -176,7 +177,47 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowfirst">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="applicationsectioncontentcontainer">
+                                        {{#if dataapplication}}
+                                        
+                                        {{#each dataapplication}}
+                                        {{!-- {{#if status == "applied"}} --}}
+                                        <div class="row sectioncontentelement applicationsectioncontentelement"
+                                            data-id={{id}}>
+                                            <div class="elements applicationelements">
+                                                <div class="card" data-id={{id}} data-url={{url}}>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><a class="cardtitleanchor" href={{url}}
+                                                                target="_blank">{{title}}</a></h5>
+                                                        <p class="card-text employer">
+                                                            <i class="far fa-building"></i>
+                                                            {{organisation}}</p>
+                                                        <p class="card-text location">
+                                                            <i class="fas fa-map-marker-alt"></i>
 
+                                                            {{location}},
+
+                                                        </p>
+                                                        <p class="card-text showmore"><button
+                                                                class="showmorelocation"><i
+                                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                                        <p class="card-text description"><i class="fas fa-tasks"></i>
+                                                            {{description}}
+                                                        </p>
+                                                        <p class="card-text showmore"><button
+                                                                class="showmoredescriton"><i
+                                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                                    
+                                                        <a href="#" class="btn delete" data-id={{id}}>Delete</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{!-- {{/if}} --}}
+                                        {{/each}}
+                                        {{else}}
+                                        <p class="noresaultfnound" id="nosapplication">No applications</p>
+                                        {{/if}}
                                     </div>
                                 </div>
                             </div>
@@ -185,7 +226,7 @@
                             <div class="container VScontainer">
                                 <div class="row verticalsectionnavbar" id="interviewnavbarrow">
                                     <div class="col text-left VStitle">
-                                        Interveiw
+                                        Got the interveiw
                                     </div>
                                     <div class="col text-right VSicon">
                                         <button class="grow" data-id="secondeVS"><i
@@ -195,7 +236,47 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowseconde">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="interviewsectioncontentcontainer">
+                                        {{#if datainterview}}
 
+                                        {{#each datainterview}}
+                                        {{!-- {{#if status == "interview"}} --}}
+                                        <div class="row sectioncontentelement enterviewsectioncontentelement"
+                                            data-id={{id}}>
+                                            <div class="elements interviewelements">
+                                                <div class="card" data-id={{id}} data-url={{url}}>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><a class="cardtitleanchor" href={{url}}
+                                                                target="_blank">{{title}}</a></h5>
+                                                        <p class="card-text employer">
+                                                            <i class="far fa-building"></i>
+                                                            {{organisation}}</p>
+                                                        <p class="card-text location">
+                                                            <i class="fas fa-map-marker-alt"></i>
+
+                                                            {{location}},
+
+                                                        </p>
+                                                        <p class="card-text showmore"><button
+                                                                class="showmorelocation"><i
+                                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                                        <p class="card-text description"><i class="fas fa-tasks"></i>
+                                                            {{description}}
+                                                        </p>
+                                                        <p class="card-text showmore"><button
+                                                                class="showmoredescriton"><i
+                                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                                        
+                                                        <a href="#" class="btn delete" data-id={{id}}>Delete</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{!-- {{/if}} --}}
+                                        {{/each}}
+                                        {{else}}
+                                        <p class="noresaultfnound" id="nointerv">No interveiws scheduled</p>
+                                        {{/if}}
 
                                     </div>
                                 </div>
@@ -205,7 +286,7 @@
                             <div class="container VScontainer" id="thirdVScontainer">
                                 <div class="row verticalsectionnavbar" id="acceptencenavbarrow">
                                     <div class="col text-left VStitle">
-                                        Acceptence
+                                        Accepted
                                     </div>
                                     <div class="col text-right VSicon">
                                         <button class="grow" data-id="thirdVS"><i
@@ -215,6 +296,46 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowthird">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="acceptensesectioncontentcontainer">
+                                          {{#if dataacceptence}}
+
+                                        {{#each dataacceptence}}
+                                        {{!-- {{#if status == "accepted"}} --}}
+                                        <div class="row sectioncontentelement acceptencesectioncontentelement"
+                                            data-id={{id}}>
+                                            <div class="elements acceptenceelements">
+                                                <div class="card" data-id={{id}} data-url={{url}}>
+                                                    <div class="card-body">
+                                                        <h5 class="card-title"><a class="cardtitleanchor" href={{url}}
+                                                                target="_blank">{{title}}</a></h5>
+                                                        <p class="card-text employer">
+                                                            <i class="far fa-building"></i>
+                                                            {{organisation}}</p>
+                                                        <p class="card-text location">
+                                                            <i class="fas fa-map-marker-alt"></i>
+
+                                                            {{location}},
+
+                                                        </p>
+                                                        <p class="card-text showmore"><button
+                                                                class="showmorelocation"><i
+                                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                                        <p class="card-text description"><i class="fas fa-tasks"></i>
+                                                            {{description}}
+                                                        </p>
+                                                        <p class="card-text showmore"><button
+                                                                class="showmoredescriton"><i
+                                                                    class="fas fa-ellipsis-h"></i></button></i></p>
+                                                        <a href="#" class="btn delete" data-id={{id}}>Delete</a>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        {{!-- {{/if}} --}}
+                                        {{/each}}
+                                        {{else}}
+                                        <p class="noresaultfnound" id="noacceptence">have not been accepted</p>
+                                        {{/if}}
 
 
                                     </div>

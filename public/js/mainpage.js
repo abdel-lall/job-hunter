@@ -1,32 +1,7 @@
 $(document).ready(function(){
+    deleteitems()
     showmoreinfo()
-
-    // -------------------------description show more ----------------------------------------
-function showmoreinfo(){
-    $('.card').each(function(i, obj) {
-        if($(obj).find(".description").height() > 25){
-            $(obj).find(".description").css("height","25px")
-            $(obj).find(".description").css("overflow","hidden")
-            $(obj).find(".showmoredescriton").show()
-            $(obj).find(".showmoredescriton").on("click",function(){
-                $(obj).find(".showmoredescriton").hide()
-                $(obj).find(".description").css("height","fit-content")
-            })
-        }
-        if($(obj).find(".location").height() > 25){
-            $(obj).find(".location").css("height","25px")
-            $(obj).find(".location").css("overflow","hidden")
-            $(obj).find(".showmorelocation").show()
-            $(obj).find(".showmorelocation").on("click",function(){
-                $(obj).find(".showmorelocation").hide()
-                $(obj).find(".location").css("height","fit-content")
-            })
-        }
-    });
-}  
-
-
-
+    draganddrop()
 //  --------------------------------------------------------------------------------------------------   
 
 $(".enlarge").on("click",function(e){
@@ -128,7 +103,41 @@ $(".grow").on("click",function(e){
          $("#"+id3).animate({
             height: "45px"
          }, { duration: 980, queue: false });
-   
+         showmoreinfo()
+})
+$("#search").on("click",function(e){
+    e.preventDefault()
+    var data = {
+        keyword : $("#keyword").val(),
+        location: $("#location").val(),
+        source : $("#inputGroupSelect01").val(),
+        page : 0
+    }
+    if(data.keyword == "" || data.location == ""){
+    if(data.keyword == ""){
+        $("#keyword").attr("placeholder", "add a keyword");
+        $("#keyword").addClass("missing")
+    }
+    if( data.location == ""){
+        
+        
+        $("#location").attr("placeholder", "add a location");
+        $("#location").addClass("missing")
+    }
+    }else{
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/search",
+            data: data
+          }).then(function(res){
+            $('#searchcontentcontainer').find('*').not('#searchjobcontainer,#searchjobcontainer *').remove();
+            $("#searchcontentcontainer").append(res)
+            showmoreinfo()
+            draganddrop()
+            showmoresearch(data)
+            savesearcheditems()
+          });
+    }
 })
 function draganddrop(){
 // ----------------------------search to save ---------------------------------------------------
@@ -143,7 +152,7 @@ function draganddrop(){
         }
       });
       
-      $("#savedjobscontainer" ).droppable({
+    $("#savedjobscontainer" ).droppable({
         accept : ".searchsectioncontentelement",
         tolerance: 'pointer',
         over: function( event, ui ) {
@@ -157,27 +166,11 @@ function draganddrop(){
          
         drop: function( event, ui ) {   
           var newele = $($(ui.draggable).clone());
-        //   $('.card-body').addClass("card-body-saved")
-          $(newele.children()).removeAttr("style")
-            newele.children().removeClass("searchelements")
-            newele.children().addClass("savedjobselements")
-            newele.removeClass("searchsectioncontentelement")
-            newele.addClass("savedjobssectioncontentelement")
+            $(newele.children()).removeAttr("style")
             newele.find('.card-body').addClass("card-body-saved")
-          newele.appendTo("#savedjobscontainer")
-          $("#savedcontentrow").css('box-shadow', 'none')
-          $("#savedjobsnavbarrow").css('box-shadow', 'none')
-          $( ".savedjobssectioncontentelement" ).draggable({
-            helper: 'clone',
-            handler : '.card-body-saved',
-            start: function( event, ui ) {
-                $( ui.helper ).width($( ".savedjobssectioncontentelement" ).width())
-            },
-            drag: function(event, ui){
-                console.log($( ".savedjobssectioncontentelement" ).width())
-                $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
-            }
-          });
+            $("#nosavedjobsmsg").remove()
+            $("#savedcontentrow").css('box-shadow', 'none')
+            $("#savedjobsnavbarrow").css('box-shadow', 'none')
           var data = {
             id: $(newele).find(".save").attr("data-id"),
             title : $(newele).find(".cardtitleanchor").text().trim(),
@@ -185,6 +178,7 @@ function draganddrop(){
             location : $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
             description : $(newele).find(".description").not(".fa-tasks").text().trim(),
             url : $(newele).find(".cardtitleanchor").attr("href"),
+            status: "saved"
         }
           console.log(data)
           $.ajax({
@@ -193,12 +187,18 @@ function draganddrop(){
             data: data
           }).then(function(res){
             console.log(res)
+            if(res=="saved already"){
+                alert("this job is already saved")
+            }else{
+            $("#savedjobscontainer").append(res) 
             showmoreinfo()
             draganddrop()
+            deleteitems()
+        }
           })
         }
        
-      });
+    });
 // ----------------------------------------------------------------------------------------------------
 // ------------------------------------saved to application ----------------------------------------------
 
@@ -209,7 +209,6 @@ $( ".savedjobssectioncontentelement" ).draggable({
         $( ui.helper ).width($( ".savedjobssectioncontentelement" ).width())
     },
     drag: function(event, ui){
-        console.log($( ".savedjobssectioncontentelement" ).width())
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
     }
   });
@@ -248,32 +247,44 @@ $( ".savedjobssectioncontentelement" ).draggable({
      
     drop: function( event, ui ) {   
       var newele = $($(ui.draggable).clone());
-      $(ui.draggable).remove()
       $(newele.children()).removeAttr("style")
-        newele.children().removeClass("savedjobselements")
+        newele.children().removeClass("savedelements")
         newele.children().addClass("applicationelements")
         newele.removeClass("savedjobssectioncontentelement")
         newele.addClass("applicationsectioncontentelement")
         newele.find('.card-body').removeClass("card-body-saved")
         newele.find('.card-body').addClass("card-body-application")
-      console.log(newele)
-      newele.appendTo("#applicationsectioncontentcontainer")
+        $(newele).find(".apply").remove(),
+      $("#nosapplication").remove()
       $("#applicationprocessnavbarrow").css('box-shadow', 'none')
       $("#verticalmainrow").css('box-shadow', 'none') 
-      $( ".applicationsectioncontentelement" ).draggable({
-        helper: 'clone',
-        handler : '.card-body-application',
-        revert: 'invalid',
-        appendTo: 'body',
-        start: function( event, ui ) {
-            $( ui.helper ).width($( ".applicationsectioncontentelement" ).width())
-        },
-        drag: function(event, ui){
-            $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
-        }
-            
-        
-      });
+      draganddrop()
+      var data = {
+        id: $(newele).find(".card").attr("data-id")+"a",
+        title : $(newele).find(".cardtitleanchor").text().trim(),
+        organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
+        location : $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
+        description : $(newele).find(".description").not(".fa-tasks").text().trim(),
+        url : $(newele).find(".cardtitleanchor").attr("href"),
+        status: "application"
+    }
+      $.ajax({
+        type: "POST",
+        url: "/mainpage/save",
+        data: data
+      }).then(function(res){
+        console.log(res)
+        if(res=="saved already"){
+            alert("you already applied for this job")
+        }else{
+        $("#applicationsectioncontentcontainer").append(res) 
+
+        showmoreinfo()
+        draganddrop()
+        deleteitems()
+    }
+      })
+    
     }
    
   });
@@ -291,6 +302,22 @@ $( ".applicationsectioncontentelement" ).draggable({
     },
     drag: function(event, ui){
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+        if($('#sectioncontentrowseconde').is(":hidden")){
+            var fullheight = ($("#verticalcontainer").height()-90).toString()+"px"
+            $('#sectioncontentrowseconde').show()
+            $('#sectioncontentrowfirst').hide()
+            $("#sectioncontentrowthird").hide()
+            $("#secondeVS").animate({
+            height: fullheight
+             }, { duration: 1000, queue: false });
+            $("#firstVS").animate({
+            height: "45px"
+            }, { duration: 980, queue: false });
+             $("#thirdVS").animate({
+            height: "45px"
+             }, { duration: 980, queue: false });
+            
+        }  
     }
         
     
@@ -307,55 +334,31 @@ $( ".enterviewsectioncontentelement" ).draggable({
         $( ui.helper ).width($( ".enterviewsectioncontentelement" ).width())
     },
     drag: function(event, ui){
-        console.log($( ".savedjobssectioncontentelement" ).width())
-
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+        if($('#sectioncontentrowthird').is(":hidden")){
+            var fullheight = ($("#verticalcontainer").height()-90).toString()+"px"
+            $("#sectioncontentrowthird").show()
+            $('#sectioncontentrowfirst').hide()
+            $('#sectioncontentrowseconde').hide()
+            $("#thirdVS").animate({
+            height: fullheight
+             }, { duration: 1000, queue: false });
+            $("#firstVS").animate({
+            height: "45px"
+            }, { duration: 980, queue: false });
+             $("#secondeVS").animate({
+            height: "45px"
+             }, { duration: 980, queue: false });
+            
+        }
     }
   });
   
-  $("#verticalmainrow").droppable({
+  $("#thirdsection").droppable({
     accept : ".enterviewsectioncontentelement , .applicationsectioncontentelement",
     tolerance: 'touch',
     
     over: function( event, ui ) {
-        var classes = $(ui.helper).attr("class");
-        if (classes.indexOf("enterviewsectioncontentelement") >= 0){
-            if($('#sectioncontentrowthird').is(":hidden")){
-                var fullheight = ($("#verticalcontainer").height()-90).toString()+"px"
-                $("#sectioncontentrowthird").show()
-                $('#sectioncontentrowfirst').hide()
-                $('#sectioncontentrowseconde').hide()
-                $("#thirdVS").animate({
-                height: fullheight
-                 }, { duration: 1000, queue: false });
-                $("#firstVS").animate({
-                height: "45px"
-                }, { duration: 980, queue: false });
-                 $("#secondeVS").animate({
-                height: "45px"
-                 }, { duration: 980, queue: false });
-                
-            }
-        }else{
-            if($('#sectioncontentrowseconde').is(":hidden")){
-                            var fullheight = ($("#verticalcontainer").height()-90).toString()+"px"
-                            $('#sectioncontentrowseconde').show()
-                            $('#sectioncontentrowfirst').hide()
-                            $(ui.helper)
-                            $("#sectioncontentrowthird").hide()
-                            $("#secondeVS").animate({
-                            height: fullheight
-                             }, { duration: 1000, queue: false });
-                            $("#firstVS").animate({
-                            height: "45px"
-                            }, { duration: 980, queue: false });
-                             $("#thirdVS").animate({
-                            height: "45px"
-                             }, { duration: 980, queue: false });
-                            
-                        }  
-        }
-        
         $("#applicationprocessnavbarrow").css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
         $("#verticalmainrow").css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)') 
 
@@ -373,16 +376,52 @@ $( ".enterviewsectioncontentelement" ).draggable({
         
     if (classes.indexOf("enterviewsectioncontentelement") >= 0){
       var newele = $($(ui.draggable).clone());
+      $(ui.draggable).remove()
       $(newele.children()).removeAttr("style")
         newele.children().removeClass("interviewelements")
         newele.children().addClass("acceptenceelements")
         newele.removeClass("enterviewsectioncontentelement")
         newele.addClass("acceptencesectioncontentelement")
-        
-      console.log(newele)
-      newele.appendTo("#acceptensesectioncontentcontainer")
+       
       $("#applicationprocessnavbarrow").css('box-shadow', 'none')
       $("#verticalmainrow").css('box-shadow', 'none')
+      var data = {
+        id: $(newele).find(".card").attr("data-id")+"c",
+        title : $(newele).find(".cardtitleanchor").text().trim(),
+        organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
+        location : $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
+        description : $(newele).find(".description").not(".fa-tasks").text().trim(),
+        url : $(newele).find(".cardtitleanchor").attr("href"),
+        status: "acceptence"
+    }
+    var id = $(ui.draggable).find(".card").attr("data-id")
+      $.ajax({
+        type: "POST",
+        url: "/mainpage/save",
+        data: data
+      }).then(function(res){
+        console.log(res)
+        if(res=="saved already"){
+            alert("you are already accepted")
+        }else{
+            $.ajax({
+                type: "DELETE",
+                url: "/mainpage/delete/"+id,
+              }).then(function(res){
+                $(ui.draggable).remove()
+              })
+        $("#noacceptence").remove()
+        $("#acceptensesectioncontentcontainer").append(res) 
+        
+       
+        if(isEmpty($("#interviewsectioncontentcontainer"))){
+            $("#interviewsectioncontentcontainer").append("<p class='noresaultfnound' id='nointerv'>No interveiws scheduled</p>")
+        }
+        showmoreinfo()
+        draganddrop()
+        deleteitems()
+    }
+      })
       
     }else{
         var newele = $($(ui.draggable).clone());
@@ -393,25 +432,48 @@ $( ".enterviewsectioncontentelement" ).draggable({
         newele.addClass("enterviewsectioncontentelement")
         newele.find('.card-body').removeClass("card-body-application")
         newele.find('.card-body').addClass("card-body-interview")
-      console.log(newele)
-      newele.appendTo("#interviewsectioncontentcontainer")
       $("#applicationprocessnavbarrow").css('box-shadow', 'none')
       $("#verticalmainrow").css('box-shadow', 'none') 
+      var data = {
+        id: $(newele).find(".card").attr("data-id")+"b",
+        title : $(newele).find(".cardtitleanchor").text().trim(),
+        organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
+        location : $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
+        description : $(newele).find(".description").not(".fa-tasks").text().trim(),
+        url : $(newele).find(".cardtitleanchor").attr("href"),
+        status: "interview"
     }
-    $( ".enterviewsectioncontentelement" ).draggable({
-        helper: 'clone',
-        handler : '.card-body-interview',
-        revert: 'invalid',
-        appendTo: 'body',
-        start: function( event, ui ) {
-            $( ui.helper ).width($( ".enterviewsectioncontentelement" ).width())
-        },
-        drag: function(event, ui){
-            console.log($( ".savedjobssectioncontentelement" ).width())
-    
-            $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+    var id = $(ui.draggable).find(".card").attr("data-id")
+      $.ajax({
+        type: "POST",
+        url: "/mainpage/save",
+        data: data
+      }).then(function(res){
+        console.log(res)
+        if(res=="saved already"){
+            alert("you already got an interview for this job")
+        }else{
+            $.ajax({
+                type: "DELETE",
+                url: "/mainpage/delete/"+id,
+              }).then(function(res){
+                $(ui.draggable).remove()
+              })
+        $("#nointerv").remove()
+        $("#interviewsectioncontentcontainer").append(res) 
+       
+        if(isEmpty($("#applicationsectioncontentcontainer"))){
+            $("#applicationsectioncontentcontainer").append("<p class='noresaultfnound' id='nosapplication'>No applications</p>")
         }
-      });
+        showmoreinfo()
+        draganddrop()
+        deleteitems()
+    }
+      })
+     
+
+    }
+    
     }
    
   });
@@ -420,40 +482,6 @@ $( ".enterviewsectioncontentelement" ).draggable({
 
 //   ------------------------------------------search-----------------------------------------------------------------
 }
-$("#search").on("click",function(e){
-    e.preventDefault()
-    var data = {
-        keyword : $("#keyword").val(),
-        location: $("#location").val(),
-        source : $("#inputGroupSelect01").val(),
-        page : 0
-    }
-    if(data.keyword == "" || data.location == ""){
-    if(data.keyword == ""){
-        $("#keyword").attr("placeholder", "add a keyword");
-        $("#keyword").addClass("missing")
-    }
-    if( data.location == ""){
-        
-        
-        $("#location").attr("placeholder", "add a location");
-        $("#location").addClass("missing")
-    }
-    }else{
-        $.ajax({
-            type: "POST",
-            url: "/mainpage/search",
-            data: data
-          }).then(function(res){
-            $('#searchcontentcontainer').find('*').not('#searchjobcontainer,#searchjobcontainer *').remove();
-            $("#searchcontentcontainer").append(res)
-            showmoreinfo()
-            draganddrop()
-            showmoresearch(data)
-            savesearcheditems()
-          });
-    }
-})
 function showmoresearch(data){
     $('#searchshowmore').on("click",function(){
         data.page = data.page + 10
@@ -470,7 +498,29 @@ function showmoresearch(data){
             savesearcheditems()
           })
     })
-}    
+}  
+function showmoreinfo(){
+    $('.card').each(function(i, obj) {
+        if($(obj).find(".description").height() > 25){
+            $(obj).find(".description").css("height","25px")
+            $(obj).find(".description").css("overflow","hidden")
+            $(obj).find(".showmoredescriton").show()
+            $(obj).find(".showmoredescriton").on("click",function(){
+                $(obj).find(".showmoredescriton").hide()
+                $(obj).find(".description").css("height","fit-content")
+            })
+        }
+        if($(obj).find(".location").height() > 25){
+            $(obj).find(".location").css("height","25px")
+            $(obj).find(".location").css("overflow","hidden")
+            $(obj).find(".showmorelocation").show()
+            $(obj).find(".showmorelocation").on("click",function(){
+                $(obj).find(".showmorelocation").hide()
+                $(obj).find(".location").css("height","fit-content")
+            })
+        }
+    });
+}   
 function savesearcheditems(){
     $(".save").on("click",function(e){
         e.preventDefault()
@@ -482,18 +532,53 @@ function savesearcheditems(){
             location : $(card).find(".location").not(".fa-map-marker-alt").text().trim(),
             description : $(card).find(".description").not(".fa-tasks").text().trim(),
             url : $(card).find(".cardtitleanchor").attr("href"),
+            status : "saved"
         }
-
+        // var newele = $(card.parent().parent().parent()).html()
+        
         $.ajax({
             type: "POST",
             url: "/mainpage/save",
             data: data
           }).then(function(res){
-            console.log(res)
+            $("#nosavedjobsmsg").remove()
+            $("#savedjobscontainer").append(res)
             showmoreinfo()
             draganddrop()
+            deleteitems()
           })
     })
+}
+function deleteitems(){
+    $(".delete").on("click",function(){
+        var id = $(this).attr("data-id")
+       
+        $.ajax({
+            type: "DELETE",
+            url: "/mainpage/delete/"+id,
+          }).then(function(res){
+            $(".sectioncontentelement").each(function(i,ele){
+                if($(ele).attr("data-id") == id){
+                    $(ele).remove()
+                }
+            })
+            if(isEmpty($("#savedjobscontainer"))){
+                $("#savedjobscontainer").append("<p class='noresaultfnound' id='nosavedjobsmsg'>No saved jobs</p>")
+            }
+            if(isEmpty($("#applicationsectioncontentcontainer"))){
+                $("#applicationsectioncontentcontainer").append("<p class='noresaultfnound' id='nosapplication'>No applications</p>")
+            }
+            if(isEmpty($("#acceptensesectioncontentcontainer"))){
+                $("#acceptensesectioncontentcontainer").append("<p class='noresaultfnound' id='noacceptence'>have not been accepted</p>")
+            }
+            if(isEmpty($("#interviewsectioncontentcontainer"))){
+                $("#interviewsectioncontentcontainer").append("<p class='noresaultfnound' id='nointerv'>No interveiws scheduled</p>")
+            }
+          })
+    })
+}
+function isEmpty( el ){
+    return !$.trim(el.html())
 }
 })
 
