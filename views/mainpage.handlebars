@@ -20,26 +20,30 @@
             <div class="btn-group">
                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown"
                     aria-haspopup="true" aria-expanded="false" id="navbardropdown">
-                    <img src="/images/unknown.jpg" alt="profilepicture" id="navbarprofilepicture">
+                    <img src={{user.image}} alt="profilepicture" id="navbarprofilepicture">
                 </button>
                 <div class="dropdown-menu dropdown-menu-right" id="dropdownmenu">
 
                     <div id="dropdownprofileinfo">
 
                         <div id="dropdownprofileimagediv">
-                            <img src="/images/unknown.jpg" alt="profileimage" id="dropdownprofileimage">
+                            <img src={{user.image}} alt="profileimage" id="dropdownprofileimage">
                         </div>
                         <div id="dropdownprofileinfodiv">
-                            <h1 id="dropdownprofileusername">Abdel</h1>
-                            <p id="dropdownprofileemail">abdelmounaim.lallouache@gmail.com</p>
+                            <h1 id="dropdownprofileusername">{{user.name}}</h1>
+                            <p id="dropdownprofileemail">{{user.email}}</p>
                         </div>
 
                     </div>
 
-                    <button class="dropdown-item" type="button"><i class="fas fa-home"></i> Home</button>
-                    <button class="dropdown-item" type="button"><i class="fas fa-briefcase"></i> Hunting tools</button>
-                    <button class="dropdown-item" type="button"><i class="fas fa-cog"></i> Settings</button>
-                    <button class="dropdown-item" type="button" id="signout"><i class="fas fa-sign-out-alt"></i> Sign
+                    <button class="dropdown-item" type="button" onclick="window.location.href = '/mainpage'"><i
+                            class="fas fa-home"></i> Home</button>
+                    <button class="dropdown-item" type="button" id="huntingtools"><i class="fas fa-briefcase"></i>
+                        Hunting tools</button>
+                    <button class="dropdown-item" type="button" id="settings"><i class="fas fa-cog"></i>
+                        Settings</button>
+                    <button class="dropdown-item" type="button" id="signout"
+                        onclick="window.location.href = '/logout'"><i class="fas fa-sign-out-alt"></i> Sign
                         out</button>
                 </div>
             </div>
@@ -178,7 +182,7 @@
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="applicationsectioncontentcontainer">
                                         {{#if dataapplication}}
-                                        
+
                                         {{#each dataapplication}}
                                         {{!-- {{#if status == "applied"}} --}}
                                         <div class="row sectioncontentelement applicationsectioncontentelement"
@@ -206,7 +210,7 @@
                                                         <p class="card-text showmore"><button
                                                                 class="showmoredescriton"><i
                                                                     class="fas fa-ellipsis-h"></i></button></i></p>
-                                                    
+
                                                         <a href="#" class="btn delete" data-id={{id}}>Delete</a>
 
                                                     </div>
@@ -226,7 +230,7 @@
                             <div class="container VScontainer">
                                 <div class="row verticalsectionnavbar" id="interviewnavbarrow">
                                     <div class="col text-left VStitle">
-                                        Got the interveiw
+                                        Wainting for the interview
                                     </div>
                                     <div class="col text-right VSicon">
                                         <button class="grow" data-id="secondeVS"><i
@@ -265,7 +269,7 @@
                                                         <p class="card-text showmore"><button
                                                                 class="showmoredescriton"><i
                                                                     class="fas fa-ellipsis-h"></i></button></i></p>
-                                                        
+
                                                         <a href="#" class="btn delete" data-id={{id}}>Delete</a>
 
                                                     </div>
@@ -296,7 +300,7 @@
                                 <div class="row sectioncontentrow" id="sectioncontentrowthird">
                                     <div class="container-fluid sectioncontentcontainer"
                                         id="acceptensesectioncontentcontainer">
-                                          {{#if dataacceptence}}
+                                        {{#if dataacceptence}}
 
                                         {{#each dataacceptence}}
                                         {{!-- {{#if status == "accepted"}} --}}
@@ -348,6 +352,118 @@
         </div>
 
     </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalsettings">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Settings</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="settingslines">
+                        <h1 class="settingstitles">Profile picture:</h1>
+                    </div>
+                    <div class="settingslines">
+                        <img src={{user.image}} alt="profileimage" id="settingsprofileimage">
+                    </div>
+                    <div class="settingslines">
+                          <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editimage" method="POST" id="imageuploadform">
+                            <input type="file" name="settingsimagename" id="imagename">
+                            {{!-- <input type="submit" name="submit" value="" id="editimagesubmit"> --}}
+                        </form>
+                    </div>
+                    <div class="settingslines">
+                        <h1 class="settingstitles">Username:</h1>
+                    </div>
+                    <div class="settingslines">
+                        <h1 id="settingsusername">{{user.name}}</h1>
+                    </div>
+                    <div class="settingslines">
+                        <input type="text" name="" id="settingsusernameinput" class="settinginputs">
+                        <button class="settingsbtns" id="editusername"><i class="far fa-edit"></i></button>
+                    </div>
+                    <div class="settingslines">
+                        <h1 class="settingstitles">Email:</h1>
+                    </div>
+                    <div class="settingslines">
+                        <p id="settingsemail">{{user.email}}</p>
+                    </div>
+                    <div class="settingslines">
+                        <input type="text" name="" id="settingsemailinput" class="settinginputs">
+                        <button class="settingsbtns" id="editemail"><i class="far fa-edit"></i></button>
+                    </div>
+                    <div class="settingslines">
+                        <h1 class="settingstitles">Password:</h1>
+                    </div>
+                    <div class="settingslines">
+                        <p id="msgsettingpsw"></p>
+                    </div>
+                    <div class="settingslines">
+                        <input type="text" name="" id="settingspasswordinput" class="settinginputs">
+                        <button class="settingsbtns" id="editpassword"><i class="far fa-edit"></i></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" tabindex="-1" role="dialog" id="modalhuntingtools">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Hunting tools</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtoolstitles"><i class="fab fa-linkedin"></i> Linkedin</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtools">linkedin/abm</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <input type="text" name="" id="" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtoolstitles"><i class="fab fa-github-square"></i> Github</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtools">github/abm</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <input type="text" name="" id="" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtoolstitles"><i class="far fa-id-card"></i> Portfolio</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtools">portfolio/abm</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <input type="text" name="" id="" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtoolstitles"><i class="far fa-file-alt"></i> Resume</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <h1 class="huntingtools">resume/abm</h1>
+                    </div>
+                    <div class="huntingtoolslines">
+                        <input type="text" name="" id="" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
 
     <script src="https://code.jquery.com/jquery.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"
@@ -358,6 +474,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+    <script src="http://malsup.github.com/jquery.form.js"></script> 
     <script src="https://kit.fontawesome.com/fe613f4734.js"></script>
     <script src="/js/mainpage.js"></script>
 </body>

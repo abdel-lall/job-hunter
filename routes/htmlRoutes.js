@@ -6,7 +6,19 @@ var checkAuth = require("../config/auth-check");
 var authKey = "xUj0Dx32tjRWjF3lLyPlf1UaXHmV7XRNoj9lpzEKmX4=";
 var sendEmail = require("../config/sendemail");
 const cheerio = require('cheerio');
+const multer =require("multer")
+const path = require("path")
+var fs = require("fs");
 
+const imagestorage = multer.diskStorage({
+  destination: "./public/uploads/images/",
+  filename : function(req,file,cb){
+    cb(null,req.user.id+path.extname(file.originalname))
+  }
+})
+const uploadimage = multer({
+  storage : imagestorage,
+}).single("settingsimagename")
 
 module.exports = function(app) {
   // Load index page
@@ -55,11 +67,13 @@ module.exports = function(app) {
     });
   });
   app.get("/mainpage", checkAuth,function(req, res) {
+    var user = req.user
     var datasaved=[]
     var datainterview=[]
     var dataapplication=[]
     var dataacceptence=[]
     db.savedjob.findAll( {where : { userId : req.user.id} }).then(function(response){
+
       response.forEach(function(ele,i){
         if(ele.status == "saved"){
           datasaved.push(ele)
@@ -76,7 +90,7 @@ module.exports = function(app) {
         
       })
 
-      res.render("mainpage",{datasaved,datainterview,dataacceptence,dataapplication});
+      res.render("mainpage",{datasaved,datainterview,dataacceptence,dataapplication,user});
     })
     
   });
@@ -366,6 +380,108 @@ module.exports = function(app) {
         res.send("Job deleted");
       });
   });
+  app.post("/mainpage/editimage", function(req, res, next) {
+   
+  var directory = "./public/uploads/images/"
+  fs.readdir(directory,function(err,files){
+    var fileexist = false;
+    var oldfilename;
+    files.forEach(function(ele){
+      var filename = ele.split(".")
+      if(filename[0] == req.user.id){
+         oldfilename = ele;
+         fileexist = true;
+      }
+      
+    })
+    if(fileexist){
+      fs.unlink(directory+oldfilename, function(err){
+         if(err){console.log(err)}
+         else{
+          uploadimage(req,res,function(err){
+            if(err){
+              console.log(err)
+            }
+            else{
+              db.user
+              .update(
+                { image: "uploads/images/"+req.file.filename },
+                { where: { id: req.user.id } }
+              )
+              .then(function(update) {
+                res.send(req.file.filename)
+              });
+             
+            
+            }
+          })
+         }
+      })
+    }else{
+      uploadimage(req,res,function(err){
+        if(err){
+          console.log(err)
+        }
+        else{
+          db.user
+          .update(
+            { image: "uploads/images/"+req.file.filename },
+            { where: { id: req.user.id } }
+          )
+          .then(function(update) {
+            res.send(req.file.filename)
+          });
+          
+        }
+      })
+    }
+   
+    
+
+    
+  })
+  
+   
+  });
+  app.post("/mainpage/edit", function(req, res, next) {
+    if(req.body.edit == "username"){
+      db.user
+      .update(
+        { name: req.body.value },
+        { where: { id : req.user.id } }
+      )
+      .then(function(update) {
+        res.send("username changed")
+      });
+    }
+    if(req.body.edit == "email"){
+      db.user
+      .update(
+        { email: req.body.value },
+        { where: { id : req.user.id } }
+      )
+      .then(function(update) {
+        res.send("email changed")
+      });
+    }
+    if(req.body.edit == "password"){
+      var newpass = req.body.value
+      bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(newpass, salt, function(err, hash) {
+          if (err) throw err;
+          var hashedPass = hash;
+          db.user
+            .update(
+              { password: hashedPass },
+              { where: { id : req.user.id } }
+            )
+            .then(function(update) {
+              res.send("password changed")
+            });
+        });
+      });
+    }
+  })
   app.post("/dashboard/save/:id", function(req, res, next) {
     db.savedjob.count({ where: { id: req.body.id } }).then(count => {
       if (count != 0) {

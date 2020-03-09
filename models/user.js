@@ -9,6 +9,15 @@ module.exports = function(sequelize, DataTypes) {
         name: DataTypes.STRING ,
         email: DataTypes.STRING,
         password: DataTypes.STRING,
+        image : {
+            type: DataTypes.STRING,
+            allowNull: false,
+            defaultValue: '/images/unknown.jpg',
+        },
+        profolio : DataTypes.STRING,
+        github : DataTypes.STRING,
+        resume : DataTypes.STRING,
+        linkedin : DataTypes.STRING,
     })
   
     return user;

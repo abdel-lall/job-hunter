@@ -484,3 +484,71 @@ section::after{
     padding-top: 10px;
     padding-bottom: 10px;
 }
+.modal-dialog{
+    margin-top: 100px;
+}
+#settingsprofileimage{
+    display: inline-block;
+    border: solid 1px #041e3b;
+    border-radius: 50%;
+    padding: 2px;
+    height: 75px;
+    width: 75px;
+}
+.huntingtools{
+    margin: 0px;
+    font-size: 20px;
+    font-weight: 100;
+    color: gray;
+    margin-bottom: 8px;
+}
+#settingsemail,#settingspassword,#settingsusername,#msgsettingpsw{
+    margin: 0px;
+    font-size: 20px;
+    font-weight: 100;
+    color: gray;
+    margin-bottom: 8px;
+}
+#settingspasswordinput,#settingsemailinput,#settingsusernameinput{
+    margin: 0px;
+    font-size: 20px;
+    font-weight: 100;
+    color: gray;
+    margin-bottom: 8px;
+}
+.settingsbtns,.huntingtoolsbtns{
+    display: inline-block;
+    margin-bottom: 8px;
+    background-color: transparent;
+    border: solid 1px grey;
+    color: #041e3b;
+}
+.settingslines,.huntingtoolslines{
+    display: flex;
+}
+.settingstitles,.huntingtoolstitles{
+    font-size: 25px;
+    font-weight: 500;
+}
+#editimage{
+    /* position: relative; */
+    /* left: -310px; */
+    border: none;
+    background-color: transparent;
+    margin-bottom: 0px;
+}
+.settinginputs,.huntingtoolsinputs{
+    margin-bottom: 8px;
+    width: 100%;
+}
+#imagename{
+    width: 100%;
+    margin-top: 8px;
+    border: solid 1px #041e3b;
+    background-color: transparent;
+    color: #041e3b;
+
+}
+#imageuploadform{
+    width: 100%;
+}

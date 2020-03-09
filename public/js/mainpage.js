@@ -1,4 +1,90 @@
 $(document).ready(function(){
+    $("#settings").on("click",function(){
+        $('#modalsettings').modal('show')
+        $("#imagename").change(function(){
+
+                    $("#imageuploadform").ajaxSubmit({
+                        data : "image",
+                        contentType: 'application/json',
+                        success: function(response){
+                          console.log(response);  
+                          $("#navbarprofilepicture").attr("src","uploads/images/"+response)
+                          $("#dropdownprofileimage").attr("src","uploads/images/"+response)
+                          $("#settingsprofileimage").attr("src","uploads/images/"+response)
+                              
+                        }
+                    });
+                      return false;
+                })
+        $(".settingsbtns").on("click",function(){
+            var data;
+            if($(this).attr("id")=="editusername"){
+                
+                if($("#settingsusernameinput").val()==''){
+                    $("#settingsusernameinput").css({"border-color":"red","border-width":"1px"})
+                }else{
+                    data = {
+                        edit : "username",
+                        value : $("#settingsusernameinput").val()
+                    }
+                }   
+            }
+            if($(this).attr("id")=="editemail"){
+               
+
+                if($("#settingsemailinput").val()=='' || !validateEmail($("#settingsemailinput").val())){
+                    
+                    $("#settingsemailinput").css({"border-color":"red","border-width":"1px"})
+                }else{
+                   
+                    data = {
+                        edit : "email",
+                        value : $("#settingsemailinput").val()
+                    }
+                    
+                }   
+            }
+            if($(this).attr("id")=="editpassword"){
+                
+                if($("#settingspasswordinput").val()=='' ){
+                    
+                    $("#settingspasswordinput").css({"border-color":"red","border-width":"1px"})
+                }else{
+                    
+                    data = {
+                    edit : "password",
+                    value : $("#settingspasswordinput").val()
+                }
+                }  
+            }
+            if(data){
+                $.ajax({
+                    type: "POST",
+                    url: "/mainpage/edit",
+                    data: data
+                }).then(function(res){
+                    console.log(res)
+                    if(data.edit == "username"){
+                        $("#settingsusername").text(data.value)
+                        $("#dropdownprofileusername").text(data.value)
+                        
+                    }
+                    if(data.edit == "email"){
+                        $("#settingsemail").text(data.value)
+                        $("#dropdownprofileemail").text(data.value)
+                    }
+                    if(data.edit == "password"){
+                        $("#msgsettingpsw").text("password changed")
+                    }
+                })
+            }
+            
+        })
+    })
+    $("#huntingtools").on("click",function(){
+        $('#modalhuntingtools').modal('show')
+    })
+    
     deleteitems()
     showmoreinfo()
     draganddrop()
@@ -579,6 +665,10 @@ function deleteitems(){
 }
 function isEmpty( el ){
     return !$.trim(el.html())
+}
+function validateEmail(email) {
+    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
 }
 })
 
