@@ -163,7 +163,7 @@ $(".huntingtoolsbtns").on("click",function(){
     
 })
     })
-    
+    setreminder()
     deleteitems()
     showmoreinfo()
     draganddrop()
@@ -584,6 +584,7 @@ $( ".enterviewsectioncontentelement" ).draggable({
         if(isEmpty($("#interviewsectioncontentcontainer"))){
             $("#interviewsectioncontentcontainer").append("<p class='noresaultfnound' id='nointerv'>No interveiws scheduled</p>")
         }
+        setreminder()
         showmoreinfo()
         draganddrop()
         deleteitems()
@@ -632,6 +633,7 @@ $( ".enterviewsectioncontentelement" ).draggable({
         if(isEmpty($("#applicationsectioncontentcontainer"))){
             $("#applicationsectioncontentcontainer").append("<p class='noresaultfnound' id='nosapplication'>No applications</p>")
         }
+        setreminder()
         showmoreinfo()
         draganddrop()
         deleteitems()
@@ -746,6 +748,27 @@ function deleteitems(){
 }
 function isEmpty( el ){
     return !$.trim(el.html())
+}
+function setreminder(){
+    $(".setreminder").on("click",function(){
+      var time =$($(this).prev()).val()
+      if(time == ""){
+        $($(this).prev()).css("border-color","red")
+      }else{
+          var data = {
+              id: $(this).attr("data-id"),
+              time : time
+          }
+          $.ajax({
+            type: "POST",
+            url: "/mainpage/setreminder",
+            data: data
+        }).then(function(res){
+              $("#reminderdiv").empty()
+              $("#reminderdiv").append("<p class='card-text' id='remindeeline'>You have an interview on" +res+"</p>")
+          })
+      }
+    })
 }
 function validateEmail(email) {
     var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

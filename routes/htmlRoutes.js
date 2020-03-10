@@ -9,7 +9,7 @@ const cheerio = require('cheerio');
 const multer =require("multer")
 const path = require("path")
 var fs = require("fs");
-
+var moment = require("moment")
 const imagestorage = multer.diskStorage({
   destination: "./public/uploads/images/",
   filename : function(req,file,cb){
@@ -37,19 +37,6 @@ module.exports = function(app) {
   });
   app.get("/signup", function(req, res) {
     res.render("signup");
-  });
-  app.get("/saved", checkAuth, function(req, res) {
-    var id = req.user.id;
-
-    db.savedjob
-      .findAll({
-        where: { userId: id }
-      })
-      .then(function(data) {
-        data.name = req.user.name;
-        console.log(data);
-        res.render("saved", { data });
-      });
   });
   app.get("/logout", function(req, res) {
     req.logout();
@@ -142,32 +129,6 @@ module.exports = function(app) {
         return res.send({ message: "success" });
       });
     })(req, res, next);
-  });
-  app.post("/dashboard/search", function(req, res, next) {
-    axios({
-      method: "get",
-      url:
-        "https://data.usajobs.gov/api/search?Keyword=" +
-        req.body.keyword +
-        "&LocationName=" +
-        req.body.location +
-        ",",
-      headers: {
-        host: "data.usajobs.gov",
-        "User-Agent": "portfolio.alproductions@gmail.com",
-        "Authorization-Key": authKey
-      }
-    })
-      .then(function(response) {
-        var resault = {
-          data: response.data,
-          location: req.body.location
-        };
-        res.send(resault);
-      })
-      .catch(function(error) {
-        res.send(error);
-      });
   });
   app.post("/mainpage/search", function(req, res, next) {
     var { source, location, keyword } = req.body;
@@ -373,19 +334,6 @@ module.exports = function(app) {
       }
     })}
   });
-  app.delete("/mainpage/delete/:id", function(req, res, next) {
-   
-    db.savedjob
-      .destroy({
-        where: {
-          id: req.params.id,
-          userId: req.user.id
-        }
-      })
-      .then(function(data) {
-        res.send("Job deleted");
-      });
-  });
   app.post("/mainpage/editimage", function(req, res, next) {
    
   var directory = "./public/uploads/images/"
@@ -579,27 +527,19 @@ module.exports = function(app) {
       });
     }
   })
-  app.post("/dashboard/save/:id", function(req, res, next) {
-    db.savedjob.count({ where: { id: req.body.id } }).then(count => {
-      if (count != 0) {
-        res.send("this Job was already saved");
-      } else {
-        db.savedjob
-          .create({
-            id: req.body.id,
-            title: req.body.title,
-            employer: req.body.employer,
-            location: req.body.location,
-            description: req.body.description,
-            url: req.body.url,
-            userId: req.user.id
-          })
-          .then(function(jobs) {
-            res.send("Job saved");
-          });
-      }
-    });
-  });
+  app.post("/mainpage/setreminder", function(req, res, next) {
+    console.log(req.body)
+    var time = moment(req.body.time).format('MMMM Do YYYY, h:mm a');
+    db.savedjob.update(
+        { reminder : time },
+        { where: { userId : req.user.id ,
+                  id : req.body.id} }
+      )
+      .then(function(update) {
+        res.send(time)
+      });
+    
+  })
   app.post("/passwordreset", function(req, res) {
     var { email } = req.body;
 
@@ -638,17 +578,20 @@ module.exports = function(app) {
       });
     });
   });
-  app.delete("/saved/delete/:id", function(req, res, next) {
+  app.delete("/mainpage/delete/:id", function(req, res, next) {
+   
     db.savedjob
       .destroy({
         where: {
-          id: req.params.id
+          id: req.params.id,
+          userId: req.user.id
         }
       })
       .then(function(data) {
         res.send("Job deleted");
       });
   });
+
   // Render 404 page for any unmatched routes
   app.get("*", function(req, res) {
     res.render("not_found");

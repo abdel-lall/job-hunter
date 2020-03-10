@@ -94,8 +94,8 @@
                                 </div>
                             </div>
                         </div>
-                        
-                        
+
+
                         <p class="searchhere">Search for jobs here</p>
                     </div>
                 </div>
@@ -271,9 +271,21 @@
                                                         <p class="card-text showmore"><button
                                                                 class="showmoredescriton"><i
                                                                     class="fas fa-ellipsis-h"></i></button></i></p>
+                                                        <p class="card-text">
+                                                            <input type="datetime-local" class="reminder"><a href="#"
+                                                                class="btn setreminder" data-id={{id}}>Set reminder</a>
 
+                                                        </p>
+                                                        <div id="reminderdiv">
+                                                             {{#if reminder}}
+                                                            <p class="card-text" id="remindeeline">
+                                                                You have an interview on {{reminder}}
+                                                            </p>
+                                                            {{/if}}
+                                                        </div>
+                                                       
+                                                        
                                                         <a href="#" class="btn delete" data-id={{id}}>Delete</a>
-
                                                     </div>
                                                 </div>
                                             </div>
@@ -371,7 +383,8 @@
                         <img src={{user.image}} alt="profileimage" id="settingsprofileimage">
                     </div>
                     <div class="settingslines">
-                          <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editimage" method="POST" id="imageuploadform">
+                        <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editimage"
+                            method="POST" id="imageuploadform">
                             <input type="file" name="settingsimagename" id="imagename">
                             {{!-- <input type="submit" name="submit" value="" id="editimagesubmit"> --}}
                         </form>
@@ -425,7 +438,8 @@
                         <h1 class="huntingtoolstitles"><i class="fab fa-linkedin"></i> Linkedin</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <a href={{user.linkedin}} class="huntingtools" id="linkedinlink" target="_blank">{{user.linkedin}}</a>
+                        <a href={{user.linkedin}} class="huntingtools" id="linkedinlink"
+                            target="_blank">{{user.linkedin}}</a>
                     </div>
                     <div class="huntingtoolslines">
                         <input type="text" name="" id="linkedininput" class="huntingtoolsinputs">
@@ -445,7 +459,8 @@
                         <h1 class="huntingtoolstitles"><i class="far fa-id-card"></i> Portfolio</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <a href={{user.portfolio}} class="huntingtools" id="portfoliolink" target="_blank">{{user.portfolio}}</a>
+                        <a href={{user.portfolio}} class="huntingtools" id="portfoliolink"
+                            target="_blank">{{user.portfolio}}</a>
                     </div>
                     <div class="huntingtoolslines">
                         <input type="text" name="portfolio" id="portfolioinput" class="huntingtoolsinputs">
@@ -455,10 +470,12 @@
                         <h1 class="huntingtoolstitles"><i class="far fa-file-alt"></i> Resume</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <a href="{{user.resume}}" class="huntingtools" id="huntingtoolsresume" target="_blank">resume</a>
+                        <a href="{{user.resume}}" class="huntingtools" id="huntingtoolsresume"
+                            target="_blank">resume</a>
                     </div>
                     <div class="huntingtoolslines">
-                        <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editresume" method="POST" id="resumeuploadform">
+                        <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editresume"
+                            method="POST" id="resumeuploadform">
                             <input type="file" name="resumename" id="resumename">
                             {{!-- <input type="submit" name="submit" value="" id="editimagesubmit"> --}}
                         </form>
@@ -478,7 +495,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-    <script src="http://malsup.github.com/jquery.form.js"></script> 
+    <script src="http://malsup.github.com/jquery.form.js"></script>
     <script src="https://kit.fontawesome.com/fe613f4734.js"></script>
     <script src="/js/mainpage.js"></script>
 </body>

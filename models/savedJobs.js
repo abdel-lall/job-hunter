@@ -11,6 +11,7 @@ module.exports = function (sequelize, DataTypes) {
       description: DataTypes.TEXT,
       url : DataTypes.TEXT,
       status : DataTypes.STRING,
+      reminder : DataTypes.STRING,
     });
     
       
