@@ -16,9 +16,18 @@ const imagestorage = multer.diskStorage({
     cb(null,req.user.id+path.extname(file.originalname))
   }
 })
+const resumestorage = multer.diskStorage({
+  destination: "./public/uploads/resumes/",
+  filename : function(req,file,cb){
+    cb(null,req.user.id+path.extname(file.originalname))
+  }
+})
 const uploadimage = multer({
   storage : imagestorage,
 }).single("settingsimagename")
+const uploadresume = multer({
+  storage : resumestorage,
+}).single("resumename")
 
 module.exports = function(app) {
   // Load index page
@@ -28,9 +37,6 @@ module.exports = function(app) {
   });
   app.get("/signup", function(req, res) {
     res.render("signup");
-  });
-  app.get("/dashboard", checkAuth, function(req, res) {
-    res.render("dashboard", { name: req.user.name });
   });
   app.get("/saved", checkAuth, function(req, res) {
     var id = req.user.id;
@@ -66,7 +72,7 @@ module.exports = function(app) {
       }
     });
   });
-  app.get("/mainpage", checkAuth,function(req, res) {
+  app.get("/mainpage", checkAuth ,function(req, res) {
     var user = req.user
     var datasaved=[]
     var datainterview=[]
@@ -443,6 +449,67 @@ module.exports = function(app) {
   
    
   });
+  app.post("/mainpage/editresume", function(req, res, next) {
+   
+    var directory = "./public/uploads/resumes/"
+    fs.readdir(directory,function(err,files){
+      var fileexist = false;
+      var oldfilename;
+      files.forEach(function(ele){
+        var filename = ele.split(".")
+        if(filename[0] == req.user.id){
+           oldfilename = ele;
+           fileexist = true;
+        }
+        
+      })
+      if(fileexist){
+        fs.unlink(directory+oldfilename, function(err){
+           if(err){console.log(err)}
+           else{
+            uploadresume(req,res,function(err){
+              if(err){
+                console.log(err)
+              }
+              else{
+                db.user
+                .update(
+                  { resume: "uploads/resumes/"+req.file.filename },
+                  { where: { id: req.user.id } }
+                )
+                .then(function(update) {
+                  res.send(req.file.filename)
+                });
+              }
+            })
+           }
+        })
+      }else{
+        uploadresume(req,res,function(err){
+          if(err){
+            console.log(err)
+          }
+          else{
+            db.user
+            .update(
+              { resume: "uploads/resumes/"+req.file.filename },
+              { where: { id: req.user.id } }
+            )
+            .then(function(update) {
+              res.send(req.file.filename)
+            });
+            
+          }
+        })
+      }
+     
+      
+  
+      
+    })
+    
+     
+    });
   app.post("/mainpage/edit", function(req, res, next) {
     if(req.body.edit == "username"){
       db.user
@@ -479,6 +546,36 @@ module.exports = function(app) {
               res.send("password changed")
             });
         });
+      });
+    }
+    if(req.body.edit == "linkedin"){
+      db.user
+      .update(
+        { linkedin : req.body.value },
+        { where: { id : req.user.id } }
+      )
+      .then(function(update) {
+        res.send("linkedin changed")
+      });
+    }
+    if(req.body.edit == "github"){
+      db.user
+      .update(
+        { github: req.body.value },
+        { where: { id : req.user.id } }
+      )
+      .then(function(update) {
+        res.send("github changed")
+      });
+    }
+    if(req.body.edit == "portfolio"){
+      db.user
+      .update(
+        { portfolio: req.body.value },
+        { where: { id : req.user.id } }
+      )
+      .then(function(update) {
+        res.send("portfolio changed")
       });
     }
   })

@@ -83,6 +83,85 @@ $(document).ready(function(){
     })
     $("#huntingtools").on("click",function(){
         $('#modalhuntingtools').modal('show')
+        $("#resumename").change(function(){
+
+            $("#resumeuploadform").ajaxSubmit({
+                data : "resume",
+                contentType: 'application/json',
+                success: function(response){
+                  console.log(response);  
+                  $("#huntingtoolsresume").attr("src","uploads/resume/"+response)
+                      
+                }
+            });
+              return false;
+        })
+$(".huntingtoolsbtns").on("click",function(){
+    var data;
+    if($(this).attr("id")=="linkedin"){
+        
+        if($("#linkedininput").val()==''){
+            $("#linkedininput").css({"border-color":"red","border-width":"1px"})
+        }else{
+            data = {
+                edit : "linkedin",
+                value : $("#linkedininput").val()
+            }
+        }   
+    }
+    if($(this).attr("id")=="github"){
+       
+
+        if($("#githubinput").val()==''){
+            $("#githubinput").css({"border-color":"red","border-width":"1px"})
+        }else{
+           
+            data = {
+                edit : "github",
+                value : $("#githubinput").val()
+            }
+            
+        }   
+    }
+    if($(this).attr("id")=="portfolio"){
+        
+        if($("#portfolioinput").val()=='' ){
+            
+            $("#portfolioinput").css({"border-color":"red","border-width":"1px"})
+        }else{
+            
+            data = {
+            edit : "portfolio",
+            value : $("#portfolioinput").val()
+        }
+        }  
+    }
+    if(data){
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/edit",
+            data: data
+        }).then(function(res){
+            console.log(res)
+            if(data.edit == "linkedin"){
+                $("#linkedinlink").attr("href",data.value)
+                $("#linkedinlink").html(data.value)
+                
+            }
+            if(data.edit == "github"){
+                $("#githublink").attr("href",data.value)
+                $("#githublink").html(data.value)
+                
+            }
+            if(data.edit == "portfolio"){
+                
+                $("#portfoliolink").attr("href",data.value)
+                $("#portfoliolink").html(data.value)
+            }
+        })
+    }
+    
+})
     })
     
     deleteitems()
@@ -211,12 +290,14 @@ $("#search").on("click",function(e){
         $("#location").addClass("missing")
     }
     }else{
+        $('#searchcontentcontainer').find('*').not('#searchjobcontainer,#searchjobcontainer *').remove();
+        $("#searchcontentcontainer").append("<div id='loading' ><img src='images/loading.gif' alt='loading' id='loadinggif'></div>")
         $.ajax({
             type: "POST",
             url: "/mainpage/search",
             data: data
           }).then(function(res){
-            $('#searchcontentcontainer').find('*').not('#searchjobcontainer,#searchjobcontainer *').remove();
+            $("#loading").remove()
             $("#searchcontentcontainer").append(res)
             showmoreinfo()
             draganddrop()

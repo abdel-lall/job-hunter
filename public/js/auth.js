@@ -77,7 +77,7 @@ $("#login").on("click", function (e) {
                 crossDomain: true,
                 success(res) {
                     if (res.message == "success") {
-                        location.href = "/dashboard"
+                        location.href = "/mainpage"
                     } else {
                         var errormsg = res.message;
                         var err = "<div class='alert alert-warning alert-dismissible fade show' role='alert'><p class='errtext'>" + errormsg + "</p><button type='button' class='close' data-dismiss='alert' id='closebtnerrmsg' aria-label='Close'><span aria-hidden='true' id='spanClose'>&times;</span></button></div>"

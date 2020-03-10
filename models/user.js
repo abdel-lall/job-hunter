@@ -14,7 +14,7 @@ module.exports = function(sequelize, DataTypes) {
             allowNull: false,
             defaultValue: '/images/unknown.jpg',
         },
-        profolio : DataTypes.STRING,
+        portfolio : DataTypes.STRING,
         github : DataTypes.STRING,
         resume : DataTypes.STRING,
         linkedin : DataTypes.STRING,

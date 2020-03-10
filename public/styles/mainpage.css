@@ -541,7 +541,7 @@ section::after{
     margin-bottom: 8px;
     width: 100%;
 }
-#imagename{
+#imagename,#resumename{
     width: 100%;
     margin-top: 8px;
     border: solid 1px #041e3b;
@@ -549,6 +549,13 @@ section::after{
     color: #041e3b;
 
 }
-#imageuploadform{
+#imageuploadform,#resumeuploadform{
     width: 100%;
 }
+#loading{
+    
+    width: 100%;
+    text-align: center;
+    padding-top: 50px;
+}
+

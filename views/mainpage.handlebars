@@ -70,11 +70,11 @@
                                     <div class="row align-items-center" id="searchinputfirstrow">
                                         <div class="col-6 inputcol">
                                             <input type="text" class="inputiconplaceholder" id="keyword"
-                                                placeholder=" Keyword">
+                                                placeholder=" Keyword" autocomplete="off">
                                         </div>
                                         <div class="col-6 inputcol">
                                             <input type="text" class="inputiconplaceholder" id="location"
-                                                placeholder=" Location">
+                                                placeholder=" Location" autocomplete="off">
                                         </div>
                                     </div>
                                     <div class="row align-items-center" id="searchinputseconderow">
@@ -94,6 +94,8 @@
                                 </div>
                             </div>
                         </div>
+                        
+                        
                         <p class="searchhere">Search for jobs here</p>
                     </div>
                 </div>
@@ -170,10 +172,10 @@
                         <div class="verticalsections" id="firstVS">
                             <div class="container VScontainer">
                                 <div class="row verticalsectionnavbar" id="applicationnavbarrow">
-                                    <div class="col text-left VStitle">
+                                    <div class="col-9 text-left VStitle">
                                         Applied for
                                     </div>
-                                    <div class="col text-right VSicon">
+                                    <div class="col-3 text-right VSicon">
                                         <button class="grow" data-id="firstVS"><i
                                                 class="fas fa-expand-alt growicon"></i></button>
                                     </div>
@@ -229,10 +231,10 @@
                         <div class="verticalsections" id="secondeVS">
                             <div class="container VScontainer">
                                 <div class="row verticalsectionnavbar" id="interviewnavbarrow">
-                                    <div class="col text-left VStitle">
+                                    <div class="col-10 text-left VStitle">
                                         Wainting for the interview
                                     </div>
-                                    <div class="col text-right VSicon">
+                                    <div class="col-2 text-right VSicon">
                                         <button class="grow" data-id="secondeVS"><i
                                                 class="fas fa-expand-alt growicon"></i></button>
                                     </div>
@@ -289,10 +291,10 @@
                         <div class="verticalsections" id="thirdVS">
                             <div class="container VScontainer" id="thirdVScontainer">
                                 <div class="row verticalsectionnavbar" id="acceptencenavbarrow">
-                                    <div class="col text-left VStitle">
+                                    <div class="col-9 text-left VStitle">
                                         Accepted
                                     </div>
-                                    <div class="col text-right VSicon">
+                                    <div class="col-3 text-right VSicon">
                                         <button class="grow" data-id="thirdVS"><i
                                                 class="fas fa-expand-alt growicon"></i></button>
                                     </div>
@@ -423,41 +425,43 @@
                         <h1 class="huntingtoolstitles"><i class="fab fa-linkedin"></i> Linkedin</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <h1 class="huntingtools">linkedin/abm</h1>
+                        <a href={{user.linkedin}} class="huntingtools" id="linkedinlink" target="_blank">{{user.linkedin}}</a>
                     </div>
                     <div class="huntingtoolslines">
-                        <input type="text" name="" id="" class="huntingtoolsinputs">
-                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                        <input type="text" name="" id="linkedininput" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns" id="linkedin"><i class="far fa-edit"></i></button>
                     </div>
                     <div class="huntingtoolslines">
                         <h1 class="huntingtoolstitles"><i class="fab fa-github-square"></i> Github</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <h1 class="huntingtools">github/abm</h1>
+                        <a href={{user.github}} class="huntingtools" id="githublink" target="_blank">{{user.github}}</a>
                     </div>
                     <div class="huntingtoolslines">
-                        <input type="text" name="" id="" class="huntingtoolsinputs">
-                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                        <input type="text" name="github" id="githubinput" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns" id="github"><i class="far fa-edit"></i></button>
                     </div>
                     <div class="huntingtoolslines">
                         <h1 class="huntingtoolstitles"><i class="far fa-id-card"></i> Portfolio</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <h1 class="huntingtools">portfolio/abm</h1>
+                        <a href={{user.portfolio}} class="huntingtools" id="portfoliolink" target="_blank">{{user.portfolio}}</a>
                     </div>
                     <div class="huntingtoolslines">
-                        <input type="text" name="" id="" class="huntingtoolsinputs">
-                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                        <input type="text" name="portfolio" id="portfolioinput" class="huntingtoolsinputs">
+                        <button class="huntingtoolsbtns" id="portfolio"><i class="far fa-edit"></i></button>
                     </div>
                     <div class="huntingtoolslines">
                         <h1 class="huntingtoolstitles"><i class="far fa-file-alt"></i> Resume</h1>
                     </div>
                     <div class="huntingtoolslines">
-                        <h1 class="huntingtools">resume/abm</h1>
+                        <a href="{{user.resume}}" class="huntingtools" id="huntingtoolsresume" target="_blank">resume</a>
                     </div>
                     <div class="huntingtoolslines">
-                        <input type="text" name="" id="" class="huntingtoolsinputs">
-                        <button class="huntingtoolsbtns"><i class="far fa-edit"></i></button>
+                        <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editresume" method="POST" id="resumeuploadform">
+                            <input type="file" name="resumename" id="resumename">
+                            {{!-- <input type="submit" name="submit" value="" id="editimagesubmit"> --}}
+                        </form>
                     </div>
 
                 </div>
