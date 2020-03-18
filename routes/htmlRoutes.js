@@ -551,9 +551,9 @@ module.exports = function(app) {
         var pass = userpass.dataValues.password;
         sendEmail(
           email,
-          "<div style='text-align: center;'><p style='color: blue;font-size: 15px;margin-bottom: 20px;'>Click on the button below to change your jonHunter password</p><a href='http://localhost:5000/password/" +
+          "<div style='text-align: center;'><p style='color: #094384;font-size: 15px;margin-bottom: 20px;'>Click on the button below to change your jonHunter password</p><a href='http://"+req.headers.host+"/password/" +
             pass +
-            "' style='border-style: solid;border-width: 1px;border-color: blue;background-color: blue;color: white; font-size: 20px;border-radius: 3px;padding: 4px; text-decoration: none;' >Reset Password</a></div>",
+            "' style='border-style: solid;border-width: 1px;border-color: blue;background-color: #094384;color: white; font-size: 20px;border-radius: 3px;padding: 6px; text-decoration: none;' >Reset Password</a></div>",
           function(err, res) {
             console.log(err, res);
           }

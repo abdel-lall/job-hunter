@@ -163,6 +163,7 @@ $(".huntingtoolsbtns").on("click",function(){
     
 })
     })
+    
     setreminder()
     deleteitems()
     showmoreinfo()
@@ -182,48 +183,91 @@ $(".enlarge").on("click",function(e){
     }else if(id1=="secondesection"){
         id2 = "firstsection"
         id3 = "thirdsection"
+
     }else{
         id2 = "secondesection"
         id3 = "firstsection"
+ 
     } 
-    
-
-    if( $("#"+id1).width() < $("#"+id2).width() || $("#"+id1).width() < $("#"+id3).width()){
-        $(".enlarge").each(function(i, obj) {
-            $(obj).removeClass("reduce")
-            $(obj).empty()
-            $(obj).html("<i class='fas fa-expand-alt enlargeicon' ></i>")   
-        })
-       
-    }
-    
-    if($(this).attr("class") == "enlarge reduce"){
-        $("#"+id1).animate({
-            width: '33.33%'
-         }, { duration: 980, queue: false });
-         $("#"+id2).animate({
-            width: '33.33%'
-         }, { duration: 1000, queue: false });
-         $("#"+id3).animate({
-            width: '33.33%'
-         }, { duration: 1000, queue: false });
-         $(this).removeClass("reduce")
-         $(this).empty()
-         $(this).html("<i class='fas fa-expand-alt enlargeicon' ></i>")   
+    if ($(window).width() < 1024) {
+        if(id1=="firstsection"){
+            id1 = "firstsectioncontainer"
+            id2 = "secondesectioncontainer"
+            id3 = "thirdsectioncontainer"
+            content1 = "#searchcontentrow"
+            content2 = "#savedcontentrow"
+            content3 = "#verticalmainrow"
+            
+        }else if(id1=="secondesection"){
+            id1 = "secondesectioncontainer"
+            id2 = "firstsectioncontainer"
+            id3 = "thirdsectioncontainer"
+            content1 = "#savedcontentrow"
+            content2 = "#searchcontentrow"
+            content3 = "#verticalmainrow"
         }else{
+            id1 = "thirdsectioncontainer"
+            id2 = "secondesectioncontainer"
+            id3 = "firstsectioncontainer"
+            content1 = "#verticalmainrow"
+            content2 = "#savedcontentrow"
+            content3 = "#searchcontentrow"
+        } 
+        var fullheight = ($("body").height()-198).toString()+"px"
+        $(content1).show()
+        $(content2).hide()
+        $(content3).hide()
         $("#"+id1).animate({
-            width: '60%'
+            height: fullheight
          }, { duration: 1000, queue: false });
          $("#"+id2).animate({
-            width: '20%'
+            height: "55px"
          }, { duration: 980, queue: false });
          $("#"+id3).animate({
-            width: '20%'
+            height: "55px"
          }, { duration: 980, queue: false });
-         $(this).addClass("reduce")
-           $(this).empty()
-           $(this).html("<i class='fas fa-compress-alt reduceicon'></i>")
+         showmoreinfo()
+     }
+     else {
+        if( $("#"+id1).width() < $("#"+id2).width() || $("#"+id1).width() < $("#"+id3).width()){
+            $(".enlarge").each(function(i, obj) {
+                $(obj).removeClass("reduce")
+                $(obj).empty()
+                $(obj).html("<i class='fas fa-expand-alt enlargeicon' ></i>")   
+            })
+           
         }
+        
+        if($(this).attr("class") == "enlarge reduce"){
+            $("#"+id1).animate({
+                width: '33.33%'
+             }, { duration: 980, queue: false });
+             $("#"+id2).animate({
+                width: '33.33%'
+             }, { duration: 1000, queue: false });
+             $("#"+id3).animate({
+                width: '33.33%'
+             }, { duration: 1000, queue: false });
+             $(this).removeClass("reduce")
+             $(this).empty()
+             $(this).html("<i class='fas fa-expand-alt enlargeicon' ></i>")   
+            }else{
+            $("#"+id1).animate({
+                width: '60%'
+             }, { duration: 1000, queue: false });
+             $("#"+id2).animate({
+                width: '20%'
+             }, { duration: 980, queue: false });
+             $("#"+id3).animate({
+                width: '20%'
+             }, { duration: 980, queue: false });
+             $(this).addClass("reduce")
+               $(this).empty()
+               $(this).html("<i class='fas fa-compress-alt reduceicon'></i>")
+            }
+     }
+
+    
  
    
 })
@@ -311,11 +355,39 @@ function draganddrop(){
     $( ".searchsectioncontentelement" ).draggable({
         helper: 'clone',
         handler : '.card-body',
+        zIndex: 100,
         start: function( event, ui ) {
             $( ui.helper ).width($( ".searchsectioncontentelement" ).width())
+            if ($(window).width() < 1024) {
+
+                $( ui.helper ).width($( "#searchjobsnavbarrow" ).width())
+                
+                var fullheight = ($("body").height()-198).toString()+"px"
+                var intheight = $("body").height()-198
+        
+                if($("#secondesectioncontainer").height() < intheight){
+                $("#savedcontentrow").show()
+                $("#verticalmainrow").hide()
+                $("#secondesectioncontainer").animate({
+                    height: fullheight
+                 }, { duration: 1000, queue: false });
+                 $("#firstsectioncontainer").animate({
+                    height: "55px"
+                 }, { duration: 980, queue: false });
+                 $("#thirdsectioncontainer").animate({
+                    height: "55px"
+                 }, { duration: 980, queue: false });
+                 showmoreinfo()
+                }}
         },
         drag: function(event, ui){
             $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+            
+        },
+        stop: function( event, ui ) {
+            if ($(window).width() < 1024) {
+                $("#searchcontentrow").hide()
+            }
         }
       });
       
@@ -372,11 +444,39 @@ function draganddrop(){
 $( ".savedjobssectioncontentelement" ).draggable({
     helper: 'clone',
     handler : '.card-body-saved',
+    zIndex: 100,
     start: function( event, ui ) {
         $( ui.helper ).width($( ".savedjobssectioncontentelement" ).width())
+        if ($(window).width() < 1024) {
+
+            $( ui.helper ).width($( "#searchjobsnavbarrow" ).width())
+            
+            var fullheight = ($("body").height()-198).toString()+"px"
+            var intheight = $("body").height()-198
+    
+            if($("#thirdsectioncontainer").height() < intheight){
+            $("#verticalmainrow").show()
+            $("#searchcontentrow").hide()
+            
+            $("#thirdsectioncontainer").animate({
+                height: fullheight
+             }, { duration: 1000, queue: false });
+             $("#firstsectioncontainer").animate({
+                height: "55px"
+             }, { duration: 980, queue: false });
+             $("#secondesectioncontainer").animate({
+                height: "55px"
+             }, { duration: 980, queue: false });
+             showmoreinfo()
+            }}
     },
     drag: function(event, ui){
         $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(4,30,59,.3)')
+    },
+    stop: function( event, ui ) {
+        if ($(window).width() < 1024) {
+            $("#savedcontentrow").hide()
+        }
     }
   });
   

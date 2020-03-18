@@ -9,7 +9,7 @@
     <title>Dashboard</title>
 </head>
 
-<body>
+<body >
     <nav class="navbar " id="navbar">
         <a class="navbar-brand" href="#">
             <img src="/images/jobhunter2.png" width="30" height="30" class="d-inline-block align-top" alt="">
@@ -50,8 +50,8 @@
         </form>
     </nav>
     <div class="conatiner-fluid" id="maincontainer">
-
-        <div class="sections" id="firstsection">
+       
+        <div class="sections " id="firstsection">
             <div class="container sectioncontainer" id="firstsectioncontainer">
                 <div class="row sectionnavbar" id="searchjobsnavbarrow">
                     <div class="col-9 text-left sectiontitle">
@@ -126,7 +126,7 @@
                                                 target="_blank">{{title}}</a></h5>
                                         <p class="card-text employer">
                                             <i class="far fa-building"></i>
-                                            {{organisation}}</p>
+                                            {{employer}}</p>
                                         <p class="card-text location">
                                             <i class="fas fa-map-marker-alt"></i>
 
@@ -156,8 +156,8 @@
                 </div>
             </div>
         </div>
-        <div class="sections" id="thirdsection">
-            <div class="container sectioncontainer">
+        <div class="sections " id="thirdsection">
+            <div class="container sectioncontainer" id="thirdsectioncontainer">
                 <div class="row sectionnavbar" id="applicationprocessnavbarrow">
                     <div class="col-9 text-left sectiontitle">
                         Application progress
@@ -196,7 +196,7 @@
                                                                 target="_blank">{{title}}</a></h5>
                                                         <p class="card-text employer">
                                                             <i class="far fa-building"></i>
-                                                            {{organisation}}</p>
+                                                            {{employer}}</p>
                                                         <p class="card-text location">
                                                             <i class="fas fa-map-marker-alt"></i>
 
@@ -231,10 +231,10 @@
                         <div class="verticalsections" id="secondeVS">
                             <div class="container VScontainer">
                                 <div class="row verticalsectionnavbar" id="interviewnavbarrow">
-                                    <div class="col-10 text-left VStitle">
+                                    <div class="col-9 text-left VStitle">
                                         Wainting for the interview
                                     </div>
-                                    <div class="col-2 text-right VSicon">
+                                    <div class="col-3 text-right VSicon">
                                         <button class="grow" data-id="secondeVS"><i
                                                 class="fas fa-expand-alt growicon"></i></button>
                                     </div>
@@ -255,7 +255,7 @@
                                                                 target="_blank">{{title}}</a></h5>
                                                         <p class="card-text employer">
                                                             <i class="far fa-building"></i>
-                                                            {{organisation}}</p>
+                                                            {{employer}}</p>
                                                         <p class="card-text location">
                                                             <i class="fas fa-map-marker-alt"></i>
 
@@ -327,7 +327,7 @@
                                                                 target="_blank">{{title}}</a></h5>
                                                         <p class="card-text employer">
                                                             <i class="far fa-building"></i>
-                                                            {{organisation}}</p>
+                                                            {{employer}}</p>
                                                         <p class="card-text location">
                                                             <i class="fas fa-map-marker-alt"></i>
 
@@ -364,6 +364,8 @@
                 </div>
             </div>
         </div>
+       
+        
 
     </div>
     <div class="modal" tabindex="-1" role="dialog" id="modalsettings">

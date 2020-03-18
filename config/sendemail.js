@@ -24,7 +24,10 @@ const smtpTransport = nodemailer.createTransport({
     clientSecret: process.env.SECRET,
     refreshToken: process.env.REFRECHTOKEN,
     accessToken: accessToken
-  }
+  },
+   tls: {
+        rejectUnauthorized: false
+    }
 });
 
 

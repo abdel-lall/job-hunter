@@ -48,6 +48,7 @@ body{
     margin: 0px;
 }
 #dropdownprofileusername{
+    color: #041e3b;
     width: max-content;
     margin: 0px;
 }
@@ -58,6 +59,22 @@ body{
     padding: 2px;
     height: 75px;
     width: 75px;
+}
+.dropdown-item{
+    color: #041e3b;
+}
+.dropdown-item:hover{
+    background-color:  #094384;
+    color: white;
+}
+.dropdown-item:active{
+    background-color:  #094384;
+    color: white;
+}
+.dropdown-item:focus{
+    border: none;
+    box-shadow: none;
+    outline: none;
 }
 #dropdownprofileimagediv{
     box-sizing: border-box;
@@ -433,10 +450,10 @@ section::after{
     border-radius: 0px;
     color: #041e3b;
 }
-.save:focus,.apply:focus{
+.save:focus,.apply:focus,.delete:focus,.setreminder:focus{
     box-shadow: 0 0 0 1px rgba(4,30,59,.3)
 }
-.save:hover,.apply:hover{
+.save:hover,.apply:hover,.delete:hover,.setreminder:hover{
     box-shadow: 0 0 0 1px rgba(4,30,59,.6)
 }
 .card-title{
@@ -527,8 +544,14 @@ section::after{
     display: flex;
 }
 .settingstitles,.huntingtoolstitles{
+    color: #041e3b;
     font-size: 25px;
     font-weight: 500;
+}
+.close:focus{
+    outline: none;
+    box-shadow: none;
+    border: none;
 }
 #editimage{
     /* position: relative; */
@@ -576,3 +599,111 @@ section::after{
     font-size: 16px;
     font-weight: 100;
 }
+@media only screen and (max-width: 1024px) {
+    body{
+        background-color: #f1f7fe;
+        height: 100vh;
+        overflow: hidden;
+    }
+    .sections{
+        width: 100% ;
+        box-sizing: border-box;
+        background-color: transparent;
+        float: left;
+        padding-right: 10px;
+        padding-left: 10px;
+        margin-bottom: 5px;
+        
+    }
+    .sectioncontainer{
+        height: fit-content;
+    }
+    #firstsectioncontainer{
+        height: calc( 100vh - 198px );
+
+    }
+    #savedcontentrow,#verticalmainrow{
+        display: none;
+    }
+    #verticalmainrow{
+        height: 100%;
+    }
+    #verticalcontainer{
+        height: calc( 100% - 55px);
+    }
+    #sectioncontentrowfirst{
+        height: 100%;
+    }
+    #firstVS{
+        height: calc(100% - 90px);
+    }
+    #secondeVS{
+        height: 45px;
+    }
+    #thirdVS{
+        height: 45px;
+    }
+  }
+  @media only screen and (max-width: 420px) {
+    #dropdownprofileinfo{
+        font-size: 12px;
+    }
+    #dropdownprofileimage{
+        
+        height: 50px;
+        width: 50px;
+    }
+    #dropdownprofileusername{
+        font-size: 20px;
+    }
+    .dropdown-item{
+        font-size: 10px;
+    }
+    .sectiontitle{
+        
+        font-size: 15px;
+       
+    }
+    .VStitle{
+        font-size: 12px;
+    }
+    #settingsemail,#settingsusername{
+        font-size: 10px;
+    }
+    .card-title{
+        font-size: 15px;
+        font-weight: 500;
+        margin-bottom: 5px;
+    }
+    .card-text.employer{
+        color: #094384;
+        font-size: 12px;
+        font-weight: 100;
+        margin-bottom: 3px;
+    }
+    .card-text.location{
+        color: #094384;
+        font-size: 12px;
+        font-weight: 500;
+        margin-bottom: 3px;
+    }
+    .card-text.description{
+        color: #094384;
+        font-size: 15px;
+        font-weight: 100;
+        margin-bottom: 0px;
+    }
+    .showmoredescriton,.showmorelocation{
+        font-size: 12px;
+    }
+    .save,.apply,.delete,.setreminder{
+        font-size: 12px;
+    }
+    .card-body{
+        padding: 10px;
+    }
+    .fas.fa-map-marker-alt,.far.fa-building,.fas.fa-tasks{
+        color: #094384;
+        font-size: 14px;
+    }
+  }
