@@ -27,13 +27,15 @@ app.engine("handlebars", exphbs({ defaultLayout: "main" }));
 app.set("view engine", "handlebars");
  
 
-require("./routes/htmlRoutes")(app);
+
 
 var syncOptions = { force: false };
 
 if (process.env.NODE_ENV === "test") {
   syncOptions.force = true;
 }
+
+require("./routes/htmlRoutes")(app);
 
 var PORT = process.env.PORT || 5000;
 
