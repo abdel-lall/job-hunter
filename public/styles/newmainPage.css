@@ -1,0 +1,859 @@
+    @font-face {
+        font-family: robot-L;
+        src: url(../fonts/Roboto-Light.ttf);
+    }
+    
+    @font-face {
+        font-family: robot-b;
+        src: url(../fonts/Roboto-Bold.ttf);
+    }
+    
+    @font-face {
+        font-family: robot-r;
+        src: url(../fonts/Roboto-Regular.ttf);
+    }
+    
+    @font-face {
+        font-family: mont;
+        src: url(../fonts/Montserrat-Regular.ttf);
+    }
+    
+    body {
+        padding: 0px;
+        margin: 0px;
+    }
+    
+    #container {
+        padding: 0px;
+        display: grid;
+        grid-template-rows: 7vh 93vh;
+        height: 100vh;
+        overflow: hidden;
+        background-color: white;
+    }
+    
+    #navbar {
+        height: 7vh;
+        background-color: #f5f5f5;
+        display: grid;
+        grid-template-columns: 1fr auto;
+        grid-template-rows: 1fr;
+    }
+    
+    #logo {
+        display: block;
+        box-sizing: border-box;
+        max-height: 7vh;
+        width: auto;
+        padding: 1.5vh;
+        padding-left: 3vh;
+        align-self: center;
+        justify-self: start;
+    }
+    
+    #profilePicture {
+        display: block;
+        box-sizing: border-box;
+        max-height: 5vh;
+        width: auto;
+        align-self: center;
+        justify-self: end;
+        border-radius: 50%;
+        border: 3px solid #282f39;
+        margin-right: 3vh;
+    }
+    
+    #profilePicture:hover {
+        border: 3px solid #64b5f6;
+    }
+    
+    #dropdownMenu {
+        display: grid;
+        grid-template-rows: repeat(4, auto);
+        grid-column: 10vh auto;
+        position: absolute;
+        top: 7.5vh;
+        right: 2vh;
+        z-index: 1;
+        background-color: white;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+        border-radius: 1vh;
+        min-width: 30vh;
+        display: none;
+    }
+    
+    #profilePictueDD {
+        grid-column: 1 /span 1;
+        grid-row: 1/ span 1;
+        display: block;
+        width: 10vh;
+        height: auto;
+        border-radius: 50%;
+        box-sizing: border-box;
+        padding: 1vh;
+    }
+    
+    #usernameDD {
+        grid-column: 2 /span 1;
+        grid-row: 1/ span 1;
+        align-self: center;
+        font-family: mont;
+        text-transform: capitalize;
+        color: #282f39;
+        padding: 1vh;
+    }
+    
+    #toolsDD {
+        grid-column: 1 /span 2;
+        grid-row: 2/ span 1;
+        border: none;
+        border-top: 1px solid #aaa;
+    }
+    
+    #settingsDD {
+        border: none;
+        grid-column: 1 /span 2;
+        grid-row: 3/ span 1;
+    }
+    
+    #logoutDD {
+        border: none;
+        grid-column: 1 /span 2;
+        grid-row: 4/ span 1;
+    }
+    
+    #toolsDD,
+    #logoutDD,
+    #settingsDD {
+        color: #aaa;
+        font-family: mont;
+        text-transform: capitalize;
+        background-color: none;
+        font-size: 2vh;
+        background-color: transparent;
+        border-bottom: 1px solid #aaa;
+        height: 7vh;
+        text-align: start;
+        padding-left: 1vh;
+    }
+    
+    #toolsDD:hover,
+    #logoutDD:hover,
+    #settingsDD:hover {
+        color: #64b5f6;
+    }
+    
+    #toolsModal,
+    #settingModal {
+        position: absolute;
+        top: 0px;
+        bottom: 0px;
+        background-color: rgba(0, 0, 0, 0.35);
+        height: 100vh;
+        width: 100vw;
+        z-index: 2;
+        display: grid;
+        align-items: center;
+        justify-items: center;
+        display: none;
+    }
+    
+    #toolModalCard,
+    #settingsModalCard {
+        background-color: white;
+        height: 85vh;
+        width: 40vw;
+        display: grid;
+        grid-template-columns: 1fr 7vh;
+        grid-template-rows: 7vh 1fr;
+        border-radius: 2vh;
+    }
+    
+    #settingModalTitle,
+    #toolsModalTitle {
+        grid-column: 1/ span 1;
+        grid-auto-rows: 1/ span 1;
+        display: grid;
+        text-align: center;
+        align-items: center;
+        font-family: mont;
+        text-transform: capitalize;
+        color: #282f39;
+        padding-left: 7vh;
+    }
+    
+    #closeTools,
+    #closeSetting {
+        grid-column: 2/ span 1;
+        grid-auto-rows: 1/ span 1;
+        border: none;
+        background-color: transparent;
+        color: #aaa;
+        font-size: 2vh;
+    }
+    
+    #closeTools:hover,
+    #closeSetting:hover {
+        color: #64b5f6;
+    }
+    
+    #toolModalBody {
+        grid-column: 1/ span 2;
+        grid-row: 2/span 1;
+        display: grid;
+        grid-template-rows: repeat(12, 1fr);
+        padding: 2vh;
+    }
+    
+    #linkedinInputLabel,
+    #githubInputLabel,
+    #WebsiteInputLabel,
+    #resumeInputLabel {
+        font-size: 2vh;
+        font-family: mont;
+        color: #282f39;
+        align-self: center;
+    }
+    
+    #userLinkedin,
+    #userGithub,
+    #userWebsite,
+    #userResume {
+        font-size: 1.8vh;
+        font-family: mont;
+        color: #aaa;
+        text-decoration: none;
+    }
+    
+    #userLinkedin:hover,
+    #userGithub:hover,
+    #userWebsite:hover,
+    #userResume:hover {
+        color: #64b5f6;
+    }
+    
+    #linkedinInputDiv,
+    #githubInputDiv,
+    #linkedinInputDiv {
+        display: grid;
+        grid-template-columns: 1fr 7vh;
+        height: 4vh;
+        border-radius: 4vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    }
+    
+    #linkedinInput,
+    #githubInput,
+    #websiteInput {
+        border: none;
+        background-color: transparent;
+        font-family: mont;
+        color: #aaa;
+        padding-left: 2vh;
+    }
+    
+    #linkedinInput:focus-visible,
+    #githubInput:focus-visible,
+    #websiteInput:focus-visible {
+        outline: none;
+    }
+    
+    #linkedinSubmit,
+    #githubSubmit,
+    #websiteSubmit {
+        background-color: transparent;
+        color: #aaa;
+        font-size: 2vh;
+        border-radius: 0vh 4vh 4vh 0vh;
+        border: none;
+    }
+    
+    #linkedinSubmit:hover,
+    #githubSubmit:hover,
+    #websiteSubmit:hover {
+        color: #64b5f6;
+    }
+    
+    #resumeInputDiv {
+        display: grid;
+        align-content: center;
+    }
+    
+    #resumeuploadform,
+    #imageuploadform {
+        padding: 0px;
+        margin: 0px;
+    }
+    
+    #resumename,
+    #imagename {
+        color: #aaa;
+        height: 4vh;
+        display: grid;
+        align-self: center;
+        width: 100%;
+        border-radius: 4vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    }
+    
+    #resumename::file-selector-button,
+    #imagename::file-selector-button {
+        border: none;
+        color: #aaa;
+        height: 4vh;
+        border-radius: 4vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        background-color: transparent;
+        margin-right: 2vh;
+    }
+    
+    #resumename::file-selector-button:hover,
+    #imagename::file-selector-button:hover {
+        color: #64b5f6;
+    }
+    
+    #settingModalContent {
+        grid-column: 1/ span 2;
+        grid-row: 2/span 1;
+        display: grid;
+        grid-template-rows: 1fr auto repeat(10, 1fr);
+        padding: 2vh;
+    }
+    
+    #settingProfilePictureLabel,
+    #usernameInputlabel,
+    #emailInputLabel,
+    #usernameInputlabel {
+        font-size: 2vh;
+        font-family: mont;
+        color: #282f39;
+        align-self: center;
+    }
+    
+    #userProfilepicture {
+        display: block;
+        height: 14vh;
+        width: auto;
+        border-radius: 14vh;
+        box-sizing: border-box;
+        padding: 1vh;
+    }
+    
+    #userUsername,
+    #userEmail,
+    #msgsettingpsw {
+        font-size: 1.8vh;
+        font-family: mont;
+        color: #aaa;
+        text-decoration: none;
+    }
+    
+    #usernameInputDiv,
+    #emailInputDiv,
+    #passwordInputDiv {
+        display: grid;
+        grid-template-columns: 1fr 7vh;
+        height: 4vh;
+        border-radius: 4vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    }
+    
+    #settingsUsernameInput,
+    #settingsEmailInput,
+    #settingsPasswordInput {
+        border: none;
+        background-color: transparent;
+        font-family: mont;
+        color: #aaa;
+        padding-left: 2vh;
+    }
+    
+    #settingsUsernameInput:focus-visible,
+    #settingsEmailInput:focus-visible,
+    #settingsPasswordInput:focus-visible {
+        outline: none;
+    }
+    
+    #editUsername,
+    #editemail,
+    #editpassword {
+        background-color: transparent;
+        color: #aaa;
+        font-size: 2vh;
+        border-radius: 0vh 4vh 4vh 0vh;
+        border: none;
+    }
+    
+    #editUsername:hover,
+    #editemail:hover,
+    #editpassword:hover {
+        color: #64b5f6;
+    }
+    
+    #editUsername:focus-visible,
+    #editemail:focus-visible,
+    #editpassword:focus-visible {
+        outline: none;
+    }
+    
+    #maincontainer {
+        grid-row: 2/ span 1;
+        display: grid;
+        height: 100%;
+        width: 100vw;
+        grid-template-columns: auto auto auto;
+        grid-template-rows: 1fr;
+        background-color: #f5f5f5;
+    }
+    
+    #searchSection {
+        grid-column: 1/span 1;
+        width: 32vw;
+        margin-left: 1vh;
+    }
+    
+    #wishlistSection {
+        grid-column: 2/span 1;
+        width: 32vw;
+    }
+    
+    #applicationProgressSection {
+        grid-column: 3/span 1;
+        width: 32vw;
+        margin-right: 1vh;
+    }
+    
+    #searchSection,
+    #wishlistSection,
+    #applicationProgressSection {
+        height: 95%;
+        justify-self: center;
+        background-color: white;
+        align-self: center;
+        border-radius: 1.5vh;
+        box-shadow: rgba(0, 0, 0, 0.16) 0px 5px 15px;
+        overflow: hidden;
+    }
+    
+    #searchSection,
+    #wishlistSection,
+    #applicationProgressSection {
+        display: grid;
+        grid-template-rows: repeat(3, 7vh) auto;
+    }
+    
+    #extdSearch,
+    #extdwishlist,
+    #extdprogress {
+        display: block;
+        height: 7vh;
+        width: 7vh;
+        align-self: center;
+        justify-self: center;
+        font-size: 2vh;
+        justify-self: end;
+        background-color: transparent;
+        border: none;
+        color: #aaa
+    }
+    
+    #extdSearch:hover,
+    #extdwishlist:hover,
+    #extdprogress:hover {
+        color: #64b5f6;
+    }
+    
+    #extdSearch:focus-visible,
+    #extdwishlist:focus-visible,
+    #extdprogress:focus-visible {
+        outline: none;
+    }
+    
+    #progressSectionTitle,
+    #wishlistSectionTitle,
+    #searchSectionTitle {
+        justify-self: center;
+        align-self: start;
+        display: grid;
+        grid-template-columns: auto auto;
+    }
+    
+    #progressIcon {
+        display: block;
+        height: 2.2vh;
+        width: auto;
+    }
+    
+    #seachIcon {
+        display: block;
+        height: 2.6vh;
+        width: auto;
+    }
+    
+    #wishlistIcon {
+        display: block;
+        height: 3.1vh;
+        width: auto;
+    }
+    
+    #search,
+    #wishlist,
+    #progress {
+        font-family: mont;
+        font-size: 1.8vh;
+        letter-spacing: .5px;
+        font-weight: bold;
+        padding-left: 1vh;
+        line-height: 2.5vh;
+    }
+    
+    #addTowishlist {
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        height: 5vh;
+        width: 90%;
+        color: #64b5f6;
+        text-align: center;
+        align-content: center;
+        border-radius: 5vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        font-size: 2vh;
+    }
+    
+    #addTowishlist:hover {
+        color: #282f39;
+    }
+    
+    #searchbar {
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        height: 5vh;
+        width: 90%;
+        color: #aaa;
+        text-align: center;
+        align-content: center;
+        border-radius: 5vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        grid-template-columns: 1fr 1fr auto
+    }
+    
+    #searchbtn {
+        font-size: 2.5vh;
+        color: #64b5f6;
+        background-color: transparent;
+        height: 5vh;
+        border: none;
+        padding-right: 3vh;
+    }
+    
+    #searchbtn:hover {
+        color: #282f39;
+    }
+    
+    #searchInputKey {
+        grid-column: 1 / span 1;
+        display: block;
+        border: none;
+        border-radius: 5vh 0vh 0vh 5vh;
+        color: #282f39;
+        padding-left: 2vh;
+        font-family: mont;
+        min-width: 7vh;
+    }
+    
+    #searchInputLocation {
+        grid-column: 2 / span 1;
+        display: block;
+        border: none;
+        color: #282f39;
+        padding-left: 2vh;
+        font-family: mont;
+        min-width: 7vh;
+        border-left: 1px solid #aaa;
+    }
+    
+    #searchInputKey:focus-visible,
+    #searchInputLocation:focus-visible {
+        outline: none;
+    }
+    
+    #searchInput:focus-visible {
+        outline: none;
+    }
+    
+    #progressNavbar {
+        height: 5vh;
+        width: 90%;
+        display: grid;
+        justify-self: center;
+        align-self: center;
+        grid-template-columns: repeat(3, 1fr);
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        border-radius: 5vh;
+    }
+    
+    #application,
+    #interview,
+    #approval {
+        align-self: center;
+        justify-self: center;
+        display: grid;
+        height: 5vh;
+        width: 100%;
+        color: #64b5f6;
+        text-align: center;
+        align-content: center;
+        border-radius: 5vh;
+        font-size: 2vh;
+    }
+    
+    #application:hover,
+    #interview:hover,
+    #approval:hover {
+        color: #282f39;
+    }
+    
+    #interview {
+        border-radius: 0%;
+        border-left: 1px solid #aaa;
+        border-right: 1px solid #aaa;
+    }
+    
+    #application {
+        border-radius: 5vh 0vh 0vh 5vh;
+        color: #282f39;
+    }
+    
+    #approval {
+        border-radius: 0vh 5vh 5vh 0vh;
+    }
+    
+    #searchSectionBody,
+    #wishlistSectionBody,
+    #applicationBody,
+    #interviewBody,
+    #approvalBody {
+        grid-row: 4/ span 1;
+        margin: 1.5vh;
+        margin-top: 0px;
+        overflow: scroll;
+        padding: 1vh;
+        overflow-x: hidden;
+        display: grid;
+        grid-auto-rows: minmax( auto, max-content);
+    }
+    
+    #interviewBody,
+    #approvalBody {
+        display: none;
+    }
+    
+    #searchSectionBody::-webkit-scrollbar,
+    #wishlistSectionBody::-webkit-scrollbar,
+    #applicationBody::-webkit-scrollbar,
+    #interviewBody::-webkit-scrollbar,
+    #approvalBody::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    #searchSectionBody::-webkit-scrollbar-track,
+    #wishlistSectionBody::-webkit-scrollbar-track,
+    #applicationBody::-webkit-scrollbar-track,
+    #interviewBody::-webkit-scrollbar-track,
+    #approvalBody::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    #searchSectionBody::-webkit-scrollbar-thumb,
+    #wishlistSectionBody::-webkit-scrollbar-thumb,
+    #applicationBody::-webkit-scrollbar-thumb,
+    #interviewBody::-webkit-scrollbar-thumb,
+    #approvalBody::-webkit-scrollbar-thumb {
+        background-color: rgba(4, 30, 59, 0.5);
+        outline: 1px solid white;
+    }
+    
+    .searchResaultCard,
+    .wishlistCard,
+    .applicationCard,
+    .interviewCard,
+    .ApprovalCard {
+        display: grid;
+        grid-template-rows: repeat(5, minmax(5vh, auto));
+        border-radius: 2vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        padding: 2vh;
+        margin-top: 1vh;
+        margin-bottom: 1vh;
+    }
+    
+    .SRCpositinTitle,
+    .WCpositinTitle,
+    .ApositinTitle,
+    .IpositinTitle,
+    .APpositinTitle {
+        font-size: 2vh;
+        font-weight: bold;
+        font-family: mont;
+        color: #282f39;
+        text-decoration: none;
+    }
+    
+    .SRCpositinTitle:hover,
+    .WCpositinTitle:hover,
+    .ApositinTitle:hover,
+    .IpositinTitle:hover,
+    .APpositinTitle:hover {
+        color: #64b5f6;
+    }
+    
+    .SRCcompanyName,
+    .SRCpositionLocation,
+    .WCcompanyName,
+    .WCpositionLocation,
+    .AcompanyName,
+    .ApositionLocation,
+    .IcompanyName,
+    .IpositionLocation,
+    .APcompanyName,
+    .APpositionLocation {
+        font-size: 1.8vh;
+        font-family: mont;
+        color: #aaa;
+        font-weight: bold;
+    }
+    
+    .buidingIcon,
+    .mapmarkerIcon {
+        margin-right: 1vh;
+    }
+    
+    .SRCpositionDescription,
+    .WCpositionDescription,
+    .ApositionDescription,
+    .IpositionDescription,
+    .APpositionDescription {
+        padding: .5vh;
+        font-size: 2vh;
+        font-family: mont;
+        color: #aaa;
+        max-height: 30vh;
+        overflow-x: hidden;
+        overflow-y: scroll;
+    }
+    
+    .SRCpositionDescription::-webkit-scrollbar,
+    .WCpositionDescription::-webkit-scrollbar,
+    .ApositionDescription::-webkit-scrollbar,
+    .IpositionDescription::-webkit-scrollbar,
+    .APpositionDescription::-webkit-scrollbar {
+        width: 5px;
+    }
+    
+    .SRCpositionDescription::-webkit-scrollbar-track,
+    .WCpositionDescription::-webkit-scrollbar-track,
+    .ApositionDescription::-webkit-scrollbar-track,
+    .IpositionDescription::-webkit-scrollbar-track,
+    .APpositionDescription::-webkit-scrollbar-track {
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.3);
+    }
+    
+    .SRCpositionDescription::-webkit-scrollbar-thumb,
+    .WCpositionDescription::-webkit-scrollbar-thumb,
+    .ApositionDescription::-webkit-scrollbar-thumb,
+    .IpositionDescription::-webkit-scrollbar-thumb,
+    .APpositionDescription::-webkit-scrollbar-thumb {
+        background-color: rgba(4, 30, 59, 0.5);
+        outline: 1px solid white;
+    }
+    
+    .SRCnext,
+    .WCnext,
+    .Anext,
+    .Inext,
+    .APnext {
+        width: 14vh;
+        height: 5vh;
+        border-radius: 5vh;
+        border: none;
+        background-color: #64b5f6;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        color: white;
+        justify-self: end;
+        margin-top: 1vh;
+    }
+    
+    .SRCnext:hover,
+    .WCnext:hover,
+    .Anext:hover,
+    .Inext:hover,
+    .APnext:hover {
+        background-color: transparent;
+        color: #64b5f6;
+    }
+    
+    @media only screen and (max-width: 1024px) {
+        #maincontainer {
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;
+            height: 91vh;
+        }
+        #searchSection,
+        #wishlistSection,
+        #applicationProgressSection {
+            grid-template-rows: 7vh 7vh auto;
+            grid-template-columns: 1fr auto;
+            height: calc(100% - 1vh);
+        }
+        #extdSearch,
+        #extdwishlist,
+        #extdprogress {
+            grid-column: 2/span 1;
+            grid-row: 1/span 1;
+        }
+        #searchSectionTitle,
+        #wishlistSectionTitle,
+        #progressSectionTitle {
+            grid-column: 1/span 1;
+            grid-row: 1/span 1;
+            align-self: center;
+            padding-left: 7vh;
+        }
+        #searchbar,
+        #addTowishlist,
+        #progressNavbar {
+            grid-column: 1/span 2;
+            grid-row: 2/span 1;
+        }
+        #searchSection {
+            grid-column: 1/span 1;
+            grid-row: 1/span 1;
+            width: 98vw;
+            margin: 0px;
+            height: 56vh;
+        }
+        #wishlistSection {
+            grid-column: 1/span 1;
+            grid-row: 2/span 1;
+            width: 98vw;
+            height: 16vh;
+        }
+        #applicationProgressSection {
+            grid-column: 1/span 1;
+            grid-row: 3/span 1;
+            width: 98vw;
+            margin: 0px;
+            height: 16vh;
+        }
+        #toolModalCard,
+        #settingsModalCard {
+            width: 90vw;
+        }
+        #searchSectionBody,
+        #wishlistSectionBody {
+            grid-column: 1/span 2;
+            grid-row: 3/span 1;
+        }
+    }

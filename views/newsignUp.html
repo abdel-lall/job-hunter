@@ -1,0 +1,41 @@
+<head>
+    <meta charset="utf-8">
+
+    <link rel="stylesheet" href="../public/styles/newsignUp.css">
+    <title>Sign up</title>
+</head>
+
+<body>
+    <div id="main">
+        <img src="../public/images/logoJH.png" alt="" id='logo'>
+        <img src="../public/images/loginBG.png" alt="" id="bgSVG">
+        <div id="signUpCard">
+            <div id="signUpLabel">
+                Sign up
+            </div>
+            <div id="signUpform">
+                <div id="uname">Username</div>
+                <input id="name" type="text" placeholder="Enter Username" name="uname" required autocomplete="off">
+
+                <div id="emailS">Email</div>
+                <input id="email" type="text" placeholder="Enter Email" name="email" required autocomplete="off">
+
+                <div id="passwordS">Password</div>
+                <input id="password" type="password" placeholder="Enter Password" name="psw" required autocomplete="off">
+
+                <div id="password2S">Confirm Password</div>
+                <input id="password2" type="password" placeholder="Repeat Password" name="psw-repeat" required autocomplete="off">
+
+
+                <button type="submit" class="btn btn-outline-primary" id="register">
+                      Register
+                  </button>
+                <div id="labelW">
+                    Already have an account? <a href="/" id="welcomeRedS">Login</a>
+                </div>
+            </div>
+            <div class="row text-center" id="errmsg" class="errmsgsignup"></div>
+        </div>
+    </div>
+    <script src="/js/auth.js"></script>
+</body>
