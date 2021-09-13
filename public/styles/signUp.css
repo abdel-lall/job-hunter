@@ -3,6 +3,11 @@
     src: url(../fonts/Roboto-Light.ttf);
 }
 
+@font-face {
+    font-family: mont;
+    src: url(../fonts/Montserrat-Regular.ttf);
+}
+
 body {
     padding: 0px;
     margin: 0px;
@@ -46,9 +51,10 @@ body {
 #signUpCard {
     grid-row: 2/span 6;
     grid-column: 1/span 1;
-    /* height: 90%; */
-    width: 60%;
+    width: 65%;
+    height: 95%;
     justify-self: center;
+    align-self: start;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(7, 1fr);
@@ -59,8 +65,8 @@ body {
     grid-column: 1/span 1;
     justify-self: center;
     align-self: start;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
-    font-size: 5vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-size: 4vh;
     color: #282f39;
     font-weight: 100;
 }
@@ -70,7 +76,8 @@ body {
     grid-column: 1/span 1;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(10, 1fr);
+    grid-template-rows: repeat(6, 1fr);
+    align-items: end;
 }
 
 #uname,
@@ -78,9 +85,10 @@ body {
 #passwordS,
 #password2S {
     align-self: center;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-family: mont, Arial, Helvetica, sans-serif;
     color: #282f39;
-    font-size: 3vh;
+    font-size: 2.2vh;
+    font-weight: bold;
 }
 
 #name,
@@ -88,21 +96,23 @@ body {
 #password,
 #password2 {
     box-sizing: border-box;
-    padding-left: 10px;
+    height: 5.5vh;
     background-color: transparent;
-    color: #64b5f6;
-    border: 3px solid #64b5f6;
-    border-radius: 10px;
-    font-size: 2.5vh;
+    color: #aaa;
+    border: none;
+    box-shadow: rgba(101, 181, 246, 0.75) 0px 3px 15px;
+    border-radius: 5.5vh;
+    font-size: 2.2vh;
+    padding-left: 2vh;
 }
 
 #name::placeholder,
 #email::placeholder,
 #password::placeholder,
 #password2::placeholder {
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-size: 2vh;
     color: #64b5f6;
-    font-size: 2.5vh;
 }
 
 #name:hover,
@@ -120,19 +130,20 @@ body {
 }
 
 #register {
-    background-color: #282f39;
+    background-color: #64b5f6;
     color: white;
-    font-size: 2.5vh;
-    line-height: 2.5vh;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
-    border: 3px solid #282f39;
+    font-size: 2.2vh;
+    line-height: 1vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border: none;
     width: fit-content;
-    height: fit-content;
-    padding: 1.5vh;
-    border-radius: 10px;
+    height: 5.5vh;
+    padding: 2vh;
+    border-radius: 5.5vh;
     align-self: end;
     justify-self: start;
-    margin-top: 5px;
+    box-shadow: rgba(101, 181, 246, 0.76) 0px 5px 15px;
 }
 
 #register:hover {
@@ -141,15 +152,20 @@ body {
 }
 
 #labelW {
+    font-family: mont;
     align-self: center;
-    font-size: 2.5vh;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-size: 2.2vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
     color: #64b5f6;
 }
 
 #welcomeRedS {
     color: #282f39;
     text-decoration: none;
+}
+
+#welcomeRedS:hover {
+    text-decoration: underline;
 }
 
 #welcomeRedS:focus-visible {
@@ -176,6 +192,9 @@ body {
         height: 5vh;
         width: auto;
     }
+    #signUpCard {
+        height: 100%;
+    }
 }
 
 @media only screen and (max-width: 1200px) {
@@ -189,32 +208,21 @@ body {
         object-fit: cover;
         padding: 10px;
     }
-    #signUPCard {
+    #signUpCard {
         grid-row: 4/span 7;
         grid-column: 1/span 1;
+        /* height: 90%; */
         width: 60%;
         justify-self: center;
+        align-self: center;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(7, 1fr);
     }
-    #name,
-    #email,
-    #password,
-    #password2 {
-        padding-left: 7px;
-        border: 2px solid #64b5f6;
-        border-radius: 7px;
-    }
-    #register {
-        border: 2px solid #282f39;
-        padding: 1.2vh;
-        border-radius: 7px;
-    }
 }
 
 @media only screen and (max-width: 768px) {
-    #signUPCard {
+    #signUpCard {
         width: 90%;
     }
 }

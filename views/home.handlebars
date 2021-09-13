@@ -1,0 +1,209 @@
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link rel="stylesheet" href="/styles/Home.css">
+    <title>Dashboard</title>
+</head>
+
+<body>
+
+    <div id="container">
+        <div id="navbar">
+            <img src="/images/logoJH.png" alt="" id="logo">
+            <img src="/images/unknown.jpg" alt="" id="profilePicture" data-display="hidden">
+            <div id="dropdownMenu">
+                <img src="/images/unknown.jpg" alt="" id="profilePictueDD">
+                <div id=usernameDD></div>
+                <button id="toolsDD">Tools</button>
+                <button id="settingsDD">Settings</button>
+                <a  id="logoutDD" href="/logout">log Out</a>
+            </div>
+        </div>
+        <div id="maincontainer">
+            <div id="searchSection">
+                <button id="extdSearch">
+                    <i class="fas fa-expand-alt"></i>
+                </button>
+                <div id="searchSectionTitle">
+                    <img src="/images/search19.png" alt="" id="seachIcon">
+                    <div id="search">Search</div>
+                </div>
+                <div id="searchbar">
+                    <input type="text" id="searchInputKW" autocomplete="off" placeholder="Keyword">
+                    <input type="text" id="searchInputLocation" autocomplete="off" placeholder="Location">
+                    <button id="searchbtn"><i class="fas fa-search"></i></button>
+                </div>
+                <div id="searchSectionBody">
+
+                </div>
+            </div>
+            <div id="wishlistSection">
+                <button id="extdwishlist">
+                    <i class="fas fa-expand-alt"></i>
+                </button>
+                <div id="wishlistSectionTitle">
+                    <img src="/images/wishlist.png" alt="" id="wishlistIcon">
+                    <div id="wishlist">Wishlist</div>
+
+                </div>
+                <div id="addTowishlist"><i class="fas fa-plus"></i></div>
+                <div id="wishlistSectionBody">
+
+                </div>
+            </div>
+            <div id="applicationProgressSection">
+                <button id="extdprogress">
+                    <i class="fas fa-expand-alt"></i>
+                </button>
+                <div id="progressSectionTitle">
+                    <img src="/images/progress.png" alt="" id="progressIcon">
+                    <div id="progress">Application Progress</div>
+                </div>
+                <div id="progressNavbar">
+                    <div id="application">
+                        <i class="far fa-file-alt"></i>
+                    </div>
+                    <div id="interview">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <div id="approval">
+                        <i class="far fa-handshake"></i>
+                    </div>
+                </div>
+                <div id="applicationBody">
+
+                </div>
+                <div id="interviewBody">
+
+
+                </div>
+                <div id="approvalBody">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="toolsModal">
+        <div id="toolModalCard">
+            <div id=toolsModalTitle>Tools</div>
+            <button id="closeTools">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="toolModalBody">
+                <div id="linkedinInputLabel">
+                    Linkedin
+                </div>
+                <a href='#' id="userLinkedin" target="_blank">my linkedin link</a>
+                <div id="linkedinInputDiv">
+                    <input type="text" name="" id="linkedinInput">
+                    <button id="linkedinSubmit"><i class="far fa-edit"></i></button>
+                </div>
+                <div id="githubInputLabel">
+                    </i> Github
+                </div>
+
+                <a href='#' id="userGithub" target="_blank">my github adress</a>
+
+                <div id="githubInputDiv">
+                    <input type="text" name="github" id="githubInput">
+                    <button id="githubSubmit"><i class="far fa-edit"></i></button>
+                </div>
+                <div id="WebsiteInputLabel">
+                    Website
+                </div>
+
+                <a href='#' id="userWebsite" target="_blank">www.lallouache.com</a>
+
+                <div id="linkedinInputDiv">
+                    <input type="text" name="website" id="websiteInput">
+                    <button id="websiteSubmit"><i class="far fa-edit"></i></button>
+                </div>
+                <div id='resumeInputLabel'>
+                    Resume
+                </div>
+
+                <a href="#" id="userResume" target="_blank">resume</a>
+
+                <div id="resumeInputDiv">
+                    <form enctype="multipart/form-data" action="/mainpage/editresume" method="POST" id="resumeuploadform">
+                        <input type="file" name="resumename" id="resumename">
+                    </form>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+    <div id="settingModal">
+        <div id="settingsModalCard">
+            <div id=settingModalTitle>Settings</div>
+            <button id="closeSetting">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="settingModalContent">
+                <div id="settingProfilePictureLabel">
+                    Profile Picture
+                </div>
+
+                <img src='/images/unknown.jpg' alt="userProfilepicture" id="userProfilepicture">
+
+                <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editimage" method="POST" id="imageuploadform">
+                    <input type="file" name="settingsimagename" id="imagename">
+                </form>
+
+                <div id="usernameInputlabel">
+                    Username
+                </div>
+                <div id="userUsername">
+                    my user name
+                </div>
+                <div id="usernameInputDiv">
+                    <input type="text" name="" id="settingsUsernameInput">
+                    <button id="editUsername"><i class="far fa-edit"></i></button>
+                </div>
+                <div id="emailInputLabel">
+                    Email
+                </div>
+                <div id="userEmail">
+                    mayemail@mail.com
+                </div>
+                <div id="emailInputDiv">
+                    <input type="text" name="" id="settingsEmailInput">
+                    <button id="editemail"><i class="far fa-edit"></i></button>
+                </div>
+                <div id="usernameInputlabel">
+                    Password
+                </div>
+
+                <p id="msgsettingpsw"></p>
+
+                <div id="passwordInputDiv">
+                    <input type="text" name="" id="settingsPasswordInput">
+                    <button id="editpassword"><i class="far fa-edit"></i></button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <div id="addWishlistModal">
+        <div id="ADModalCard">
+            <div id=addwishlistModalTitle>Add New Position</div>
+            <button id="closeAddwishlist">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="addWishlistModalContent">
+                <input type="text" id="AWpositionName" placeholder="Job Title">
+                <input type="text" id="AWurl" placeholder="URL">
+                <input type="text" id="AWcompanyName" placeholder="Company Name">
+                <input type="text" id="AWjobLocation" placeholder="Job Location">
+                <input type="text" id="AWjobdescription" placeholder="Job Description">
+                <button id="SubmitWishlist">Add</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js" type="text/javascript"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.form/4.2.2/jquery.form.js"></script>
+    <script src="/js/home.js"></script>
+</body>

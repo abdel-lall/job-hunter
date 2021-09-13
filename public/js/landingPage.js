@@ -1,24 +1,30 @@
-$("#submit").on("click", function(e) {
+$("#login").on("click", function(e) {
     e.preventDefault();
     var form = {
         email: $("#emailJ").val().trim(),
+        password: $("#passwordJ").val().trim(),
     }
-    if (!form.email) {
-        var errormsg = "Please entre an Email";
+    console.log(form)
+    if (!form.email || !form.password) {
+        var errormsg = "you need to provide an Email and a password";
         $("#errmsg").html(errormsg);
     } else {
         if (!validateEmail(form.email)) {
-            var errormsg = "Please a valid Email";
+            var errormsg = "you need to insert a valid email";
+            $("#errmsg").html(errormsg);
+        } else if (form.password.length < 7) {
+            var errormsg = "password should be at least 8 caracters";
             $("#errmsg").html(errormsg);
         } else {
+
+
             $.ajax({
                 type: "POST",
                 data: form,
                 crossDomain: true,
                 success(res) {
                     if (res.message == "success") {
-                        var errormsg = "A message with the link to change password has been sent to your email";
-                        $("#errmsg").html(errormsg);
+                        location.href = "/home"
                     } else {
                         var errormsg = res.message;
 

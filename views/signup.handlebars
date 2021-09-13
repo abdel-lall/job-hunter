@@ -1,64 +1,42 @@
 <head>
-  <meta charset="utf-8">
+    <meta charset="utf-8">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" href="/styles/signUp_logIn.css">
-  <title>Sign up</title>
+    <link rel="stylesheet" href="/styles/signUp.css">
+    <title>Sign up</title>
 </head>
 
 <body>
-<div id="bodyJ">
-<div class="container" id="containerJSign">
-    <div class="row" id="firstrowJ">
-        <div class="col text-center">
-            <h1 id="titleJ">Sign-up</h1>
-        </div>
-    </div>
-        
-        <div class="row" id="infoinputrow">
-            <div class="row" id="singuprow">
+    <div id="main">
+        <img src="/images/logoJH.png" alt="" id='logo'>
+        <img src="/images/loginBG.png" alt="" id="bgSVG">
+        <div id="signUpCard">
+            <div id="signUpLabel">
+                Sign up
+            </div>
+            <form id="signUpform">
+                
+                <input id="name" type="text" placeholder="Enter Username" name="uname"  autocomplete="off">
 
+                
+                <input id="email" type="text" placeholder="Enter Email" name="email"  autocomplete="off">
 
-                <label for="name"><b id="uname">Username</b></label>
-                <input id="name" type="text" placeholder="Enter Username" name="uname" required autocomplete="off">
+                
+                <input id="password" type="password" placeholder="Enter Password" name="psw"  autocomplete="off">
 
-                <label for="email"><b id="emailS">Email</b></label>
-                <input id="email" type="text" placeholder="Enter Email" name="email" required autocomplete="off">
-
-                <label for="password"><b id="passwordS">Password</b></label>
-                <input id="password" type="password" placeholder="Enter Password" name="psw" required autocomplete="off">
-
-                <label for="password2"><b id="password2S">Repeat Password</b></label>
-                <input id="password2" type="password" placeholder="Repeat Password" name="psw-repeat" required autocomplete="off">
+                
+                <input id="password2" type="password" placeholder="Repeat Password" name="psw-repeat"  autocomplete="off">
 
 
                 <button type="submit" class="btn btn-outline-primary" id="register">
-                    Register
-                </button>
-                <label id="labelW">
-                  Already have an account? <a href="/" id="welcomeRedS">Login</a>
-                </label>
-
-
-
-            </div>
-
+                      Register
+                  </button>
+                <div id="labelW">
+                    Already have an account? <a href="/" id="welcomeRedS">Login</a>
+                </div>
+            </form>
+            <div class="row text-center" id="errmsg" class="errmsgsignup"></div>
         </div>
-        <div class="row text-center" id="errmsg" class="errmsgsignup"></div>
     </div>
-</div>
-<script src="https://code.jquery.com/jquery.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-    crossorigin="anonymous"></script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
-    crossorigin="anonymous"></script>
-  <script src="https://kit.fontawesome.com/fe613f4734.js"></script>
-  <!-- Compiled and minified JavaScript -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <script src="/js/auth.js"></script>
+      <script src="https://code.jquery.com/jquery.js"></script>
+    <script src="/js/signUp.js"></script>
 </body>

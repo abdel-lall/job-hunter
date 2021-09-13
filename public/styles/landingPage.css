@@ -3,6 +3,11 @@
     src: url(../fonts/Roboto-Light.ttf);
 }
 
+@font-face {
+    font-family: mont;
+    src: url(../fonts/Montserrat-Regular.ttf);
+}
+
 body {
     padding: 0px;
     margin: 0px;
@@ -46,9 +51,10 @@ body {
 #loginCard {
     grid-row: 2/span 6;
     grid-column: 1/span 1;
-    /* height: 90%; */
-    width: 60%;
+    width: 65%;
+    height: 80%;
     justify-self: center;
+    align-self: center;
     display: grid;
     grid-template-columns: 1fr;
     grid-template-rows: repeat(7, 1fr);
@@ -59,10 +65,9 @@ body {
     grid-column: 1/span 1;
     justify-self: center;
     align-self: start;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
-    font-size: 5vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-size: 4vh;
     color: #282f39;
-    text-transform: lowercase;
     font-weight: 100;
 }
 
@@ -71,11 +76,10 @@ body {
     grid-column: 1/span 1;
     justify-self: start;
     align-self: start;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
-    font-size: 3vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-size: 2.2vh;
+    line-height: 3.8vh;
     color: #64b5f6;
-    text-transform: lowercase;
-    font-weight: 100;
 }
 
 #btnsectionJ {
@@ -83,7 +87,9 @@ body {
     grid-column: 1/span 1;
     display: grid;
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(6, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    align-items: center;
+    margin-top: 1vh;
 }
 
 #errmsg {
@@ -94,20 +100,23 @@ body {
 #emailLabel,
 #passwordLabel {
     align-self: center;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-family: mont, Arial, Helvetica, sans-serif;
     color: #282f39;
-    font-size: 3vh;
+    font-size: 2.2vh;
+    font-weight: bold;
 }
 
 #emailJ,
 #passwordJ {
     box-sizing: border-box;
-    padding-left: 10px;
+    height: 5.5vh;
     background-color: transparent;
-    color: #64b5f6;
-    border: 3px solid #64b5f6;
-    border-radius: 10px;
-    font-size: 2.5vh;
+    color: #aaa;
+    border: none;
+    box-shadow: rgba(101, 181, 246, 0.75) 0px 3px 15px;
+    border-radius: 5.5vh;
+    font-size: 2.2vh;
+    padding-left: 2vh;
 }
 
 #emailJ:hover,
@@ -122,37 +131,44 @@ body {
 
 #emailJ::placeholder,
 #passwordJ::placeholder {
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-size: 2vh;
     color: #64b5f6;
-    font-size: 2.5vh;
 }
 
 #login {
-    background-color: #282f39;
+    background-color: #64b5f6;
     color: white;
-    font-size: 2.5vh;
-    line-height: 2.5vh;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
-    border: 3px solid #282f39;
+    font-size: 2.2vh;
+    line-height: 1vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    border: none;
     width: fit-content;
-    height: fit-content;
-    padding: 1.5vh;
-    border-radius: 10px;
+    height: 5.5vh;
+    padding: 2vh;
+    border-radius: 5.5vh;
     align-self: end;
     justify-self: start;
+    box-shadow: rgba(101, 181, 246, 0.76) 0px 5px 15px;
+    margin-top: 1vh;
 }
 
 #login:hover {
-    background-color: #daebfd;
-    color: #282f39;
+    background-color: transparent;
+    color: #64b5f6;
 }
 
 #labelRegister,
 #passrecl {
     align-self: center;
-    font-size: 2.5vh;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-size: 2.2vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
     color: #64b5f6;
+}
+
+#passrecl {
+    align-self: start;
 }
 
 #registerRedJ {
@@ -176,8 +192,8 @@ body {
 #errmsg {
     align-self: center;
     justify-self: center;
-    font-size: 2.5vh;
-    font-family: roboto-L, Arial, Helvetica, sans-serif;
+    font-size: 2.2vh;
+    font-family: mont, Arial, Helvetica, sans-serif;
     color: #d35757;
 }
 
@@ -190,6 +206,9 @@ body {
         left: 2.5vw;
         height: 5vh;
         width: auto;
+    }
+    #loginCard {
+        height: 100%;
     }
 }
 
@@ -210,23 +229,10 @@ body {
         /* height: 90%; */
         width: 60%;
         justify-self: center;
+        align-self: center;
         display: grid;
         grid-template-columns: 1fr;
         grid-template-rows: repeat(7, 1fr);
-    }
-    #welcomeMessage {
-        font-size: 2.5vh;
-    }
-    #emailJ,
-    #passwordJ {
-        padding-left: 7px;
-        border: 2px solid #64b5f6;
-        border-radius: 7px;
-    }
-    #login {
-        border: 2px solid #282f39;
-        padding: 1.2vh;
-        border-radius: 7px;
     }
 }
 

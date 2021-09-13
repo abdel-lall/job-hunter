@@ -23,6 +23,10 @@
         margin: 0px;
     }
     
+    button:focus-visible {
+        outline: none;
+    }
+    
     #container {
         padding: 0px;
         display: grid;
@@ -120,6 +124,8 @@
         border: none;
         grid-column: 1 /span 2;
         grid-row: 4/ span 1;
+        line-height: 7vh;
+        text-decoration: none;
     }
     
     #toolsDD,
@@ -144,7 +150,8 @@
     }
     
     #toolsModal,
-    #settingModal {
+    #settingModal,
+    #addWishlistModal {
         position: absolute;
         top: 0px;
         bottom: 0px;
@@ -159,7 +166,8 @@
     }
     
     #toolModalCard,
-    #settingsModalCard {
+    #settingsModalCard,
+    #ADModalCard {
         background-color: white;
         height: 85vh;
         width: 40vw;
@@ -170,7 +178,8 @@
     }
     
     #settingModalTitle,
-    #toolsModalTitle {
+    #toolsModalTitle,
+    #addwishlistModalTitle {
         grid-column: 1/ span 1;
         grid-auto-rows: 1/ span 1;
         display: grid;
@@ -183,7 +192,8 @@
     }
     
     #closeTools,
-    #closeSetting {
+    #closeSetting,
+    #closeAddwishlist {
         grid-column: 2/ span 1;
         grid-auto-rows: 1/ span 1;
         border: none;
@@ -193,8 +203,44 @@
     }
     
     #closeTools:hover,
-    #closeSetting:hover {
+    #closeSetting:hover,
+    #closeAddwishlist:hover {
         color: #64b5f6;
+    }
+    
+    #AWpositionName,
+    #AWurl,
+    #AWcompanyName,
+    #AWjobLocation,
+    #AWjobdescription {
+        border: none;
+        background-color: transparent;
+        font-family: mont;
+        color: #aaa;
+        padding-left: 2vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+        height: 5vh;
+        border-radius: 5vh;
+    }
+    
+    #SubmitWishlist {
+        border: none;
+        background-color: #64b5f6;
+        height: 5vh;
+        width: 30%;
+        color: white;
+        font-family: mont;
+        border-radius: 5vh;
+        box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    }
+    
+    #SubmitWishlist:hover {
+        color: #64b5f6;
+        background-color: white;
+    }
+    
+    #SubmitWishlist:focus-visible {
+        outline: none;
     }
     
     #toolModalBody {
@@ -317,6 +363,14 @@
         grid-row: 2/span 1;
         display: grid;
         grid-template-rows: 1fr auto repeat(10, 1fr);
+        padding: 2vh;
+    }
+    
+    #addWishlistModalContent {
+        grid-column: 1/ span 2;
+        grid-row: 2/span 1;
+        display: grid;
+        grid-template-rows: repeat(6, 1fr);
         padding: 2vh;
     }
     
@@ -552,11 +606,12 @@
         color: #282f39;
     }
     
-    #searchInputKey {
+    #searchInputKW {
         grid-column: 1 / span 1;
         display: block;
         border: none;
         border-radius: 5vh 0vh 0vh 5vh;
+        border: none;
         color: #282f39;
         padding-left: 2vh;
         font-family: mont;
@@ -574,12 +629,12 @@
         border-left: 1px solid #aaa;
     }
     
-    #searchInputKey:focus-visible,
+    #searchInputKW:focus-visible,
     #searchInputLocation:focus-visible {
         outline: none;
     }
     
-    #searchInput:focus-visible {
+    #searchInputKW:focus-visible {
         outline: none;
     }
     
@@ -643,6 +698,7 @@
         overflow-x: hidden;
         display: grid;
         grid-auto-rows: minmax( auto, max-content);
+        border-radius: 2vh;
     }
     
     #interviewBody,
@@ -687,6 +743,7 @@
         padding: 2vh;
         margin-top: 1vh;
         margin-bottom: 1vh;
+        background-color: white;
     }
     
     .SRCpositinTitle,
@@ -848,11 +905,15 @@
             height: 16vh;
         }
         #toolModalCard,
-        #settingsModalCard {
+        #settingsModalCard,
+        #ADModalCard {
             width: 90vw;
         }
         #searchSectionBody,
-        #wishlistSectionBody {
+        #wishlistSectionBody,
+        #applicationBody,
+        #interviewBody,
+        #approvalBody {
             grid-column: 1/span 2;
             grid-row: 3/span 1;
         }

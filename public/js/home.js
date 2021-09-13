@@ -33,7 +33,15 @@ $("#closeSetting").on("click", function() {
     $("#settingModal").hide()
 })
 
-// ===================================================extnd sections==================================================
+
+$("#addTowishlist").on('click', (e) => {
+        e.preventDefault()
+        $("#addWishlistModal").css('display', 'grid')
+        $("#closeAddwishlist").on('click', () => {
+            $("#addWishlistModal").removeAttr('style')
+        })
+    })
+    // ===================================================extnd sections==================================================
 
 
 
@@ -158,6 +166,149 @@ $('#approval').on('click', (e) => {
     $('#interview').css('color', "#64b5f6")
     $('#approval').css('color', "#282f39")
 })
+
+// ===============================================drag n drop==========================================
+// ====================================================================================================
+
+
+// ====================================search to wishlist=================================================
+
+
+$(".searchResaultCard").draggable({
+    helper: 'clone',
+    handler: '.searchResaultCard',
+    zIndex: 100,
+    start: function(event, ui) {
+        $(ui.helper).width($(".searchResaultCard").width())
+        if ($(window).width() < 1024) {
+            extdSectionAnimationVerticla("#wishlistSection")
+        }
+    },
+    drag: function(event, ui) {
+        $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(101, 181, 246, 0.35)')
+
+    },
+    stop: function(event, ui) {
+        // if ($(window).width() < 1024) {
+        //     $("#searchcontentrow").hide()
+        // }
+    }
+});
+
+$("#wishlistSectionBody").droppable({
+    accept: ".searchResaultCard",
+    tolerance: 'pointer',
+    over: function(event, ui) {
+        $("#wishlistSectionBody").css('background', 'radial-gradient(circle, rgba(255,255,255,1) 81%, rgba(218,235,253,1) 100%)')
+
+    },
+    out: function(event, ui) {
+        $("#wishlistSectionBody").css('background', 'none')
+
+    },
+
+    drop: function(event, ui) {
+        var newElement = $($(ui.draggable).clone());
+        $("#wishlistSectionBody").css('background', 'none')
+        $(newElement.children()).removeAttr("style")
+        newElement.removeClass('searchResaultCard')
+        newElement.removeClass().addClass('wishlistCard')
+        $("#wishlistSectionBody").append(newElement)
+            // var data = {
+            //         id: $(newele).find(".save").attr("data-id"),
+            //         title: $(newele).find(".cardtitleanchor").text().trim(),
+            //         organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
+            //         location: $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
+            //         description: $(newele).find(".description").not(".fa-tasks").text().trim(),
+            //         url: $(newele).find(".cardtitleanchor").attr("href"),
+            //         status: "saved"
+            //     }
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/mainpage/save",
+            //     data: data
+            // }).then(function(res) {
+            //     console.log(res)
+            //     if (res == "saved already") {
+            //         alert("this job is already saved")
+            //     } else {
+            //         $("#savedjobscontainer").append(res)
+            //         showmoreinfo()
+            //         draganddrop()
+            //         deleteitems()
+            //     }
+            // })
+    }
+
+});
+
+// =======================================wishlist to application ===============================================
+$(".wishlistCard").draggable({
+    helper: 'clone',
+    handler: '.wishlistCard',
+    zIndex: 100,
+    start: function(event, ui) {
+        $(ui.helper).width($(".wishlistCard").width())
+        if ($(window).width() < 1024) {
+            extdSectionAnimationVerticla("#applicationProgressSection")
+        }
+    },
+    drag: function(event, ui) {
+        $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(101, 181, 246, 0.35)')
+
+    },
+    stop: function(event, ui) {
+        // if ($(window).width() < 1024) {
+        //     $("#searchcontentrow").hide()
+        // }
+    }
+});
+
+$("#applicationBody").droppable({
+    accept: ".wishlistCard",
+    tolerance: 'pointer',
+    over: function(event, ui) {
+        $("#applicationBody").css('background', 'radial-gradient(circle, rgba(255,255,255,1) 70%, rgba(218,235,253,1) 100%)')
+
+    },
+    out: function(event, ui) {
+        $("#applicationBody").css('background', 'none')
+
+    },
+
+    drop: function(event, ui) {
+        var newElement = $($(ui.draggable).clone());
+        $("#applicationBody").css('background', 'none')
+        $(newElement.children()).removeAttr("style")
+        newElement.removeClass().addClass('applicationCard')
+        $("#applicationBody").append(newElement)
+            // var data = {
+            //         id: $(newele).find(".save").attr("data-id"),
+            //         title: $(newele).find(".cardtitleanchor").text().trim(),
+            //         organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
+            //         location: $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
+            //         description: $(newele).find(".description").not(".fa-tasks").text().trim(),
+            //         url: $(newele).find(".cardtitleanchor").attr("href"),
+            //         status: "saved"
+            //     }
+            // $.ajax({
+            //     type: "POST",
+            //     url: "/mainpage/save",
+            //     data: data
+            // }).then(function(res) {
+            //     console.log(res)
+            //     if (res == "saved already") {
+            //         alert("this job is already saved")
+            //     } else {
+            //         $("#savedjobscontainer").append(res)
+            //         showmoreinfo()
+            //         draganddrop()
+            //         deleteitems()
+            //     }
+            // })
+    }
+
+});
 
 
 
