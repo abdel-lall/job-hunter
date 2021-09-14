@@ -311,6 +311,40 @@ $("#applicationBody").droppable({
 });
 
 
+// ===================================================search=======================================================
+
+
+$("#searchbtn").on('click', function(e) {
+    e.preventDefault();
+    var data = {
+        keyword: $("#searchInputKW").val().trim(),
+        location: $("#searchInputLocation").val().trim(),
+        page: 0,
+
+    }
+    if (!data.keyword) {
+        $("#searchInputKW").addClass('emptyfield')
+    } else if (!data.location) {
+        $("#searchInputLocation").addClass('emptyfield')
+    } else {
+        $("#searchInputKW").removeClass()
+        $("#searchInputLocation").removeClass()
+        console.log(data)
+        $("#loading").css('display', 'grid')
+        $.ajax({
+            url: "/home/search",
+            type: "POST",
+            data: data,
+            crossDomain: true,
+            success(res) {
+                $("#loading").removeAttr('style')
+                $("#searchSectionBody").append(res)
+                showMoreSearchResault(data)
+            }
+        })
+    }
+})
+
 
 function extdSectionAnimationVerticla(section) {
     console.log(section)
@@ -360,4 +394,20 @@ function compressSectionAmnimation(section, btn) {
     }, { duration: 980, queue: false });
     $(btn).empty()
     $(btn).html('<i class="fas fa-expand-alt">')
+}
+
+function showMoreSearchResault(data) {
+    $('#showMore').on("click", function() {
+        data.page = data.page + 10
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/search/showmore",
+            data: data
+        }).then(function(res) {
+            $(".showMoreCard").remove()
+            $("#searchSectionBody").append(res)
+            showMoreSearchResault(data)
+
+        })
+    })
 }

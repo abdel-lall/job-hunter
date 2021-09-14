@@ -1,18 +1,21 @@
 {{#if cardarr}}
 
 {{#each cardarr}}
- <div class="searchResaultCard" data-id={{data.id}}>
-    <a href={{data.url}} class="SRCpositinTitle">{{data.title}}</a>
-    <div class="SRCcompanyName"><i class="far fa-building buidingIcon"></i>{{data.organisation}}</div>
-    <div class="SRCpositionLocation"><i class="fas fa-map-marker-alt mapmarkerIcon"></i>{{data.location}}</div>
+ <div class="searchResaultCard" data-id={{id}}>
+    <a href={{url}} class="SRCpositinTitle" target="_blank">{{title}}</a>
+    <div class="SRCcompanyName"><i class="far fa-building buidingIcon"></i>{{organisation}}</div>
+    <div class="SRCpositionLocation"><i class="fas fa-map-marker-alt mapmarkerIcon"></i>{{location}}</div>
     <div class="SRCpositionDescription">
-        {{data.description}}
+        {{description}}
     </div>
-    <button class="SRCnext" data-id={{data.id}}><i class="fas fa-arrow-right"></i></button>
+    <button class="SRCnext" data-id={{id}}><i class="fas fa-arrow-right"></i></button>
 </div>
 
 
 {{/each}}
+<div class="showMoreCard">
+    <button id="showMore" ><i class="fas fa-arrow-down"></i></button>
+</div>
 
 {{else}}
         <p class="noresaultfnound">No resaults found</p>
