@@ -1,11 +1,14 @@
 <div class="interviewCard" data-id={{data.id}}>
-    <a href={{data.url}} class="IpositinTitle">{{data.title}}</a>
+    <a href={{data.url}} class="IpositinTitle" target="_blank">{{data.title}}</a>
     <div class="IcompanyName"><i class="far fa-building buidingIcon"></i>{{data.organisation}}</div>
     <div class="IpositionLocation"><i class="fas fa-map-marker-alt mapmarkerIcon"></i>{{data.location}}</div>
     <div class="IpositionDescription">
         {{data.description}}
     </div>
-    <button class="Inext" data-id={{data.id}}><i class="fas fa-arrow-right"></i></button>
+    <div class="IdeleteNextDiv">
+        <button class="Idelete" data-id={{data.id}}><i class="far fa-trash-alt"></i></button>
+        <button class="Inext" data-id={{data.id}}><i class="fas fa-arrow-right"></i></button>
+    </div>
 </div>
 
            

@@ -59,36 +59,33 @@ module.exports = function(app) {
             }
         });
     });
-    app.get("/home", function(req, res) {
-        // app.get("/mainpage", checkAuth, function(req, res)
-        // var user = req.user
-        // var datasaved = []
-        // var datainterview = []
-        // var dataapplication = []
-        // var dataacceptence = []
-        // db.savedjob.findAll({ where: { userId: req.user.id } }).then(function(response) {
+    app.get("/home", checkAuth, function(req, res) {
+        var user = req.user
+        var dataWishlist = []
+        var dataInterview = []
+        var dataApplication = []
+        var dataApproval = []
+        db.savedjob.findAll({ where: { userId: req.user.id } }).then(function(response) {
 
-        //     response.forEach(function(ele, i) {
-        //         if (ele.status == "saved") {
-        //             datasaved.push(ele)
-        //         }
-        //         if (ele.status == "application") {
-        //             dataapplication.push(ele)
-        //         }
-        //         if (ele.status == "interview") {
-        //             datainterview.push(ele)
-        //         }
-        //         if (ele.status == "acceptence") {
-        //             dataacceptence.push(ele)
-        //         }
+            response.forEach(function(ele, i) {
+                if (ele.status == "wishlist") {
+                    dataWishlist.push(ele.dataValues)
+                }
+                if (ele.status == "application") {
+                    dataApplication.push(ele.dataValues)
+                }
+                if (ele.status == "interview") {
+                    dataInterview.push(ele.dataValues)
+                }
+                if (ele.status == "approval") {
+                    dataApproval.push(ele.dataValues)
+                }
 
-        //     })
+            })
 
-        //     res.render("mainpage", { datasaved, datainterview, dataacceptence, dataapplication, user });
-        // })
-
-        res.render("home");
-    });
+            res.render("home", { dataWishlist, dataInterview, dataApplication, dataApproval, user });
+        })
+    })
 
     app.post("/signup", function(req, res) {
         var { name, email, password, password2 } = req.body;
@@ -157,7 +154,7 @@ module.exports = function(app) {
                     }
 
                     $($(element).find(".job-snippet >ul >li")).each(function(i, element) {
-                        var line = $(element).html()
+                        var line = $(element).html().replace(/(<([^>]+)>)/ig, "")
                         data.description.push(line)
                     })
                     cardarr.push(data)
@@ -168,126 +165,84 @@ module.exports = function(app) {
         }, (error) => console.log(err));
 
     });
-    app.post("/mainpage/search/showmore", function(req, res, next) {
-            var { location, keyword, page } = req.body;
-            axios({
-                method: "get",
-                url: "https://www.indeed.com/jobs?q=" + keyword + "&l=" + location + "&start=" + page,
-            }).then((response) => {
-                if (response.status === 200) {
-                    const html = response.data;
-                    const $ = cheerio.load(html);
-                    var cardarr = []
+    app.post("/home/search/showmore", function(req, res, next) {
+        var { location, keyword, page } = req.body;
+        axios({
+            method: "get",
+            url: "https://www.indeed.com/jobs?q=" + keyword + "&l=" + location + "&start=" + page,
+        }).then((response) => {
+            if (response.status === 200) {
+                const html = response.data;
+                const $ = cheerio.load(html);
+                var cardarr = []
 
 
-                    $(".tapItem.fs-unmask").each(function(i, element) {
+                $(".tapItem.fs-unmask").each(function(i, element) {
 
 
-                        var data = {
-                            id: $(element).attr("id"),
-                            title: $(element).find(".jobTitle >span").text(),
-                            url: `https://www.indeed.com${$(element).attr("href")}`,
-                            organisation: $(element).find(".companyName").text() ? $(element).find(".companyName").text() : $(element).find(".companyName >a").text(),
-                            location: $(element).find(".companyLocation").text(),
-                            description: []
-                        }
+                    var data = {
+                        id: $(element).attr("id"),
+                        title: $(element).find(".jobTitle >span").text(),
+                        url: `https://www.indeed.com${$(element).attr("href")}`,
+                        organisation: $(element).find(".companyName").text() ? $(element).find(".companyName").text() : $(element).find(".companyName >a").text(),
+                        location: $(element).find(".companyLocation").text(),
+                        description: []
+                    }
 
-                        $($(element).find(".job-snippet >ul >li")).each(function(i, element) {
-                            var line = $(element).html()
-                            data.description.push(line)
-                        })
-                        cardarr.push(data)
+                    $($(element).find(".job-snippet >ul >li")).each(function(i, element) {
+                        var line = $(element).html()
+                        data.description.push(line)
                     })
+                    cardarr.push(data)
+                })
 
-                    res.render("searchResaultCard", { layout: false, cardarr })
-                }
-            }, (error) => console.log(error));
+                res.render("searchResaultCard", { layout: false, cardarr })
+            }
+        }, (error) => console.log(error));
 
+    })
+    app.post("/home/save", function(req, res, next) {
+        var { id, title, organisation, location, description, url, status } = req.body
+        db.savedjob.count({ where: { id: id, userId: req.user.id, status: status } }).then(count => {
+            console.log(count)
+            if (count != 0) {
+                res.send("saved already");
+            } else {
+                db.savedjob
+                    .create({
+                        id: id.toString(),
+                        title,
+                        employer: organisation,
+                        location,
+                        description,
+                        url,
+                        status: status,
+                        userId: req.user.id
+                    })
+                    .then(function(jobs) {
+                        var data = {
+                            id,
+                            title,
+                            organisation,
+                            location,
+                            description,
+                            url,
+                            status,
+                        }
+                        if (status == "wishlist") {
+                            res.render("wishlistCard", { data });
+                        } else if (status == "application") {
+                            res.render("applicationCard", { data });
+                        } else if (status == "interview") {
+                            res.render("interviewCard", { data });
+                        } else if (status == "approval") {
+                            res.render("approvalCard", { data });
+                        }
+                    });
+            }
         })
-        // app.post("/mainpage/save", function(req, res, next) {
-        //     var { id, title, organisation, location, description, url, status } = req.body
 
-    //     if (status == "application") {
-
-    //         db.savedjob.count({ where: { title: title, userId: req.user.id, status: ["application", "interview", "acceptence"] } }).then(count => {
-    //             console.log(count)
-    //             if (count != 0) {
-    //                 res.send("saved already");
-    //             } else {
-    //                 db.savedjob
-    //                     .create({
-    //                         id: id.toString(),
-    //                         title,
-    //                         employer: organisation,
-    //                         location,
-    //                         description,
-    //                         url,
-    //                         status: status,
-    //                         userId: req.user.id
-    //                     })
-    //                     .then(function(jobs) {
-    //                         var data = {
-    //                             id,
-    //                             title,
-    //                             organisation,
-    //                             location,
-    //                             description,
-    //                             url,
-    //                             status,
-    //                         }
-    //                         if (status == "saved") {
-    //                             res.render("savejob", { data });
-    //                         } else if (status == "application") {
-    //                             res.render("applicationjob", { data });
-    //                         } else if (status == "interview") {
-    //                             res.render("interviewjob", { data });
-    //                         } else if (status == "acceptence") {
-    //                             res.render("acceptencejob", { data });
-    //                         }
-    //                     });
-    //             }
-    //         })
-    //     } else {
-    //         db.savedjob.count({ where: { id: id, userId: req.user.id, status: status } }).then(count => {
-    //             console.log(count)
-    //             if (count != 0) {
-    //                 res.send("saved already");
-    //             } else {
-    //                 db.savedjob
-    //                     .create({
-    //                         id: id.toString(),
-    //                         title,
-    //                         employer: organisation,
-    //                         location,
-    //                         description,
-    //                         url,
-    //                         status: status,
-    //                         userId: req.user.id
-    //                     })
-    //                     .then(function(jobs) {
-    //                         var data = {
-    //                             id,
-    //                             title,
-    //                             organisation,
-    //                             location,
-    //                             description,
-    //                             url,
-    //                             status,
-    //                         }
-    //                         if (status == "saved") {
-    //                             res.render("savejob", { data });
-    //                         } else if (status == "application") {
-    //                             res.render("applicationjob", { data });
-    //                         } else if (status == "interview") {
-    //                             res.render("interviewjob", { data });
-    //                         } else if (status == "acceptence") {
-    //                             res.render("acceptencejob", { data });
-    //                         }
-    //                     });
-    //             }
-    //         })
-    //     }
-    // });
+    });
     // app.post("/mainpage/editimage", function(req, res, next) {
 
     //     var directory = "./public/uploads/images/"
@@ -494,19 +449,19 @@ module.exports = function(app) {
     //         });
     //     });
     // });
-    // app.delete("/mainpage/delete/:id", function(req, res, next) {
+    app.delete("/home/delete/:id", function(req, res, next) {
 
-    //     db.savedjob
-    //         .destroy({
-    //             where: {
-    //                 id: req.params.id,
-    //                 userId: req.user.id
-    //             }
-    //         })
-    //         .then(function(data) {
-    //             res.send("Job deleted");
-    //         });
-    // });
+        db.savedjob
+            .destroy({
+                where: {
+                    id: req.params.id,
+                    userId: req.user.id
+                }
+            })
+            .then(function(data) {
+                res.send("Job deleted");
+            });
+    });
 
     // Render 404 page for any unmatched routes
     app.get("*", function(req, res) {

@@ -227,6 +227,14 @@
         border-radius: 5vh;
     }
     
+    #AWpositionName:focus-visible,
+    #AWurl:focus-visible,
+    #AWcompanyName:focus-visible,
+    #AWjobLocation:focus-visible,
+    #AWjobdescription:focus-visible {
+        outline: none;
+    }
+    
     #SubmitWishlist {
         border: none;
         background-color: #64b5f6;
@@ -840,11 +848,30 @@
         outline: 1px solid white;
     }
     
+    .WdeleteNextDiv,
+    .AdeleteNextDiv,
+    .IdeleteNextDiv,
+    .APdeleteNextDiv {
+        display: grid;
+        grid-template-columns: 1fr auto;
+    }
+    
+    .WCdelete,
+    .Adelete,
+    .Idelete,
+    .APdelete {
+        margin-right: 1.5vh;
+    }
+    
     .SRCnext,
     .WCnext,
     .Anext,
     .Inext,
-    .APnext {
+    .APnext,
+    .WCdelete,
+    .Adelete,
+    .Idelete,
+    .APdelete {
         width: 14vh;
         height: 5vh;
         border-radius: 5vh;
@@ -870,6 +897,10 @@
     
     .SRCnext:hover,
     .WCnext:hover,
+    .WCdelete:hover,
+    .Adelete:hover,
+    .Idelete:hover,
+    .APdelete:hover,
     .Anext:hover,
     .Inext:hover,
     .APnext:hover,

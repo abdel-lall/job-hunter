@@ -1,9 +1,13 @@
 <div class="wishlistCard" data-id={{data.id}}>
-    <a href={{data.url}} class="WCpositinTitle">{{data.title}}</a>
+    <a href={{data.url}} class="WCpositinTitle" target="_blank">{{data.title}}</a>
     <div class="WCcompanyName"><i class="far fa-building buidingIcon"></i>{{data.organisation}}</div>
     <div class="WCpositionLocation"><i class="fas fa-map-marker-alt mapmarkerIcon"></i>{{data.location}}</div>
     <div class="WCpositionDescription">
         {{data.description}}
     </div>
-    <button class="WCnext" data-id={{data.id}}><i class="fas fa-arrow-right"></i></button>
+    <div class="WdeleteNextDiv">
+        <button class="WCdelete" data-id={{data.id}}><i class="far fa-trash-alt"></i></button>
+        <button class="WCnext" data-id={{data.id}}><i class="fas fa-arrow-right"></i></button>
+    </div>
+    
 </div>
