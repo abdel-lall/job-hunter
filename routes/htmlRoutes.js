@@ -243,60 +243,54 @@ module.exports = function(app) {
         })
 
     });
-    // app.post("/mainpage/editimage", function(req, res, next) {
+    app.post("/mainpage/editimage", function(req, res, next) {
 
-    //     var directory = "./public/uploads/images/"
-    //     fs.readdir(directory, function(err, files) {
-    //         var fileexist = false;
-    //         var oldfilename;
-    //         files.forEach(function(ele) {
-    //             var filename = ele.split(".")
-    //             if (filename[0] == req.user.id) {
-    //                 oldfilename = ele;
-    //                 fileexist = true;
-    //             }
+        var directory = "./public/uploads/images/"
+        fs.readdir(directory, function(err, files) {
+            var fileexist = false;
+            var oldfilename;
+            files.forEach(function(ele) {
+                var filename = ele.split(".")
+                if (filename[0] == req.user.id) {
+                    oldfilename = ele;
+                    fileexist = true;
+                }
 
-    //         })
-    //         if (fileexist) {
-    //             fs.unlink(directory + oldfilename, function(err) {
-    //                 if (err) { console.log(err) } else {
-    //                     uploadimage(req, res, function(err) {
-    //                         if (err) {
-    //                             console.log(err)
-    //                         } else {
-    //                             db.user
-    //                                 .update({ image: "uploads/images/" + req.file.filename }, { where: { id: req.user.id } })
-    //                                 .then(function(update) {
-    //                                     res.send(req.file.filename)
-    //                                 });
-
-
-    //                         }
-    //                     })
-    //                 }
-    //             })
-    //         } else {
-    //             uploadimage(req, res, function(err) {
-    //                 if (err) {
-    //                     console.log(err)
-    //                 } else {
-    //                     db.user
-    //                         .update({ image: "uploads/images/" + req.file.filename }, { where: { id: req.user.id } })
-    //                         .then(function(update) {
-    //                             res.send(req.file.filename)
-    //                         });
-
-    //                 }
-    //             })
-    //         }
+            })
+            if (fileexist) {
+                fs.unlink(directory + oldfilename, function(err) {
+                    if (err) { console.log(err) } else {
+                        uploadimage(req, res, function(err) {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                db.user
+                                    .update({ image: "uploads/images/" + req.file.filename }, { where: { id: req.user.id } })
+                                    .then(function(update) {
+                                        res.send(req.file.filename)
+                                    });
 
 
+                            }
+                        })
+                    }
+                })
+            } else {
+                uploadimage(req, res, function(err) {
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        db.user
+                            .update({ image: "uploads/images/" + req.file.filename }, { where: { id: req.user.id } })
+                            .then(function(update) {
+                                res.send(req.file.filename)
+                            });
+                    }
+                })
+            }
+        })
+    });
 
-
-    //     })
-
-
-    // });
     // app.post("/mainpage/editresume", function(req, res, next) {
 
     //     var directory = "./public/uploads/resumes/"
@@ -349,69 +343,69 @@ module.exports = function(app) {
 
 
     // });
-    // app.post("/mainpage/edit", function(req, res, next) {
-    //     if (req.body.edit == "username") {
-    //         db.user
-    //             .update({ name: req.body.value }, { where: { id: req.user.id } })
-    //             .then(function(update) {
-    //                 res.send("username changed")
-    //             });
-    //     }
-    //     if (req.body.edit == "email") {
-    //         db.user
-    //             .update({ email: req.body.value }, { where: { id: req.user.id } })
-    //             .then(function(update) {
-    //                 res.send("email changed")
-    //             });
-    //     }
-    //     if (req.body.edit == "password") {
-    //         var newpass = req.body.value
-    //         bcrypt.genSalt(10, function(err, salt) {
-    //             bcrypt.hash(newpass, salt, function(err, hash) {
-    //                 if (err) throw err;
-    //                 var hashedPass = hash;
-    //                 db.user
-    //                     .update({ password: hashedPass }, { where: { id: req.user.id } })
-    //                     .then(function(update) {
-    //                         res.send("password changed")
-    //                     });
-    //             });
-    //         });
-    //     }
-    //     if (req.body.edit == "linkedin") {
-    //         db.user
-    //             .update({ linkedin: req.body.value }, { where: { id: req.user.id } })
-    //             .then(function(update) {
-    //                 res.send("linkedin changed")
-    //             });
-    //     }
-    //     if (req.body.edit == "github") {
-    //         db.user
-    //             .update({ github: req.body.value }, { where: { id: req.user.id } })
-    //             .then(function(update) {
-    //                 res.send("github changed")
-    //             });
-    //     }
-    //     if (req.body.edit == "portfolio") {
-    //         db.user
-    //             .update({ portfolio: req.body.value }, { where: { id: req.user.id } })
-    //             .then(function(update) {
-    //                 res.send("portfolio changed")
-    //             });
-    //     }
-    // })
-    // app.post("/mainpage/setreminder", function(req, res, next) {
-    //     console.log(req.body)
-    //     var time = moment(req.body.time).format('MMMM Do YYYY, h:mm a');
-    //     db.savedjob.update({ reminder: time }, {
-    //             where: {
-    //                 userId: req.user.id,
-    //                 id: req.body.id
-    //             }
-    //         })
-    //         .then(function(update) {
-    //             res.send(time)
-    //         });
+    app.post("/mainpage/edit", function(req, res, next) {
+            if (req.body.edit == "username") {
+                db.user
+                    .update({ name: req.body.value }, { where: { id: req.user.id } })
+                    .then(function(update) {
+                        res.send("username changed")
+                    });
+            }
+            if (req.body.edit == "email") {
+                db.user
+                    .update({ email: req.body.value }, { where: { id: req.user.id } })
+                    .then(function(update) {
+                        res.send("email changed")
+                    });
+            }
+            if (req.body.edit == "password") {
+                var newpass = req.body.value
+                bcrypt.genSalt(10, function(err, salt) {
+                    bcrypt.hash(newpass, salt, function(err, hash) {
+                        if (err) throw err;
+                        var hashedPass = hash;
+                        db.user
+                            .update({ password: hashedPass }, { where: { id: req.user.id } })
+                            .then(function(update) {
+                                res.send("password changed")
+                            });
+                    });
+                });
+            }
+            if (req.body.edit == "linkedin") {
+                db.user
+                    .update({ linkedin: req.body.value }, { where: { id: req.user.id } })
+                    .then(function(update) {
+                        res.send("linkedin changed")
+                    });
+            }
+            if (req.body.edit == "github") {
+                db.user
+                    .update({ github: req.body.value }, { where: { id: req.user.id } })
+                    .then(function(update) {
+                        res.send("github changed")
+                    });
+            }
+            if (req.body.edit == "website") {
+                db.user
+                    .update({ portfolio: req.body.value }, { where: { id: req.user.id } })
+                    .then(function(update) {
+                        res.send("website changed")
+                    });
+            }
+        })
+        // app.post("/mainpage/setreminder", function(req, res, next) {
+        //     console.log(req.body)
+        //     var time = moment(req.body.time).format('MMMM Do YYYY, h:mm a');
+        //     db.savedjob.update({ reminder: time }, {
+        //             where: {
+        //                 userId: req.user.id,
+        //                 id: req.body.id
+        //             }
+        //         })
+        //         .then(function(update) {
+        //             res.send(time)
+        //         });
 
     // })
     app.post("/passwordreset", function(req, res) {

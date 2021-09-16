@@ -10,10 +10,10 @@
     <div id="container">
         <div id="navbar">
             <img src="/images/logoJH.png" alt="" id="logo">
-            <img src="/images/unknown.jpg" alt="" id="profilePicture" data-display="hidden">
+            <img src={{user.image}} alt="" id="profilePicture" data-display="hidden">
             <div id="dropdownMenu">
-                <img src="/images/unknown.jpg" alt="" id="profilePictueDD">
-                <div id=usernameDD></div>
+                <img src={{user.image}} alt="" id="profilePictueDD">
+                <div id=usernameDD>{{user.name}}</div>
                 <button id="toolsDD">Tools</button>
                 <button id="settingsDD">Settings</button>
                 <a id="logoutDD" href="/logout">log Out</a>
@@ -164,29 +164,29 @@
                 <div id="linkedinInputLabel">
                     Linkedin
                 </div>
-                <a href='#' id="userLinkedin" target="_blank">my linkedin link</a>
+                <a href="{{user.linkedin}}" id="userLinkedin" target="_blank">{{user.linkedin}}</a>
                 <div id="linkedinInputDiv">
-                    <input type="text" name="" id="linkedinInput">
+                    <input type="text" name="" id="linkedinInput" placeholder="Enter linkedin address">
                     <button id="linkedinSubmit"><i class="far fa-edit"></i></button>
                 </div>
                 <div id="githubInputLabel">
                     </i> Github
                 </div>
 
-                <a href='#' id="userGithub" target="_blank">my github adress</a>
+                <a href='{{user.github}}' id="userGithub" target="_blank">{{user.github}}</a>
 
                 <div id="githubInputDiv">
-                    <input type="text" name="github" id="githubInput">
+                    <input type="text" name="github" id="githubInput" placeholder="Enter github address">
                     <button id="githubSubmit"><i class="far fa-edit"></i></button>
                 </div>
                 <div id="WebsiteInputLabel">
                     Website
                 </div>
 
-                <a href='#' id="userWebsite" target="_blank">www.lallouache.com</a>
+                <a href="{{user.portfolio}}" id="userWebsite" target="_blank">{{user.portfolio}}</a>
 
                 <div id="linkedinInputDiv">
-                    <input type="text" name="website" id="websiteInput">
+                    <input type="text" name="website" id="websiteInput" placeholder="Enter website address">
                     <button id="websiteSubmit"><i class="far fa-edit"></i></button>
                 </div>
                 <div id='resumeInputLabel'>
@@ -217,7 +217,7 @@
                     Profile Picture
                 </div>
 
-                <img src='/images/unknown.jpg' alt="userProfilepicture" id="userProfilepicture">
+                <img src={{user.image}} alt="userProfilepicture" id="userProfilepicture">
 
                 <form class="uploadImage" enctype="multipart/form-data" action="/mainpage/editimage" method="POST"
                     id="imageuploadform">
@@ -228,20 +228,20 @@
                     Username
                 </div>
                 <div id="userUsername">
-                    my user name
+                    {{user.name}}
                 </div>
                 <div id="usernameInputDiv">
-                    <input type="text" name="" id="settingsUsernameInput">
+                    <input type="text" name="" id="settingsUsernameInput" placeholder="Enter new username">
                     <button id="editUsername"><i class="far fa-edit"></i></button>
                 </div>
                 <div id="emailInputLabel">
                     Email
                 </div>
                 <div id="userEmail">
-                    mayemail@mail.com
+                    {{user.email}}
                 </div>
                 <div id="emailInputDiv">
-                    <input type="text" name="" id="settingsEmailInput">
+                    <input type="text" name="" id="settingsEmailInput" placeholder="Enter new email">
                     <button id="editemail"><i class="far fa-edit"></i></button>
                 </div>
                 <div id="usernameInputlabel">
@@ -251,7 +251,7 @@
                 <p id="msgsettingpsw"></p>
 
                 <div id="passwordInputDiv">
-                    <input type="text" name="" id="settingsPasswordInput">
+                    <input type="text" name="" id="settingsPasswordInput" placeholder="Enter new password">
                     <button id="editpassword"><i class="far fa-edit"></i></button>
                 </div>
             </div>

@@ -8,13 +8,15 @@ $("#profilePicture").on("click", function(e) {
         $("#profilePicture").attr("data-display", "visible")
         $("#toolsDD").on('click', function() {
             $("#toolsModal").css('display', 'grid')
+            settindEdits()
         })
         $("#settingsDD").on('click', function() {
             $("#settingModal").css('display', 'grid')
+            settindEdits()
         })
     }
     if (state == "visible") {
-        $("#dropdownMenu").hide()
+        $("#dropdownMenu").removeAttr('style')
         $("#profilePicture").attr("data-display", "hidden")
     }
 })
@@ -22,7 +24,7 @@ $("#profilePicture").on("click", function(e) {
 $(document).click(function() {
     var state = $("#profilePicture").attr("data-display")
     if (state == "visible") {
-        $("#dropdownMenu").hide()
+        $("#dropdownMenu").removeAttr('style')
         $("#profilePicture").attr("data-display", "hidden")
     }
 })
@@ -31,6 +33,7 @@ $("#closeTools").on("click", function() {
 })
 $("#closeSetting").on("click", function() {
     $("#settingModal").hide()
+
 })
 
 $("#addTowishlist").on('click', (e) => {
@@ -96,6 +99,7 @@ $("#addTowishlist").on('click', (e) => {
 
 dragNdrop()
 cardsEventListeners()
+settindEdits()
     // ===================================================extnd sections==================================================
 
 
@@ -554,5 +558,149 @@ function validateUrl(str) {
         return url
     } else {
         return "https://" + url
+    }
+}
+
+
+function settindEdits() {
+    $("#imagename").change(function() {
+
+        $("#imageuploadform").ajaxSubmit({
+            data: "image",
+            contentType: 'application/json',
+            success: function(response) {
+                console.log(response);
+                $("#profilePicture").attr("src", "uploads/images/" + response)
+                $("#profilePictueDD").attr("src", "uploads/images/" + response)
+                $("#userProfilepicture").attr("src", "uploads/images/" + response)
+
+            }
+        });
+        return false;
+    })
+
+
+    $("#editUsername").on('click', function(e) {
+        e.preventDefault()
+        var data = {
+            edit: "username",
+            value: $("#settingsUsernameInput").val()
+        }
+        if (!data.value) {
+            $("#settingsUsernameInput").addClass("emptyfield")
+        } else {
+            $("#settingsUsernameInput").removeClass("emptyfield")
+            ajaxForEdits(data)
+        }
+    })
+    $("#editemail").on('click', function(e) {
+        e.preventDefault()
+        var data = {
+            edit: "email",
+            value: $("#settingsEmailInput").val()
+        }
+        if (!data.value) {
+            $("#settingsEmailInput").addClass("emptyfield")
+        } else {
+            $("#settingsEmailInput").removeClass("emptyfield")
+            ajaxForEdits(data)
+        }
+    })
+    $("#editpassword").on('click', function(e) {
+        e.preventDefault()
+        var data = {
+            edit: "password",
+            value: $("#settingsPasswordInput").val()
+        }
+        if (!data.value) {
+            $("#settingsPasswordInput").addClass("emptyfield")
+        } else {
+            $("#settingsPasswordInput").removeClass("emptyfield")
+            ajaxForEdits(data)
+        }
+    })
+    $("#linkedinSubmit").on('click', function(e) {
+        e.preventDefault()
+        var data = {
+            edit: "linkedin",
+            value: validateUrl($("#linkedinInput").val())
+        }
+        if (!data.value) {
+            $("#linkedinInput").addClass("emptyfield")
+        } else {
+            $("#linkedinInput").removeClass("emptyfield")
+            ajaxForEdits(data)
+        }
+    })
+    $("#githubSubmit").on('click', function(e) {
+        e.preventDefault()
+        var data = {
+            edit: "github",
+            value: validateUrl($("#githubInput").val())
+        }
+        if (!data.value) {
+            $("#githubInput").addClass("emptyfield")
+        } else {
+            $("#githubInput").removeClass("emptyfield")
+            ajaxForEdits(data)
+        }
+    })
+    $("#websiteSubmit").on('click', function(e) {
+        e.preventDefault()
+        var data = {
+            edit: "website",
+            value: validateUrl($("#websiteInput").val())
+        }
+        if (!data.value) {
+            $("#websiteInput").addClass("emptyfield")
+        } else {
+            $("#websiteInput").removeClass("emptyfield")
+            ajaxForEdits(data)
+        }
+    })
+
+
+
+}
+
+function ajaxForEdits(data) {
+    if (data) {
+        $.ajax({
+            type: "POST",
+            url: "/mainpage/edit",
+            data: data
+        }).then(function(res) {
+            console.log(res)
+            if (data.edit == "username") {
+                $("#userUsername").text(data.value)
+                $("#usernameDD").text(data.value)
+
+            }
+            if (data.edit == "email") {
+                $("#userEmail").text(data.value)
+
+            }
+            if (data.edit == "password") {
+                $("#msgsettingpsw").text("password changed")
+                setTimeout(function() {
+                    $("#msgsettingpsw").text('')
+                }, 1000)
+            }
+            if (data.edit == "linkedin") {
+                $("#userLinkedin").attr("href", data.value)
+                $("#userLinkedin").html(data.value)
+
+            }
+            if (data.edit == "github") {
+                $("#userGithub").attr("href", data.value)
+                $("#userGithub").html(data.value)
+
+            }
+            if (data.edit == "website") {
+
+                $("#userWebsite").attr("href", data.value)
+                $("#userWebsite").html(data.value)
+            }
+        })
     }
 }
