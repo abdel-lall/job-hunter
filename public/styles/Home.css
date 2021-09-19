@@ -630,6 +630,7 @@
         padding-left: 2vh;
         font-family: mont;
         min-width: 7vh;
+        font-size: 1.6vh;
     }
     
     #searchInputLocation {
@@ -641,6 +642,7 @@
         font-family: mont;
         min-width: 7vh;
         border-left: 1px solid #aaa;
+        font-size: 1.6vh;
     }
     
     #searchInputKW:focus-visible,
@@ -749,7 +751,7 @@
     .wishlistCard,
     .applicationCard,
     .interviewCard,
-    .ApprovalCard {
+    .approvalCard {
         display: grid;
         grid-template-rows: repeat(5, minmax(5vh, auto));
         border-radius: 2vh;
@@ -758,6 +760,44 @@
         margin-top: 1vh;
         margin-bottom: 1vh;
         background-color: white;
+    }
+    
+    .interviewCard {
+        grid-template-rows: repeat(6, minmax(5vh, auto));
+    }
+    
+    .IinterviewTime {
+        display: grid;
+        grid-template-columns: 1fr 5vh;
+        padding: 1vh;
+    }
+    
+    .meeting-time {
+        color: #282f39;
+        height: 5vh;
+        border: 1px solid #64b5f6;
+        border-radius: 5vh 0vh 0vh 5vh;
+        border-right: none;
+        padding-left: 1.5vh;
+        padding-right: 1.5vh;
+    }
+    
+    .editDateTime {
+        background-color: transparent;
+        color: #282f39;
+        border: 1px solid #64b5f6;
+        border-radius: 0vh 5vh 5vh 0vh;
+        border-left: none;
+        font-size: medium;
+    }
+    
+    .editDateTime:hover {
+        color: #64b5f6;
+    }
+    
+    .editDateTime:focus-visible,
+    .meeting-time:focus-visible {
+        outline: none;
     }
     
     .showMoreCard {
@@ -856,6 +896,11 @@
     .APdeleteNextDiv {
         display: grid;
         grid-template-columns: 1fr auto;
+    }
+    
+    .APdeleteNextDiv {
+        display: grid;
+        grid-template-columns: 1fr;
     }
     
     .WCdelete,
@@ -989,5 +1034,42 @@
         #approvalBody {
             grid-column: 1/span 2;
             grid-row: 3/span 1;
+        }
+        .SRCpositinTitle,
+        .WCpositinTitle,
+        .ApositinTitle,
+        .IpositinTitle,
+        .APpositinTitle {
+            font-size: 1.8vh;
+        }
+        .SRCpositionDescription,
+        .WCpositionDescription,
+        .ApositionDescription,
+        .IpositionDescription,
+        .APpositionDescription {
+            font-size: 1.8vh;
+        }
+        .SRCcompanyName,
+        .SRCpositionLocation,
+        .WCcompanyName,
+        .WCpositionLocation,
+        .AcompanyName,
+        .ApositionLocation,
+        .IcompanyName,
+        .IpositionLocation,
+        .APcompanyName,
+        .APpositionLocation {
+            font-size: 1.8vh;
+        }
+        .SRCnext,
+        .WCnext,
+        .Anext,
+        .Inext,
+        .APnext,
+        .WCdelete,
+        .Adelete,
+        .Idelete,
+        .APdelete {
+            font-size: 1.8vh;
         }
     }

@@ -154,7 +154,7 @@ module.exports = function(app) {
                     }
 
                     $($(element).find(".job-snippet >ul >li")).each(function(i, element) {
-                        var line = $(element).html().replace(/(<([^>]+)>)/ig, "")
+                        var line = ($(element).html()).replace(/(<([^>]+)>)/ig, "")
                         data.description.push(line)
                     })
                     cardarr.push(data)
@@ -202,45 +202,97 @@ module.exports = function(app) {
 
     })
     app.post("/home/save", function(req, res, next) {
+
         var { id, title, organisation, location, description, url, status } = req.body
-        db.savedjob.count({ where: { id: id, userId: req.user.id, status: status } }).then(count => {
-            console.log(count)
-            if (count != 0) {
-                res.send("saved already");
-            } else {
-                db.savedjob
-                    .create({
-                        id: id.toString(),
+        if (status == "interview" || status == "approval") {
+
+            db.savedjob.update({ status: status }, { where: { userId: req.user.id, id: id } })
+                .then(resault => {
+                    var data = {
+                        id,
                         title,
-                        employer: organisation,
+                        organisation,
                         location,
                         description,
                         url,
-                        status: status,
-                        userId: req.user.id
-                    })
-                    .then(function(jobs) {
-                        var data = {
-                            id,
+                        status,
+                    }
+                    if (status == "interview") {
+                        res.render("interviewCard", { data });
+                    } else if (status == "approval") {
+                        res.render("approvalCard", { data });
+                    }
+                })
+        } else if (status == "application") {
+            var id = (id.toString()).concat('1')
+            db.savedjob.count({ where: { id: id, userId: req.user.id, status: ["application", "interview", "approval"] } })
+                .then(count => {
+                    console.log(count)
+                    if (count != 0) {
+                        res.send("saved already");
+                    } else {
+
+                        db.savedjob.create({
+                                id: id,
+                                title,
+                                employer: organisation,
+                                location,
+                                description,
+                                url,
+                                status: status,
+                                userId: req.user.id
+                            })
+                            .then(function(jobs) {
+                                var data = {
+                                    id,
+                                    title,
+                                    organisation,
+                                    location,
+                                    description,
+                                    url,
+                                    status,
+                                }
+
+                                res.render("applicationCard", { data });
+
+                            });
+                    }
+                })
+        } else if (status == "wishlist") {
+            db.savedjob.count({ where: { id: id, userId: req.user.id, status: status } }).then(count => {
+                console.log(count)
+                if (count != 0) {
+                    res.send("saved already");
+                } else {
+                    db.savedjob
+                        .create({
+                            id: id.toString(),
                             title,
-                            organisation,
+                            employer: organisation,
                             location,
                             description,
                             url,
-                            status,
-                        }
-                        if (status == "wishlist") {
+                            status: status,
+                            userId: req.user.id
+                        })
+                        .then(function(jobs) {
+                            var data = {
+                                id,
+                                title,
+                                organisation,
+                                location,
+                                description,
+                                url,
+                                status,
+                            }
                             res.render("wishlistCard", { data });
-                        } else if (status == "application") {
-                            res.render("applicationCard", { data });
-                        } else if (status == "interview") {
-                            res.render("interviewCard", { data });
-                        } else if (status == "approval") {
-                            res.render("approvalCard", { data });
-                        }
-                    });
-            }
-        })
+
+                        });
+                }
+            })
+        }
+
+
 
     });
     app.post("/mainpage/editimage", function(req, res, next) {
@@ -291,123 +343,123 @@ module.exports = function(app) {
         })
     });
 
-    // app.post("/mainpage/editresume", function(req, res, next) {
+    app.post("/mainpage/editresume", function(req, res, next) {
 
-    //     var directory = "./public/uploads/resumes/"
-    //     fs.readdir(directory, function(err, files) {
-    //         var fileexist = false;
-    //         var oldfilename;
-    //         files.forEach(function(ele) {
-    //             var filename = ele.split(".")
-    //             if (filename[0] == req.user.id) {
-    //                 oldfilename = ele;
-    //                 fileexist = true;
-    //             }
+        var directory = "./public/uploads/resumes/"
+        fs.readdir(directory, function(err, files) {
+            var fileexist = false;
+            var oldfilename;
+            files.forEach(function(ele) {
+                var filename = ele.split(".")
+                if (filename[0] == req.user.id) {
+                    oldfilename = ele;
+                    fileexist = true;
+                }
 
-    //         })
-    //         if (fileexist) {
-    //             fs.unlink(directory + oldfilename, function(err) {
-    //                 if (err) { console.log(err) } else {
-    //                     uploadresume(req, res, function(err) {
-    //                         if (err) {
-    //                             console.log(err)
-    //                         } else {
-    //                             db.user
-    //                                 .update({ resume: "uploads/resumes/" + req.file.filename }, { where: { id: req.user.id } })
-    //                                 .then(function(update) {
-    //                                     res.send(req.file.filename)
-    //                                 });
-    //                         }
-    //                     })
-    //                 }
-    //             })
-    //         } else {
-    //             uploadresume(req, res, function(err) {
-    //                 if (err) {
-    //                     console.log(err)
-    //                 } else {
-    //                     db.user
-    //                         .update({ resume: "uploads/resumes/" + req.file.filename }, { where: { id: req.user.id } })
-    //                         .then(function(update) {
-    //                             res.send(req.file.filename)
-    //                         });
-
-    //                 }
-    //             })
-    //         }
-
-
-
-
-    //     })
-
-
-    // });
-    app.post("/mainpage/edit", function(req, res, next) {
-            if (req.body.edit == "username") {
-                db.user
-                    .update({ name: req.body.value }, { where: { id: req.user.id } })
-                    .then(function(update) {
-                        res.send("username changed")
-                    });
-            }
-            if (req.body.edit == "email") {
-                db.user
-                    .update({ email: req.body.value }, { where: { id: req.user.id } })
-                    .then(function(update) {
-                        res.send("email changed")
-                    });
-            }
-            if (req.body.edit == "password") {
-                var newpass = req.body.value
-                bcrypt.genSalt(10, function(err, salt) {
-                    bcrypt.hash(newpass, salt, function(err, hash) {
-                        if (err) throw err;
-                        var hashedPass = hash;
+            })
+            if (fileexist) {
+                fs.unlink(directory + oldfilename, function(err) {
+                    if (err) { console.log(err) } else {
+                        uploadresume(req, res, function(err) {
+                            if (err) {
+                                console.log(err)
+                            } else {
+                                db.user
+                                    .update({ resume: "uploads/resumes/" + req.file.filename }, { where: { id: req.user.id } })
+                                    .then(function(update) {
+                                        res.send(req.file.filename)
+                                    });
+                            }
+                        })
+                    }
+                })
+            } else {
+                uploadresume(req, res, function(err) {
+                    if (err) {
+                        console.log(err)
+                    } else {
                         db.user
-                            .update({ password: hashedPass }, { where: { id: req.user.id } })
+                            .update({ resume: "uploads/resumes/" + req.file.filename }, { where: { id: req.user.id } })
                             .then(function(update) {
-                                res.send("password changed")
+                                res.send(req.file.filename)
                             });
-                    });
-                });
-            }
-            if (req.body.edit == "linkedin") {
-                db.user
-                    .update({ linkedin: req.body.value }, { where: { id: req.user.id } })
-                    .then(function(update) {
-                        res.send("linkedin changed")
-                    });
-            }
-            if (req.body.edit == "github") {
-                db.user
-                    .update({ github: req.body.value }, { where: { id: req.user.id } })
-                    .then(function(update) {
-                        res.send("github changed")
-                    });
-            }
-            if (req.body.edit == "website") {
-                db.user
-                    .update({ portfolio: req.body.value }, { where: { id: req.user.id } })
-                    .then(function(update) {
-                        res.send("website changed")
-                    });
-            }
-        })
-        // app.post("/mainpage/setreminder", function(req, res, next) {
-        //     console.log(req.body)
-        //     var time = moment(req.body.time).format('MMMM Do YYYY, h:mm a');
-        //     db.savedjob.update({ reminder: time }, {
-        //             where: {
-        //                 userId: req.user.id,
-        //                 id: req.body.id
-        //             }
-        //         })
-        //         .then(function(update) {
-        //             res.send(time)
-        //         });
 
-    // })
+                    }
+                })
+            }
+
+
+
+
+        })
+
+
+    });
+    app.post("/mainpage/edit", function(req, res, next) {
+        if (req.body.edit == "username") {
+            db.user
+                .update({ name: req.body.value }, { where: { id: req.user.id } })
+                .then(function(update) {
+                    res.send("username changed")
+                });
+        }
+        if (req.body.edit == "email") {
+            db.user
+                .update({ email: req.body.value }, { where: { id: req.user.id } })
+                .then(function(update) {
+                    res.send("email changed")
+                });
+        }
+        if (req.body.edit == "password") {
+            var newpass = req.body.value
+            bcrypt.genSalt(10, function(err, salt) {
+                bcrypt.hash(newpass, salt, function(err, hash) {
+                    if (err) throw err;
+                    var hashedPass = hash;
+                    db.user
+                        .update({ password: hashedPass }, { where: { id: req.user.id } })
+                        .then(function(update) {
+                            res.send("password changed")
+                        });
+                });
+            });
+        }
+        if (req.body.edit == "linkedin") {
+            db.user
+                .update({ linkedin: req.body.value }, { where: { id: req.user.id } })
+                .then(function(update) {
+                    res.send("linkedin changed")
+                });
+        }
+        if (req.body.edit == "github") {
+            db.user
+                .update({ github: req.body.value }, { where: { id: req.user.id } })
+                .then(function(update) {
+                    res.send("github changed")
+                });
+        }
+        if (req.body.edit == "website") {
+            db.user
+                .update({ portfolio: req.body.value }, { where: { id: req.user.id } })
+                .then(function(update) {
+                    res.send("website changed")
+                });
+        }
+    })
+    app.post("/mainpage/setInterviewTime", function(req, res, next) {
+        console.log(req.body)
+            // var time = moment(req.body.time).format('MMMM Do YYYY, h:mm a');
+        db.savedjob.update({ reminder: req.body.time }, {
+                where: {
+                    userId: req.user.id,
+                    id: req.body.id
+                }
+            })
+            .then(function(update) {
+                res.send(req.body.time)
+            });
+
+    })
     app.post("/passwordreset", function(req, res) {
         var { email } = req.body;
 
@@ -429,20 +481,20 @@ module.exports = function(app) {
             }
         });
     });
-    // app.post("/password/:id", function(req, res) {
-    //     var newpass = req.body.password;
-    //     bcrypt.genSalt(10, function(err, salt) {
-    //         bcrypt.hash(newpass, salt, function(err, hash) {
-    //             if (err) throw err;
-    //             hashedPass = hash;
-    //             db.user
-    //                 .update({ password: hashedPass }, { where: { password: req.params.id } })
-    //                 .then(function(update) {
-    //                     res.sendStatus(200);
-    //                 });
-    //         });
-    //     });
-    // });
+    app.post("/password/:id", function(req, res) {
+        var newpass = req.body.password;
+        bcrypt.genSalt(10, function(err, salt) {
+            bcrypt.hash(newpass, salt, function(err, hash) {
+                if (err) throw err;
+                hashedPass = hash;
+                db.user
+                    .update({ password: hashedPass }, { where: { password: req.params.id } })
+                    .then(function(update) {
+                        res.sendStatus(200);
+                    });
+            });
+        });
+    });
     app.delete("/home/delete/:id", function(req, res, next) {
 
         db.savedjob

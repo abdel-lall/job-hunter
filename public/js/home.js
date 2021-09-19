@@ -1,3 +1,9 @@
+window.onload = function() {
+    dragNdrop()
+    settindEdits()
+}
+
+
 // ==================================================drop down menu ======================================
 $("#profilePicture").on("click", function(e) {
     e.preventDefault()
@@ -6,11 +12,15 @@ $("#profilePicture").on("click", function(e) {
     if (state == "hidden") {
         $("#dropdownMenu").css("display", "grid")
         $("#profilePicture").attr("data-display", "visible")
-        $("#toolsDD").on('click', function() {
+        $("#toolsDD").on('click', function(e) {
+            e.preventDefault()
+            e.stopPropagation()
             $("#toolsModal").css('display', 'grid')
             settindEdits()
         })
-        $("#settingsDD").on('click', function() {
+        $("#settingsDD").on('click', function(e) {
+            e.preventDefault()
+            e.stopPropagation()
             $("#settingModal").css('display', 'grid')
             settindEdits()
         })
@@ -38,13 +48,14 @@ $("#closeSetting").on("click", function() {
 
 $("#addTowishlist").on('click', (e) => {
     e.preventDefault()
+    e.stopPropagation()
     $("#addWishlistModal").css('display', 'grid')
     $("#closeAddwishlist").on('click', () => {
         $("#addWishlistModal").removeAttr('style')
     })
-    $("#SubmitWishlist").on('click', () => {
-
-
+    $("#SubmitWishlist").on('click', (e) => {
+        e.preventDefault()
+        e.stopPropagation()
         var data = {
             id: Date.now(),
             title: $('#AWpositionName').val().trim(),
@@ -54,7 +65,6 @@ $("#addTowishlist").on('click', (e) => {
             url: validateUrl($('#AWurl').val().trim()),
             status: "wishlist"
         }
-
         if (!data.title) {
             $('#AWpositionName').addClass('emptyfield')
         } else if (!data.organisation) {
@@ -66,6 +76,11 @@ $("#addTowishlist").on('click', (e) => {
         } else if (!data.url) {
             $('#AWurl').addClass('emptyfield')
         } else {
+            $('#AWpositionName').val('')
+            $("#AWcompanyName").val('')
+            $('#AWjobLocation').val('')
+            $('#AWjobdescription').val('')
+            $('#AWurl').val('')
             $('#AWpositionName').removeAttr('class')
             $("#AWcompanyName").removeAttr('class')
             $('#AWjobLocation').removeAttr('class')
@@ -83,7 +98,6 @@ $("#addTowishlist").on('click', (e) => {
                         $("#loading").removeAttr('style')
                         $("#wishlistSectionBody").append(res)
                         dragNdrop()
-                        cardsEventListeners()
                         $("#addWishlistModal").removeAttr('style')
                     }
                 }
@@ -97,10 +111,8 @@ $("#addTowishlist").on('click', (e) => {
 
 })
 
-dragNdrop()
-cardsEventListeners()
-settindEdits()
-    // ===================================================extnd sections==================================================
+
+// ===================================================extnd sections==================================================
 
 
 
@@ -159,31 +171,16 @@ $(window).resize(function() {
 // ===============================================application progress btns=================================
 $('#application').on('click', (e) => {
     e.preventDefault()
-    $("#applicationBody").css('display', 'grid')
-    $("#interviewBody").css('display', 'none')
-    $("#approvalBody").css('display', 'none')
-    $('#application').css('color', "#282f39")
-    $('#interview').css('color', "#64b5f6")
-    $('#approval').css('color', "#64b5f6")
+    progressNavbar('application')
 
 })
 $('#interview').on('click', (e) => {
     e.preventDefault()
-    $("#applicationBody").css('display', 'none')
-    $("#interviewBody").css('display', 'grid')
-    $("#approvalBody").css('display', 'none')
-    $('#application').css('color', "#64b5f6")
-    $('#interview').css('color', "#282f39")
-    $('#approval').css('color', "#64b5f6")
+    progressNavbar('interview')
 })
 $('#approval').on('click', (e) => {
     e.preventDefault()
-    $("#applicationBody").css('display', 'none')
-    $("#interviewBody").css('display', 'none')
-    $("#approvalBody").css('display', 'grid')
-    $('#application').css('color', "#64b5f6")
-    $('#interview').css('color', "#64b5f6")
-    $('#approval').css('color', "#282f39")
+    progressNavbar('approval')
 })
 
 
@@ -215,9 +212,9 @@ $("#searchbtn").on('click', function(e) {
             crossDomain: true,
             success(res) {
                 $("#loading").removeAttr('style')
+                $("#searchSectionBody").empty()
                 $("#searchSectionBody").append(res)
                 dragNdrop()
-                cardsEventListeners()
                 showMoreSearchResault(data)
             }
         })
@@ -403,7 +400,6 @@ function dragNdrop() {
                         $("#loading").removeAttr('style')
                         $("#wishlistSectionBody").append(res)
                         dragNdrop()
-                        cardsEventListeners()
                     }
 
                 }
@@ -422,9 +418,12 @@ function dragNdrop() {
             if ($(window).width() < 1024) {
                 extdSectionAnimationVerticla("#applicationProgressSection")
             }
+            progressNavbar('application')
         },
         drag: function(event, ui) {
+
             $(ui.helper).css('box-shadow', '0 0 4px 4px rgba(101, 181, 246, 0.35)')
+
 
         },
         stop: function(event, ui) {
@@ -451,32 +450,33 @@ function dragNdrop() {
             $("#applicationBody").css('background', 'none')
             $(newElement.children()).removeAttr("style")
             newElement.removeClass().addClass('applicationCard')
-            $("#applicationBody").append(newElement)
-            dragNdrop()
-                // var data = {
-                //         id: $(newele).find(".save").attr("data-id"),
-                //         title: $(newele).find(".cardtitleanchor").text().trim(),
-                //         organisation: $(newele).find(".employer").not(".fa-building").text().trim(),
-                //         location: $(newele).find(".location").not(".fa-map-marker-alt").text().trim(),
-                //         description: $(newele).find(".description").not(".fa-tasks").text().trim(),
-                //         url: $(newele).find(".cardtitleanchor").attr("href"),
-                //         status: "saved"
-                //     }
-                // $.ajax({
-                //     type: "POST",
-                //     url: "/mainpage/save",
-                //     data: data
-                // }).then(function(res) {
-                //     console.log(res)
-                //     if (res == "saved already") {
-                //         alert("this job is already saved")
-                //     } else {
-                //         $("#savedjobscontainer").append(res)
-                //         showmoreinfo()
-                //         draganddrop()
-                //         deleteitems()
-                //     }
-                // })
+
+            var data = {
+                id: $(newElement).data("id"),
+                title: $(newElement).find(".WCpositinTitle").text().trim(),
+                organisation: $(newElement).find(".WCcompanyName").not(".fa-building").text().trim(),
+                location: $(newElement).find(".WCpositionLocation").not(".fa-map-marker-alt").text().trim(),
+                description: $(newElement).find(".WCpositionDescription").text().trim(),
+                url: $(newElement).find(".WCpositinTitle").attr("href"),
+                status: "application"
+            }
+
+            $.ajax({
+                url: "/home/save",
+                type: "POST",
+                data: data,
+                crossDomain: true,
+                success(res) {
+                    if (res == 'saved already') {
+                        alert('This job is already on Application')
+                    } else {
+                        $("#applicationBody").append(res)
+                        dragNdrop()
+                    }
+
+                }
+            })
+
         }
 
     });
@@ -486,13 +486,12 @@ function dragNdrop() {
 
 // =============================================cards event listeners=================================
 
-
-function cardsEventListeners() {
-    $(".SRCnext").on("click", (e) => {
-        e.preventDefault()
+$("#searchSectionBody").on('click', function(e) {
+    e.preventDefault()
+    if ($(e.target).attr('class') == 'SRCnext') {
         var card = $(e.target).parent()
         var data = {
-            id: $(card).data("id"),
+            id: $(e.target).data("id"),
             title: $(card).find(".SRCpositinTitle").text().trim(),
             organisation: $(card).find(".SRCcompanyName").not(".fa-building").text().trim(),
             location: $(card).find(".SRCpositionLocation").not(".fa-map-marker-alt").text().trim(),
@@ -512,16 +511,45 @@ function cardsEventListeners() {
                     $("#loading").removeAttr('style')
                     $("#wishlistSectionBody").append(res)
                     dragNdrop()
-                    cardsEventListeners()
                 }
 
             }
         })
-    })
-    $(".WCdelete").on("click", (e) => {
-        e.preventDefault()
+    }
+})
+
+$("#wishlistSectionBody").on('click', function(e) {
+    e.preventDefault()
+    if ($(e.target).attr('class') == 'WCnext') {
         var card = $($(e.target).parent()).parent()
-        var id = $(card).data("id")
+        var data = {
+            id: $(card).attr("data-id"),
+            title: $(card).find(".WCpositinTitle").text().trim(),
+            organisation: $(card).find(".WCcompanyName").not(".fa-building").text().trim(),
+            location: $(card).find(".WCpositionLocation").not(".fa-map-marker-alt").text().trim(),
+            description: $(card).find(".WCpositionDescription").text().trim(),
+            url: $(card).find(".WCpositinTitle").attr("href"),
+            status: "application"
+        }
+        $.ajax({
+            url: "/home/save",
+            type: "POST",
+            data: data,
+            crossDomain: true,
+            success(res) {
+                if (res == 'saved already') {
+                    alert('This job is already on application')
+                } else {
+                    $("#applicationBody").append(res)
+                    dragNdrop()
+                }
+
+            }
+        })
+    }
+    if ($(e.target).attr('class') == 'WCdelete') {
+        var card = $($(e.target).parent()).parent()
+        var id = $(e.target).data("id")
         console.log(id)
         $.ajax({
             url: "/home/delete/" + id,
@@ -536,21 +564,172 @@ function cardsEventListeners() {
 
             }
         })
-    })
+    }
+})
+
+$("#applicationBody").on('click', function(e) {
+    e.preventDefault()
+    if ($(e.target).attr('class') == 'Anext') {
+        var card = $($(e.target).parent()).parent()
+        var data = {
+            id: $(e.target).data("id"),
+            title: $(card).find(".ApositinTitle").text().trim(),
+            organisation: $(card).find(".AcompanyName").not(".fa-building").text().trim(),
+            location: $(card).find(".ApositionLocation").not(".fa-map-marker-alt").text().trim(),
+            description: $(card).find(".ApositionDescription").text().trim(),
+            url: $(card).find(".ApositinTitle").attr("href"),
+            status: "interview"
+        }
+        $.ajax({
+            url: "/home/save",
+            type: "POST",
+            data: data,
+            crossDomain: true,
+            success(res) {
+                $(card).remove()
+                $("#interviewBody").append(res)
+                dragNdrop()
+
+            }
+        })
+    }
+    if ($(e.target).attr('class') == 'Adelete') {
+        var card = $($(e.target).parent()).parent()
+        var id = $(e.target).data("id")
+        console.log(id)
+        $.ajax({
+            url: "/home/delete/" + id,
+            type: "DELETE",
+            crossDomain: true,
+            success(res) {
+                if (res == 'Job deleted') {
+                    $(card).remove()
+                } else {
+                    alert('Could not delete the card')
+                }
+
+            }
+        })
+    }
+})
+
+$("#interviewBody").on('click', function(e) {
+    e.preventDefault()
 
 
-    // var card = $($(e.target).parent()).parent()
-    // var data = {
-    //     id: $(card).data("id"),
-    //     title: $(card).find(".WCpositinTitle").text().trim(),
-    //     organisation: $(card).find(".WCcompanyName").not(".fa-building").text().trim(),
-    //     location: $(card).find(".WCpositionLocation").not(".fa-map-marker-alt").text().trim(),
-    //     description: $(card).find(".WCpositionDescription").text().trim(),
-    //     url: $(card).find(".WCpositinTitle").attr("href"),
-    //     status: "wishlist"
-    // }
+    if ($(e.target).attr('class') == 'Inext') {
+        var card = $($(e.target).parent()).parent()
+        var data = {
+            id: $(e.target).data("id"),
+            title: $(card).find(".IpositinTitle").text().trim(),
+            organisation: $(card).find(".IcompanyName").not(".fa-building").text().trim(),
+            location: $(card).find(".IpositionLocation").not(".fa-map-marker-alt").text().trim(),
+            description: $(card).find(".IpositionDescription").text().trim(),
+            url: $(card).find(".IpositinTitle").attr("href"),
+            status: "approval"
+        }
+        $.ajax({
+            url: "/home/save",
+            type: "POST",
+            data: data,
+            crossDomain: true,
+            success(res) {
+                $(card).remove()
+                $("#approvalBody").append(res)
+                dragNdrop()
 
-}
+            }
+        })
+    }
+    if ($(e.target).attr('class') == 'Idelete') {
+        var card = $($(e.target).parent()).parent()
+        var id = $(e.target).data("id")
+        console.log(id)
+        $.ajax({
+            url: "/home/delete/" + id,
+            type: "DELETE",
+            crossDomain: true,
+            success(res) {
+                if (res == 'Job deleted') {
+                    $(card).remove()
+                } else {
+                    alert('Could not delete the card')
+                }
+
+            }
+        })
+    }
+    if ($(e.target).attr("class") == 'editDateTime' || $(e.target).attr("class") == 'editDTIcon far fa-edit') {
+        console.log('click')
+        var card = $($(e.target).parent()).parent()
+
+        var data = {
+            id: $(e.target).data("id"),
+            time: $(card).find('.meeting-time').val()
+        }
+
+        if (!data.time) {
+            $(card).find('.meeting-time').css('border-color', '#d35757')
+        } else {
+            $(card).find('.meeting-time').css('border-color', '#64b5f6')
+            $.ajax({
+                url: "/mainpage/setInterviewTime",
+                type: "POST",
+                data: data,
+                crossDomain: true,
+                success(res) {
+                    $(card).find('.meeting-time').val(res)
+                    alert("interview date & time was set")
+
+                }
+            })
+        }
+
+    }
+
+})
+
+$("#approvalBody").on('click', function(e) {
+    e.preventDefault()
+    if ($(e.target).attr('class') == 'APdelete') {
+        var card = $($(e.target).parent()).parent()
+        var id = $(e.target).data("id")
+        console.log(id)
+        $.ajax({
+            url: "/home/delete/" + id,
+            type: "DELETE",
+            crossDomain: true,
+            success(res) {
+                if (res == 'Job deleted') {
+                    $(card).remove()
+                } else {
+                    alert('Could not delete the card')
+                }
+
+            }
+        })
+    }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function validateUrl(str) {
     var url = str;
@@ -578,8 +757,19 @@ function settindEdits() {
         });
         return false;
     })
+    $("#resumename").change(function() {
 
+        $("#resumeuploadform").ajaxSubmit({
+            data: "resume",
+            contentType: 'application/json',
+            success: function(response) {
+                console.log(response);
+                $("#userResume").attr("href", "uploads/resume/" + response)
 
+            }
+        });
+        return false;
+    })
     $("#editUsername").on('click', function(e) {
         e.preventDefault()
         var data = {
@@ -659,8 +849,6 @@ function settindEdits() {
         }
     })
 
-
-
 }
 
 function ajaxForEdits(data) {
@@ -702,5 +890,32 @@ function ajaxForEdits(data) {
                 $("#userWebsite").html(data.value)
             }
         })
+    }
+}
+
+function progressNavbar(section) {
+    if (section == 'application') {
+        $("#applicationBody").css('display', 'grid')
+        $("#interviewBody").css('display', 'none')
+        $("#approvalBody").css('display', 'none')
+        $('#application').css('color', "#282f39")
+        $('#interview').css('color', "#64b5f6")
+        $('#approval').css('color', "#64b5f6")
+    }
+    if (section == 'interview') {
+        $("#applicationBody").css('display', 'none')
+        $("#interviewBody").css('display', 'grid')
+        $("#approvalBody").css('display', 'none')
+        $('#application').css('color', "#64b5f6")
+        $('#interview').css('color', "#282f39")
+        $('#approval').css('color', "#64b5f6")
+    }
+    if (section == 'approval') {
+        $("#applicationBody").css('display', 'none')
+        $("#interviewBody").css('display', 'none')
+        $("#approvalBody").css('display', 'grid')
+        $('#application').css('color', "#64b5f6")
+        $('#interview').css('color', "#64b5f6")
+        $('#approval').css('color', "#282f39")
     }
 }

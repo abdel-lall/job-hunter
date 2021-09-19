@@ -95,12 +95,13 @@
                     {{#each dataApplication}}
                     <div class="applicationCard" data-id={{id}}>
                         <a href={{url}} class="ApositinTitle" target="_blank">{{title}}</a>
-                        <div class="AcompanyName"><i class="far fa-building buidingIcon"></i>{{organisation}}</div>
+                        <div class="AcompanyName"><i class="far fa-building buidingIcon"></i>{{employer}}</div>
                         <div class="ApositionLocation"><i class="fas fa-map-marker-alt mapmarkerIcon"></i>{{location}}
                         </div>
                         <div class="ApositionDescription">
                             {{description}}
                         </div>
+        
 
                         <div class="AdeleteNextDiv">
                             <button class="Adelete" data-id={{id}}><i class="far fa-trash-alt"></i></button>
@@ -115,11 +116,18 @@
                     {{#each dataInterview}}
                     <div class="interviewCard" data-id={{id}}>
                         <a href={{url}} class="IpositinTitle" target="_blank">{{title}}</a>
-                        <div class="IcompanyName"><i class="far fa-building buidingIcon"></i>{{organisation}}</div>
+                        <div class="IcompanyName"><i class="far fa-building buidingIcon"></i>{{employer}}</div>
                         <div class="IpositionLocation"><i class="fas fa-map-marker-alt mapmarkerIcon"></i>{{location}}
                         </div>
                         <div class="IpositionDescription">
                             {{description}}
+                        </div>
+                        <div class="IinterviewTime">
+                            <input type="datetime-local" class="meeting-time"
+                            name="meeting-time" value={{reminder}}
+                            >
+                        <button class="editDateTime" data-id={{id}}><i class="editDTIcon far fa-edit" data-id={{id}}></i></button>
+                        
                         </div>
                         <div class="IdeleteNextDiv">
                             <button class="Idelete" data-id={{id}}><i class="far fa-trash-alt"></i></button>
@@ -134,8 +142,8 @@
                     {{#if dataApproval}}
                     {{#each dataApproval}}
                     <div class="approvalCard" data-id={{id}}>
-                        <a href={{data.url}} class="APpositinTitle" target="_blank">{{title}}</a>
-                        <div class="APcompanyName"><i class="far fa-building buidingIcon"></i>{{organisation}}
+                        <a href='{{data.url}}' class="APpositinTitle" target="_blank">{{title}}</a>
+                        <div class="APcompanyName"><i class="far fa-building buidingIcon"></i>{{employer}}
                         </div>
                         <div class="APpositionLocation"><i
                                 class="fas fa-map-marker-alt mapmarkerIcon"></i>{{location}}</div>
@@ -145,7 +153,6 @@
 
                         <div class="APdeleteNextDiv">
                             <button class="APdelete" data-id={{id}}><i class="far fa-trash-alt"></i></button>
-                            <button class="APnext" data-id={{id}}><i class="fas fa-arrow-right"></i></button>
                         </div>
                     </div>
                     {{/each}}
@@ -193,7 +200,7 @@
                     Resume
                 </div>
 
-                <a href="#" id="userResume" target="_blank">resume</a>
+                <a href="{{user.resume}}" id="userResume" target="_blank">resume</a>
 
                 <div id="resumeInputDiv">
                     <form enctype="multipart/form-data" action="/mainpage/editresume" method="POST"
