@@ -1,23 +1,23 @@
-window.onload = function() {
+window.onload = function () {
   dragNdrop();
   settindEdits();
 };
 
 // ==================================================drop down menu ======================================
-$("#profilePicture").on("click", function(e) {
+$("#profilePicture").on("click", function (e) {
   e.preventDefault();
   e.stopPropagation();
   var state = $("#profilePicture").attr("data-display");
   if (state == "hidden") {
     $("#dropdownMenu").css("display", "grid");
     $("#profilePicture").attr("data-display", "visible");
-    $("#toolsDD").on("click", function(e) {
+    $("#toolsDD").on("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
       $("#toolsModal").css("display", "grid");
       settindEdits();
     });
-    $("#settingsDD").on("click", function(e) {
+    $("#settingsDD").on("click", function (e) {
       e.preventDefault();
       e.stopPropagation();
       $("#settingModal").css("display", "grid");
@@ -30,17 +30,17 @@ $("#profilePicture").on("click", function(e) {
   }
 });
 
-$(document).click(function() {
+$(document).click(function () {
   var state = $("#profilePicture").attr("data-display");
   if (state == "visible") {
     $("#dropdownMenu").removeAttr("style");
     $("#profilePicture").attr("data-display", "hidden");
   }
 });
-$("#closeTools").on("click", function() {
+$("#closeTools").on("click", function () {
   $("#toolsModal").hide();
 });
-$("#closeSetting").on("click", function() {
+$("#closeSetting").on("click", function () {
   $("#settingModal").hide();
 });
 
@@ -154,7 +154,7 @@ $("#extdprogress").on("click", (e) => {
     extdSectionAnimationVerticla("#applicationProgressSection");
   }
 });
-$(window).resize(function() {
+$(window).resize(function () {
   $("#searchSection").removeAttr("style");
   $("#wishlistSection").removeAttr("style");
   $("#applicationProgressSection").removeAttr("style");
@@ -176,7 +176,7 @@ $("#approval").on("click", (e) => {
 
 // ===================================================search=======================================================
 
-$("#searchbtn").on("click", function(e) {
+$("#searchbtn").on("click", function (e) {
   e.preventDefault();
   var data = {
     keyword: $("#searchInputKW")
@@ -185,7 +185,7 @@ $("#searchbtn").on("click", function(e) {
     location: $("#searchInputLocation")
       .val()
       .trim(),
-    page: 0,
+    pageNumber: 0,
   };
   if (!data.keyword) {
     $("#searchInputKW").addClass("emptyfield");
@@ -353,13 +353,13 @@ function extdSectionAnimation(section, btn) {
 }
 
 function showMoreSearchResault(data) {
-  $("#showMore").on("click", function() {
-    data.page = data.page + 10;
+  $("#showMore").on("click", function () {
+    data.pageNumber = data.pageNumber + 10;
     $.ajax({
       type: "POST",
       url: "/home/search/showmore",
       data: data,
-    }).then(function(res) {
+    }).then(function (res) {
       $(".showMoreCard").remove();
       $("#searchSectionBody").append(res);
       dragNdrop();
@@ -378,16 +378,16 @@ function dragNdrop() {
     helper: "clone",
     handler: ".searchResaultCard",
     zIndex: 100,
-    start: function(event, ui) {
+    start: function (event, ui) {
       $(ui.helper).width($(".searchResaultCard").width());
       if ($(window).width() < 1024) {
         extdSectionAnimationVerticla("#wishlistSection");
       }
     },
-    drag: function(event, ui) {
+    drag: function (event, ui) {
       $(ui.helper).css("box-shadow", "0 0 4px 4px rgba(101, 181, 246, 0.35)");
     },
-    stop: function(event, ui) {
+    stop: function (event, ui) {
       // if ($(window).width() < 1024) {
       //     $("#searchcontentrow").hide()
       // }
@@ -397,17 +397,17 @@ function dragNdrop() {
   $("#wishlistSectionBody").droppable({
     accept: ".searchResaultCard",
     tolerance: "pointer",
-    over: function(event, ui) {
+    over: function (event, ui) {
       $("#wishlistSectionBody").css(
         "background",
         "radial-gradient(circle, rgba(255,255,255,1) 81%, rgba(218,235,253,1) 100%)"
       );
     },
-    out: function(event, ui) {
+    out: function (event, ui) {
       $("#wishlistSectionBody").css("background", "none");
     },
 
-    drop: function(event, ui) {
+    drop: function (event, ui) {
       var newElement = $($(ui.draggable).clone());
       $("#wishlistSectionBody").css("background", "none");
       $(newElement.children()).removeAttr("style");
@@ -461,17 +461,17 @@ function dragNdrop() {
     helper: "clone",
     handler: ".wishlistCard",
     zIndex: 100,
-    start: function(event, ui) {
+    start: function (event, ui) {
       $(ui.helper).width($(".wishlistCard").width());
       if ($(window).width() < 1024) {
         extdSectionAnimationVerticla("#applicationProgressSection");
       }
       progressNavbar("application");
     },
-    drag: function(event, ui) {
+    drag: function (event, ui) {
       $(ui.helper).css("box-shadow", "0 0 4px 4px rgba(101, 181, 246, 0.35)");
     },
-    stop: function(event, ui) {
+    stop: function (event, ui) {
       // if ($(window).width() < 1024) {
       //     $("#searchcontentrow").hide()
       // }
@@ -481,17 +481,17 @@ function dragNdrop() {
   $("#applicationBody").droppable({
     accept: ".wishlistCard",
     tolerance: "pointer",
-    over: function(event, ui) {
+    over: function (event, ui) {
       $("#applicationBody").css(
         "background",
         "radial-gradient(circle, rgba(255,255,255,1) 70%, rgba(218,235,253,1) 100%)"
       );
     },
-    out: function(event, ui) {
+    out: function (event, ui) {
       $("#applicationBody").css("background", "none");
     },
 
-    drop: function(event, ui) {
+    drop: function (event, ui) {
       var newElement = $($(ui.draggable).clone());
       $("#applicationBody").css("background", "none");
       $(newElement.children()).removeAttr("style");
@@ -543,7 +543,7 @@ function dragNdrop() {
 
 // =============================================cards event listeners=================================
 
-$("#searchSectionBody").on("click", function(e) {
+$("#searchSectionBody").on("click", function (e) {
   e.preventDefault();
   if ($(e.target).attr("class") == "SRCnext") {
     var card = $(e.target).parent();
@@ -590,7 +590,7 @@ $("#searchSectionBody").on("click", function(e) {
   }
 });
 
-$("#wishlistSectionBody").on("click", function(e) {
+$("#wishlistSectionBody").on("click", function (e) {
   e.preventDefault();
   if ($(e.target).attr("class") == "WCnext") {
     var card = $($(e.target).parent()).parent();
@@ -653,7 +653,7 @@ $("#wishlistSectionBody").on("click", function(e) {
   }
 });
 
-$("#applicationBody").on("click", function(e) {
+$("#applicationBody").on("click", function (e) {
   e.preventDefault();
   if ($(e.target).attr("class") == "Anext") {
     var card = $($(e.target).parent()).parent();
@@ -713,7 +713,7 @@ $("#applicationBody").on("click", function(e) {
   }
 });
 
-$("#interviewBody").on("click", function(e) {
+$("#interviewBody").on("click", function (e) {
   e.preventDefault();
 
   if ($(e.target).attr("class") == "Inext") {
@@ -810,7 +810,7 @@ $("#interviewBody").on("click", function(e) {
   }
 });
 
-$("#approvalBody").on("click", function(e) {
+$("#approvalBody").on("click", function (e) {
   e.preventDefault();
   if ($(e.target).attr("class") == "APdelete") {
     var card = $($(e.target).parent()).parent();
@@ -841,11 +841,11 @@ function validateUrl(str) {
 }
 
 function settindEdits() {
-  $("#imagename").change(function() {
+  $("#imagename").change(function () {
     $("#imageuploadform").ajaxSubmit({
       data: "image",
       contentType: "application/json",
-      success: function(response) {
+      success: function (response) {
         console.log(response);
         $("#profilePicture").attr("src", "uploads/images/" + response);
         $("#profilePictueDD").attr("src", "uploads/images/" + response);
@@ -854,18 +854,18 @@ function settindEdits() {
     });
     return false;
   });
-  $("#resumename").change(function() {
+  $("#resumename").change(function () {
     $("#resumeuploadform").ajaxSubmit({
       data: "resume",
       contentType: "application/json",
-      success: function(response) {
+      success: function (response) {
         console.log(response);
         $("#userResume").attr("href", "uploads/resume/" + response);
       },
     });
     return false;
   });
-  $("#editUsername").on("click", function(e) {
+  $("#editUsername").on("click", function (e) {
     e.preventDefault();
     var data = {
       edit: "username",
@@ -878,7 +878,7 @@ function settindEdits() {
       ajaxForEdits(data);
     }
   });
-  $("#editemail").on("click", function(e) {
+  $("#editemail").on("click", function (e) {
     e.preventDefault();
     var data = {
       edit: "email",
@@ -891,7 +891,7 @@ function settindEdits() {
       ajaxForEdits(data);
     }
   });
-  $("#editpassword").on("click", function(e) {
+  $("#editpassword").on("click", function (e) {
     e.preventDefault();
     var data = {
       edit: "password",
@@ -904,7 +904,7 @@ function settindEdits() {
       ajaxForEdits(data);
     }
   });
-  $("#linkedinSubmit").on("click", function(e) {
+  $("#linkedinSubmit").on("click", function (e) {
     e.preventDefault();
     var data = {
       edit: "linkedin",
@@ -917,7 +917,7 @@ function settindEdits() {
       ajaxForEdits(data);
     }
   });
-  $("#githubSubmit").on("click", function(e) {
+  $("#githubSubmit").on("click", function (e) {
     e.preventDefault();
     var data = {
       edit: "github",
@@ -930,7 +930,7 @@ function settindEdits() {
       ajaxForEdits(data);
     }
   });
-  $("#websiteSubmit").on("click", function(e) {
+  $("#websiteSubmit").on("click", function (e) {
     e.preventDefault();
     var data = {
       edit: "website",
@@ -951,7 +951,7 @@ function ajaxForEdits(data) {
       type: "POST",
       url: "/mainpage/edit",
       data: data,
-    }).then(function(res) {
+    }).then(function (res) {
       console.log(res);
       if (data.edit == "username") {
         $("#userUsername").text(data.value);
@@ -962,7 +962,7 @@ function ajaxForEdits(data) {
       }
       if (data.edit == "password") {
         $("#msgsettingpsw").text("password changed");
-        setTimeout(function() {
+        setTimeout(function () {
           $("#msgsettingpsw").text("");
         }, 1000);
       }
