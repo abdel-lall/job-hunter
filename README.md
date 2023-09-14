@@ -1,6 +1,6 @@
 # JobHunter
 
-[JobHunter Link](www.jobhunter.website)
+[JobHunter Link](https://www.jobhunter.website)
 
 Welcome to JobHunter, your all-in-one job application management platform. JobHunter is designed to help you search, save, and track job applications effortlessly. If you're a job seeker, JobHunter streamlines the application process for you.
 
